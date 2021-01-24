@@ -1,5 +1,6 @@
 package modele;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -11,7 +12,10 @@ public class Solution {
 	private int nbrCamions;
 	private int nbrChauffeurs;
 	private Plannification plannification;
-	
+
+	private ArrayList<Chauffeur> chauffeurs;
+	private ArrayList<TrajetFixe> trajets;
+
 	private HashMap<Integer,ArrayList<TrajetFixe>> camionsTrajets;
 	private HashMap<Integer,ArrayList<TrajetFixe>> chauffeursTrajets;
 	
@@ -26,13 +30,14 @@ public class Solution {
 
 
 	public Solution(int nbrCamions, int nbrChauffeurs,Plannification plannification, HashMap<Integer, ArrayList<TrajetFixe>> camionsTrajets,
-			HashMap<Integer, ArrayList<TrajetFixe>> chauffeursTrajets) {
+			HashMap<Integer, ArrayList<TrajetFixe>> chauffeursTrajets, ArrayList<Chauffeur> chauffeurs) {
 		super();
 		this.nbrCamions = nbrCamions;
 		this.nbrChauffeurs = nbrChauffeurs;
 		this.plannification = plannification;
 		this.camionsTrajets = camionsTrajets;
 		this.chauffeursTrajets = chauffeursTrajets;
+		this.chauffeurs = chauffeurs;
 	}
 
 	
@@ -86,6 +91,22 @@ public class Solution {
 	public void setChauffeursTrajets(HashMap<Integer, ArrayList<TrajetFixe>> chauffeursTrajets) {
 		this.chauffeursTrajets = chauffeursTrajets;
 	}
+
+	public ArrayList<Chauffeur> getChauffeurs() {return chauffeurs;}
+
+	public void setChauffeurs(ArrayList<Chauffeur> chauffeurs){
+		this.chauffeurs = chauffeurs;
+	}
+
+	public ArrayList<TrajetFixe> getTrajets() {return trajets;}
+
+	public Chauffeur getChauffeurById(int identifiant){
+		for (int i =0; i<getChauffeurs().size();i++){
+			if(getChauffeurs().get(i).getIdentifiant() == identifiant)
+				return getChauffeurs().get(i);
+		}
+		return null;
+	}
 	
 	/*
 	 * Fonction de verifiaction
@@ -96,7 +117,7 @@ public class Solution {
 		 * Reglementations
 		 */
 		
-		//Durée maximum de conduite continue
+		//Durï¿½e maximum de conduite continue
 		boolean maxConduiteContinue = true;
 		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
 			for(int i = 0; i<mapentry.getValue().size(); i++) {
@@ -117,7 +138,7 @@ public class Solution {
 				
 			}
 		}
-		//Durée maximum de conduite journalière
+		//Durï¿½e maximum de conduite journaliï¿½re
 		boolean maxConduiteJournaliere = true;
 		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
 			float conduiteJournaliere[] = {0,0,0,0,0,0,0};
@@ -179,10 +200,10 @@ public class Solution {
 		
 		
 		/*
-		 * Opérationelles
+		 * Opï¿½rationelles
 		 */
 		
-		//Un chauffeur peut faire un trajet à la fois
+		//Un chauffeur peut faire un trajet ï¿½ la fois
 		boolean unTrajetParChauffeur = true;
 		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
 			for(int i = 0; i<mapentry.getValue().size(); i++) {
@@ -209,7 +230,7 @@ public class Solution {
 			}
 		}	
 		
-		//Un camion peut faire un trajet à la fois
+		//Un camion peut faire un trajet ï¿½ la fois
 		boolean unTrajetParCamion = true;
 		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.camionsTrajets.entrySet()) {
 			for(int i = 0; i<mapentry.getValue().size(); i++) {
@@ -248,22 +269,101 @@ public class Solution {
 		}
 		
 		//Repos hebdomadaire dans la ville de rattachement
-		
-		//CT respecte durée min et durée max
+		boolean reposHebdomadaireVilleRattachement = true;
+		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
+			Chauffeur chauffeur = getChauffeurById(mapentry.getKey());
+			boolean cptBoolean = false;
+			for(int i = 0; i<mapentry.getValue().size(); i++) {
+				TrajetFixe trajet1 = mapentry.getValue().get(i);
+				if(trajet1.getVilleArrivee() == chauffeur.getVilleRattachement())
+					cptBoolean = true;
+			}
+			if(cptBoolean == false){
+				reposHebdomadaireVilleRattachement = false;
+			}
+
+		}
+
+		//CT respecte durÃ©e min et durÃ©e max
+		boolean respectDureeCT = true;
+		for(int i = 0; i<getChauffeurs().size();i++){
+			ContratDeTravail contratDeTravail = getChauffeurs().get(i).getContratDeTravail();
+			if(contratDeTravail.getNbrHeureJour() + contratDeTravail.getNbrHeureNuit() < plannification.getNombreHeuresMin())
+				respectDureeCT = false;
+			if(contratDeTravail.getNbrHeureJour() + contratDeTravail.getNbrHeureNuit() > plannification.getNombreHeuresMin())
+				respectDureeCT = false;
+		}
 		
 		//Tous les trajets ont des pauses
+		boolean trajetPause = true;
+		for(int i = 0; i<getTrajets().size();i++)
+		{
+			if (getTrajets().get(i).getTempsDePause().isEmpty()){
+				trajetPause = false;
+			}
+		}
 		
-		//Aucun trajet ne dépasse 9h de jour et 8h de nuit
-	}
+		//Aucun trajet ne dÃ©passe 9h de jour et 8h de nuit
+		boolean tempsTrajet = true;
+		for(int i = 0; i<getTrajets().size();i++)
+		{
+			float FtempsTrajet = getTrajets().get(i).getTempsDeConduite();
+			if (getTrajets().get(i).getHeureDepart() + FtempsTrajet < 21.00){
+				if(FtempsTrajet > 9.00)
+					tempsTrajet = false;
+			}
+			else if(FtempsTrajet > 8.00)
+				tempsTrajet = false;
+			}
+		}
+
 	
 	/*
 	 * Fonction de verifiaction
-	 * respect des coûts
+	 * respect des coï¿½ts
 	 */
 	
 	public void checkerCout() {
-		//Calcul couts d'hotelleries
-		
+		boolean CoutHotellerie = true;
+		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
+			int nombreRepos = 0;
+			int compteur = 1;
+			while(compteur < 7){
+				TrajetFixe dernierTrajet = null;
+				for(int i = 0; i<mapentry.getValue().size(); i++) {
+					TrajetFixe trajet = mapentry.getValue().get(i);
+					Ville villeArrivee = trajet.getVilleArrivee();
+					int jour = trajet.getJourDepart().getIdentifiant();
+					if(jour == compteur){
+						if(dernierTrajet == null)
+							dernierTrajet = trajet;
+						else if(trajet.getHeureDepart() > dernierTrajet.getHeureDepart())
+							dernierTrajet = trajet;
+					}
+				}
+				if(dernierTrajet.getVilleArrivee() != getChauffeurById(mapentry.getKey()).getVilleRattachement() )
+					nombreRepos += 1;
+			}
+			if(getChauffeurById(mapentry.getKey()).getCoutHotellerie() != nombreRepos*plannification.getCoutHotellerie())
+				CoutHotellerie = false;
+		}
 		//Calcul cout CT
+		boolean coutCT = true;
+		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
+			int nombreHeureJour = 0;
+			int nombreHeureNuit = 0;
+			for(int i = 0; i<mapentry.getValue().size(); i++) {
+				TrajetFixe trajet = mapentry.getValue().get(i);
+				if (trajet.getHeureDepart() + trajet.getTempsDeConduite() < 18.00){
+					nombreHeureJour += trajet.getTempsDeConduite();
+				}
+				else
+					nombreHeureNuit += trajet.getTempsDeConduite();
+			}
+			ContratDeTravail CT = getChauffeurById(mapentry.getKey()).getContratDeTravail();
+			if(CT.getNbrHeureJour() != nombreHeureJour || CT.getNbrHeureNuit() != nombreHeureNuit)
+				coutCT = false;
+		}
+
 	}
 }

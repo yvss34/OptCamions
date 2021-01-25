@@ -1,12 +1,14 @@
 package modele;
 
+import java.time.LocalTime;
+
 public class ContratDeTravail {
 	
 	//Attributs
 	
-	private int nbrHeureJour;
-	private int nbrHeureNuit;
-	private int coutTrajetVide;
+	private LocalTime nbrHeureJour;
+	private LocalTime nbrHeureNuit;
+	private float coutTrajetVide;
 	
 	
 	//Constructeurs
@@ -14,7 +16,7 @@ public class ContratDeTravail {
 		
 	}
 	
-	public ContratDeTravail(int nbrHeureJour, int nbrHeureNuit, int coutTrajetVide) {
+	public ContratDeTravail(LocalTime nbrHeureJour, LocalTime nbrHeureNuit, float coutTrajetVide) {
 		super();
 		this.nbrHeureJour = nbrHeureJour;
 		this.nbrHeureNuit = nbrHeureNuit;
@@ -22,22 +24,22 @@ public class ContratDeTravail {
 	}
 	
 	//Getters & Setters
-	public int getNbrHeureJour() {
+	public LocalTime getNbrHeureJour() {
 		return nbrHeureJour;
 	}
-	public void setNbrHeureJour(int nbrHeureJour) {
+	public void setNbrHeureJour(LocalTime nbrHeureJour) {
 		this.nbrHeureJour = nbrHeureJour;
 	}
-	public int getNbrHeureNuit() {
+	public LocalTime getNbrHeureNuit() {
 		return nbrHeureNuit;
 	}
-	public void setNbrHeureNuit(int nbrHeureNuit) {
+	public void setNbrHeureNuit(LocalTime nbrHeureNuit) {
 		this.nbrHeureNuit = nbrHeureNuit;
 	}
-	public int getCoutTrajetVide() {
+	public float getCoutTrajetVide() {
 		return coutTrajetVide;
 	}
-	public void setCoutTrajetVide(int coutTrajetVide) {
+	public void setCoutTrajetVide(float coutTrajetVide) {
 		this.coutTrajetVide = coutTrajetVide;
 	}
 	

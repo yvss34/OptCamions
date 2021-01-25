@@ -1,5 +1,6 @@
 package modele;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,28 +11,18 @@ public abstract class Trajet {
 	private int identifiant;
 	private Ville villeDepart;
 	private Ville villeArrivee;
-	private float tempsDeConduite;
-	private ArrayList<Float> tempsDePause;
-	private HashMap<Ville,Float> listeVilleStop;
+	private LocalTime tempsDeConduite;
+	private ArrayList<LocalTime> tempsDePause;
+	private HashMap<Ville,LocalTime> listeVilleStop;
 	
 	//Constructeurs
 	public Trajet() {
 		
 	}
-	
-	public Trajet(int identifiant, Ville villeDepart, Ville villeArrivee, float tempsDeConduite,ArrayList<Float> tempsDePause,
-			HashMap<Ville, Float> listeVilleStop) {
-		super();
-		this.identifiant = identifiant;
-		this.villeDepart = villeDepart;
-		this.villeArrivee = villeArrivee;
-		this.tempsDePause = tempsDePause;
-		this.tempsDeConduite = tempsDeConduite;
-		this.listeVilleStop = listeVilleStop;
-	}
 
 	//Getters & Setters 
-	
+
+
 	public int getIdentifiant() {
 		return identifiant;
 	}
@@ -56,27 +47,27 @@ public abstract class Trajet {
 		this.villeArrivee = villeArrivee;
 	}
 
-	public float getTempsDeConduite() {
+	public LocalTime getTempsDeConduite() {
 		return tempsDeConduite;
 	}
 
-	public void setTempsDeConduite(float tempsDeConduite) {
+	public void setTempsDeConduite(LocalTime tempsDeConduite) {
 		this.tempsDeConduite = tempsDeConduite;
 	}
 
-	public ArrayList<Float> getTempsDePause() {
+	public ArrayList<LocalTime> getTempsDePause() {
 		return tempsDePause;
 	}
 
-	public void setTempsDePause(ArrayList<Float> tempsDePause) {
+	public void setTempsDePause(ArrayList<LocalTime> tempsDePause) {
 		this.tempsDePause = tempsDePause;
 	}
 
-	public HashMap<Ville, Float> getListeVilleStop() {
+	public HashMap<Ville, LocalTime> getListeVilleStop() {
 		return listeVilleStop;
 	}
 
-	public void setListeVilleStop(HashMap<Ville, Float> listeVilleStop) {
+	public void setListeVilleStop(HashMap<Ville, LocalTime> listeVilleStop) {
 		this.listeVilleStop = listeVilleStop;
-	} 
+	}
 }

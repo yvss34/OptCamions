@@ -17,14 +17,14 @@ public class TrajetNonFixe extends Trajet{
 		super();
 	}
 
-
-	//Getters & Setters
-	
-	public TrajetNonFixe(int identifiant, Ville villeDepart, Ville villeArrivee, float tempsDeConduite,
-			ArrayList<Float> tempsDePause, HashMap<Ville, Float> listeVilleStop) {
-		super(identifiant, villeDepart, villeArrivee, tempsDeConduite, tempsDePause, listeVilleStop);
-		// TODO Auto-generated constructor stub
+	public TrajetNonFixe(int frequenceSemaine, float[][] fenetreDeTemps, int nombreTrajetWeekend, int nbrJourMin) {
+		this.frequenceSemaine = frequenceSemaine;
+		this.fenetreDeTemps = fenetreDeTemps;
+		this.nombreTrajetWeekend = nombreTrajetWeekend;
+		this.nbrJourMin = nbrJourMin;
 	}
+
+//Getters & Setters
 
 
 	public int getFrequenceSemaine() {

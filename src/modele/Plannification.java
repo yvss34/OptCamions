@@ -1,23 +1,24 @@
 package modele;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Plannification {
 	
 	//Attributs
 	
-	private float nombreHeuresMin;
-	private float nombreHeuresMax;
+	private LocalTime nombreHeuresMin;
+	private LocalTime nombreHeuresMax;
 	private float coutHoraireJour;
 	private float coutHoraireNuit;
 	
 	private float coutHotellerie;
 	
-	private float nbrConduiteContinueMax;
-	private float tempsDeReposJournalier;
-	private float nbrConduiteJournaliereMax;
-	private float nbrConduiteHebdomadaireMax;
-	private float dureeReposHebdomadaire;
+	private LocalTime nbrConduiteContinueMax;
+	private LocalTime tempsDeReposJournalier;
+	private LocalTime nbrConduiteJournaliereMax;
+	private LocalTime nbrConduiteHebdomadaireMax;
+	private LocalTime dureeReposHebdomadaire;
 	
 	private ArrayList<TrajetNonFixe> trajetsNonFixe;
 	private ArrayList<TrajetFixe> trajetsFixe;
@@ -31,43 +32,22 @@ public class Plannification {
 	}
 
 
-
-	public Plannification(float nombreHeuresMin, float nombreHeuresMax, float coutHoraireJour, float coutHoraireNuit,
-			float coutHotellerie, float nbrConduiteContinueMax, float tempsDeReposJournalier,
-			float nbrConduiteJournaliereMax, float nbrConduiteHebdomadaireMax, float dureeReposHebdomadaire,
-			ArrayList<TrajetNonFixe> trajetsNonFixe, ArrayList<TrajetFixe> trajetsFixe) {
-		super();
-		this.nombreHeuresMin = nombreHeuresMin;
-		this.nombreHeuresMax = nombreHeuresMax;
-		this.coutHoraireJour = coutHoraireJour;
-		this.coutHoraireNuit = coutHoraireNuit;
-		this.coutHotellerie = coutHotellerie;
-		this.nbrConduiteContinueMax = nbrConduiteContinueMax;
-		this.tempsDeReposJournalier = tempsDeReposJournalier;
-		this.nbrConduiteJournaliereMax = nbrConduiteJournaliereMax;
-		this.nbrConduiteHebdomadaireMax = nbrConduiteHebdomadaireMax;
-		this.dureeReposHebdomadaire = dureeReposHebdomadaire;
-		this.trajetsNonFixe = trajetsNonFixe;
-		this.trajetsFixe = trajetsFixe;
-	}
+//Getters & Setters
 
 
-
-	//Getters & Setters
-	
-	public float getNombreHeuresMin() {
+	public LocalTime getNombreHeuresMin() {
 		return nombreHeuresMin;
 	}
 
-	public void setNombreHeuresMin(float nombreHeuresMin) {
+	public void setNombreHeuresMin(LocalTime nombreHeuresMin) {
 		this.nombreHeuresMin = nombreHeuresMin;
 	}
 
-	public float getNombreHeuresMax() {
+	public LocalTime getNombreHeuresMax() {
 		return nombreHeuresMax;
 	}
 
-	public void setNombreHeuresMax(float nombreHeuresMax) {
+	public void setNombreHeuresMax(LocalTime nombreHeuresMax) {
 		this.nombreHeuresMax = nombreHeuresMax;
 	}
 
@@ -95,35 +75,43 @@ public class Plannification {
 		this.coutHotellerie = coutHotellerie;
 	}
 
-	public float getNbrConduiteContinueMax() {
+	public LocalTime getNbrConduiteContinueMax() {
 		return nbrConduiteContinueMax;
 	}
 
-	public void setNbrConduiteContinueMax(float nombreHeuresConduiteMax) {
-		this.nbrConduiteContinueMax = nombreHeuresConduiteMax;
+	public void setNbrConduiteContinueMax(LocalTime nbrConduiteContinueMax) {
+		this.nbrConduiteContinueMax = nbrConduiteContinueMax;
 	}
 
-	public float getTempsDeReposJournalier() {
+	public LocalTime getTempsDeReposJournalier() {
 		return tempsDeReposJournalier;
 	}
 
-	public void setTempsDeReposJournalier(float tempsDeReposJournalier) {
+	public void setTempsDeReposJournalier(LocalTime tempsDeReposJournalier) {
 		this.tempsDeReposJournalier = tempsDeReposJournalier;
 	}
 
-	public float getNbrConduiteJournaliereMax() {
+	public LocalTime getNbrConduiteJournaliereMax() {
 		return nbrConduiteJournaliereMax;
 	}
 
-	public void setNbrConduiteJournaliereMax(float amplitudeMaxParJour) {
-		this.nbrConduiteJournaliereMax = amplitudeMaxParJour;
+	public void setNbrConduiteJournaliereMax(LocalTime nbrConduiteJournaliereMax) {
+		this.nbrConduiteJournaliereMax = nbrConduiteJournaliereMax;
 	}
 
-	public float getDureeReposHebdomadaire() {
+	public LocalTime getNbrConduiteHebdomadaireMax() {
+		return nbrConduiteHebdomadaireMax;
+	}
+
+	public void setNbrConduiteHebdomadaireMax(LocalTime nbrConduiteHebdomadaireMax) {
+		this.nbrConduiteHebdomadaireMax = nbrConduiteHebdomadaireMax;
+	}
+
+	public LocalTime getDureeReposHebdomadaire() {
 		return dureeReposHebdomadaire;
 	}
 
-	public void setDureeReposHebdomadaire(float dureeReposHebdomadaire) {
+	public void setDureeReposHebdomadaire(LocalTime dureeReposHebdomadaire) {
 		this.dureeReposHebdomadaire = dureeReposHebdomadaire;
 	}
 
@@ -142,20 +130,4 @@ public class Plannification {
 	public void setTrajetsFixe(ArrayList<TrajetFixe> trajetsFixe) {
 		this.trajetsFixe = trajetsFixe;
 	}
-
-
-
-	public float getNbrConduiteHebdomadaireMax() {
-		return nbrConduiteHebdomadaireMax;
-	}
-
-
-
-	public void setNbrConduiteHebdomadaireMax(float nbrConduiteHebdomadaireMax) {
-		this.nbrConduiteHebdomadaireMax = nbrConduiteHebdomadaireMax;
-	}
-	
-	
-	
-	
 }

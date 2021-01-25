@@ -1,6 +1,8 @@
 package modele;
 
 import javax.swing.*;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -116,149 +118,153 @@ public class Solution {
 		/*
 		 * Reglementations
 		 */
-		
+
 		//Dur�e maximum de conduite continue
-		boolean maxConduiteContinue = true;
-		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
-			for(int i = 0; i<mapentry.getValue().size(); i++) {
-				TrajetFixe trajet = mapentry.getValue().get(i);
-				float tempsDeConduite = trajet.getTempsDeConduite();
-				ArrayList<Float> tempsDePause = trajet.getTempsDePause();
-				
-				if(tempsDePause.get(0) >plannification.getNbrConduiteContinueMax())
-					maxConduiteContinue = false;
-				
-				if(tempsDePause.get(tempsDePause.size()-1) - tempsDeConduite >plannification.getNbrConduiteContinueMax())
-					maxConduiteContinue = false;
-				
-				for(int j = 0; j<tempsDePause.size()-1; j++) {
-					if(tempsDePause.get(j+1) - tempsDePause.get(j) > plannification.getNbrConduiteContinueMax())
-						maxConduiteContinue = false;
-				}
-				
-			}
-		}
+
 		//Dur�e maximum de conduite journali�re
 		boolean maxConduiteJournaliere = true;
 		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
-			float conduiteJournaliere[] = {0,0,0,0,0,0,0};
+			LocalTime conduiteJournaliere[] = {LocalTime.of(00,00),LocalTime.of(00,00)
+					,LocalTime.of(00,00),LocalTime.of(00,00),LocalTime.of(00,00),
+					LocalTime.of(00,00),LocalTime.of(00,00),LocalTime.of(00,00)};
 			for(int i = 0; i<mapentry.getValue().size(); i++) {
 				TrajetFixe trajet = mapentry.getValue().get(i);
-				float tempsDeConduite = trajet.getTempsDeConduite();
+				LocalTime tempsDeConduite = trajet.getTempsDeConduite();
 				int jour = trajet.getJourDepart().getIdentifiant();
-				
-				conduiteJournaliere[jour] += tempsDeConduite;	
+
+				conduiteJournaliere[jour].plusHours(tempsDeConduite.getHour()) ;
+				conduiteJournaliere[jour].plusMinutes(tempsDeConduite.getMinute()) ;
 			}
-			for(float nbrHeureConduite : conduiteJournaliere) {
-				if(nbrHeureConduite > plannification.getNbrConduiteJournaliereMax())
+			for(LocalTime nbrHeureConduite : conduiteJournaliere) {
+				if(nbrHeureConduite.isAfter(plannification.getNbrConduiteJournaliereMax()) == true)
 					maxConduiteJournaliere = false;
 			}
 		}
-		
+
 		//Temps de conduite hebdomadaire
 		boolean maxConduiteHebdomadaire = true;
 		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
-			float conduiteHebdomadaire = 0;
+			LocalTime conduiteHebdomadaire = LocalTime.MIN;
 			for(int i = 0; i<mapentry.getValue().size(); i++) {
 				TrajetFixe trajet = mapentry.getValue().get(i);
-				float tempsDeConduite = trajet.getTempsDeConduite();
-				conduiteHebdomadaire += tempsDeConduite;
+				LocalTime tempsDeConduite = trajet.getTempsDeConduite();
+
+				conduiteHebdomadaire.plusHours(tempsDeConduite.getHour());
+				conduiteHebdomadaire.plusMinutes(tempsDeConduite.getMinute());
 			}
-			if(conduiteHebdomadaire > plannification.getNbrConduiteHebdomadaireMax())
+			if(conduiteHebdomadaire.isAfter(plannification.getNbrConduiteHebdomadaireMax()) == true)
 				maxConduiteHebdomadaire = false;
 		}
-		
+
 		//Temps de repos journalier
 		boolean tempsReposJournalier = true;
 		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
-			float conduiteJournaliere[] = {0,0,0,0,0,0,0};
+			LocalTime conduiteJournaliere[] = {LocalTime.of(00,00),LocalTime.of(00,00)
+					,LocalTime.of(00,00),LocalTime.of(00,00),LocalTime.of(00,00),
+					LocalTime.of(00,00),LocalTime.of(00,00),LocalTime.of(00,00)};
 			for(int i = 0; i<mapentry.getValue().size(); i++) {
 				TrajetFixe trajet = mapentry.getValue().get(i);
-				float tempsDeConduite = trajet.getTempsDeConduite();
+				LocalTime tempsDeConduite = trajet.getTempsDeConduite();
 				int jour = trajet.getJourDepart().getIdentifiant();
-				
-				conduiteJournaliere[jour] += tempsDeConduite;	
+
+				conduiteJournaliere[jour].plusHours(tempsDeConduite.getHour()) ;
+				conduiteJournaliere[jour].plusMinutes(tempsDeConduite.getMinute()) ;
 			}
-			for(float nbrHeureConduite : conduiteJournaliere) {
-				if(24.0-nbrHeureConduite > plannification.getTempsDeReposJournalier())
+
+
+			for(LocalTime nbrHeureConduite : conduiteJournaliere) {
+				LocalTime localT = LocalTime.of(24,00);
+				localT = localT.minusHours(nbrHeureConduite.getHour());
+				localT = localT.minusMinutes(nbrHeureConduite.getMinute());
+
+				if(localT.isAfter(plannification.getTempsDeReposJournalier()) == true)
 					tempsReposJournalier = false;
 			}
-		}	
-		
+		}
+
 		//Temps de repos hebdomadaire
 		boolean tempsReposHebdomadaire = true;
 		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
-			float conduiteHebdomadaire = 0;
+			LocalTime conduiteHebdomadaire = LocalTime.of(00,00);
 			for(int i = 0; i<mapentry.getValue().size(); i++) {
 				TrajetFixe trajet = mapentry.getValue().get(i);
-				float tempsDeConduite = trajet.getTempsDeConduite();
-				conduiteHebdomadaire += tempsDeConduite;
+				LocalTime tempsDeConduite = trajet.getTempsDeConduite();
+				conduiteHebdomadaire.plusHours(tempsDeConduite.getHour());
+				conduiteHebdomadaire.plusMinutes(tempsDeConduite.getMinute());
 			}
-			if(24.0*7 - conduiteHebdomadaire > plannification.getNbrConduiteHebdomadaireMax())
+			LocalTime localT = LocalTime.of(168, 00);
+			localT = localT.minusHours(conduiteHebdomadaire.getHour());
+			localT = localT.minusMinutes(conduiteHebdomadaire.getMinute());
+			if(localT.isAfter(plannification.getNbrConduiteHebdomadaireMax()) == true) {
 				tempsReposHebdomadaire = false;
-		}	
-		
-		
+			}
+		}
+
+
 		/*
 		 * Op�rationelles
 		 */
-		
+
 		//Un chauffeur peut faire un trajet � la fois
 		boolean unTrajetParChauffeur = true;
 		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
 			for(int i = 0; i<mapentry.getValue().size(); i++) {
 				TrajetFixe trajet1 = mapentry.getValue().get(i);
 				int jour1 = trajet1.getJourDepart().getIdentifiant();
-				float heureDepart1 = trajet1.getHeureDepart();
+				LocalTime heureDepart1 = trajet1.getHeureDepart();
 			for(int j = 0; j<mapentry.getValue().size(); j++) {
-				
+
 				if(i != j) {
 					TrajetFixe trajet2 = mapentry.getValue().get(i);
-					float tempsDeConduite2 = trajet2.getTempsDeConduite();
+					LocalTime tempsDeConduite2 = trajet2.getTempsDeConduite();
 					int jour2 = trajet2.getJourDepart().getIdentifiant();
-					float heureDepart2 = trajet2.getHeureDepart();
-					
+					LocalTime heureDepart2 = trajet2.getHeureDepart();
+
 					if(jour1 == jour2) {
-						if(heureDepart1>=heureDepart2 && heureDepart1 < heureDepart2+tempsDeConduite2) {
+						LocalTime cptTime = heureDepart2.plusHours(tempsDeConduite2.getHour());
+						cptTime = cptTime.plusMinutes(tempsDeConduite2.getMinute());
+						if(heureDepart1.compareTo(heureDepart2) >= 0  && heureDepart1.isBefore(cptTime)) {
 							unTrajetParChauffeur = false;
 						}
 					}
-				}	
+				}
 			}
-					
-				
+
+
 			}
-		}	
-		
+		}
+
 		//Un camion peut faire un trajet � la fois
 		boolean unTrajetParCamion = true;
 		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.camionsTrajets.entrySet()) {
 			for(int i = 0; i<mapentry.getValue().size(); i++) {
 				TrajetFixe trajet1 = mapentry.getValue().get(i);
 				int jour1 = trajet1.getJourDepart().getIdentifiant();
-				float heureDepart1 = trajet1.getHeureDepart();
+				LocalTime heureDepart1 = trajet1.getHeureDepart();
 			for(int j = 0; j<mapentry.getValue().size(); j++) {
-				
+
 				if(i != j) {
 					TrajetFixe trajet2 = mapentry.getValue().get(i);
-					float tempsDeConduite2 = trajet2.getTempsDeConduite();
+					LocalTime tempsDeConduite2 = trajet2.getTempsDeConduite();
 					int jour2 = trajet2.getJourDepart().getIdentifiant();
-					float heureDepart2 = trajet2.getHeureDepart();
-					
+					LocalTime heureDepart2 = trajet2.getHeureDepart();
+
 					if(jour1 == jour2) {
-						if(heureDepart1>=heureDepart2 && heureDepart1 < heureDepart2+tempsDeConduite2) {
+						LocalTime cptTime = heureDepart2.plusHours(tempsDeConduite2.getHour());
+						cptTime = cptTime.plusMinutes(tempsDeConduite2.getMinute());
+						if(heureDepart1.compareTo(heureDepart2) >=0 && heureDepart1.isBefore(cptTime)) {
 							unTrajetParChauffeur = false;
 						}
 					}
-				}	
+				}
 			}
-					
-				
+
+
 			}
 		}
 		//Tous les trajets camion + chauffeur
 		boolean trajetCamionChauffeur = true;
-		
+
 		for(Trajet trajet : plannification.getTrajetsFixe()) {
 			if(chauffeursTrajets.containsValue(trajet) == false) {
 				trajetCamionChauffeur = false;
@@ -267,7 +273,7 @@ public class Solution {
 				trajetCamionChauffeur = false;
 			}
 		}
-		
+
 		//Repos hebdomadaire dans la ville de rattachement
 		boolean reposHebdomadaireVilleRattachement = true;
 		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
@@ -288,9 +294,11 @@ public class Solution {
 		boolean respectDureeCT = true;
 		for(int i = 0; i<getChauffeurs().size();i++){
 			ContratDeTravail contratDeTravail = getChauffeurs().get(i).getContratDeTravail();
-			if(contratDeTravail.getNbrHeureJour() + contratDeTravail.getNbrHeureNuit() < plannification.getNombreHeuresMin())
+			LocalTime cptTime = contratDeTravail.getNbrHeureJour().plusHours(contratDeTravail.getNbrHeureNuit().getHour());
+			cptTime = cptTime.plusMinutes(contratDeTravail.getNbrHeureNuit().getMinute());
+			if(cptTime.isBefore(plannification.getNombreHeuresMin()))
 				respectDureeCT = false;
-			if(contratDeTravail.getNbrHeureJour() + contratDeTravail.getNbrHeureNuit() > plannification.getNombreHeuresMin())
+			if(cptTime.isAfter(plannification.getNombreHeuresMin()))
 				respectDureeCT = false;
 		}
 		
@@ -307,12 +315,14 @@ public class Solution {
 		boolean tempsTrajet = true;
 		for(int i = 0; i<getTrajets().size();i++)
 		{
-			float FtempsTrajet = getTrajets().get(i).getTempsDeConduite();
-			if (getTrajets().get(i).getHeureDepart() + FtempsTrajet < 21.00){
-				if(FtempsTrajet > 9.00)
+			LocalTime FtempsTrajet = getTrajets().get(i).getTempsDeConduite();
+			LocalTime cptTime = getTrajets().get(i).getHeureDepart().plusHours(FtempsTrajet.getHour());
+			cptTime = cptTime.plusMinutes(FtempsTrajet.getMinute());
+			if (cptTime.isBefore(LocalTime.of(21,0))){
+				if(FtempsTrajet.isAfter(LocalTime.of(9,0)))
 					tempsTrajet = false;
 			}
-			else if(FtempsTrajet > 8.00)
+			else if(FtempsTrajet.isAfter(LocalTime.of(8,0)))
 				tempsTrajet = false;
 			}
 		}
@@ -337,7 +347,7 @@ public class Solution {
 					if(jour == compteur){
 						if(dernierTrajet == null)
 							dernierTrajet = trajet;
-						else if(trajet.getHeureDepart() > dernierTrajet.getHeureDepart())
+						else if(trajet.getHeureDepart().isAfter(dernierTrajet.getHeureDepart()))
 							dernierTrajet = trajet;
 					}
 				}
@@ -350,18 +360,23 @@ public class Solution {
 		//Calcul cout CT
 		boolean coutCT = true;
 		for (Entry<Integer, ArrayList<TrajetFixe>> mapentry : this.chauffeursTrajets.entrySet()) {
-			int nombreHeureJour = 0;
-			int nombreHeureNuit = 0;
+			LocalTime nombreHeureJour = LocalTime.of(0,0);
+			LocalTime nombreHeureNuit = LocalTime.of(0,0);
 			for(int i = 0; i<mapentry.getValue().size(); i++) {
 				TrajetFixe trajet = mapentry.getValue().get(i);
-				if (trajet.getHeureDepart() + trajet.getTempsDeConduite() < 18.00){
-					nombreHeureJour += trajet.getTempsDeConduite();
+				LocalTime cptTime = trajet.getHeureDepart().plusHours(trajet.getTempsDeConduite().getHour());
+				cptTime = cptTime.plusMinutes(trajet.getTempsDeConduite().getMinute());
+				if (cptTime.isBefore(LocalTime.of(18,0))){
+					nombreHeureJour.plusHours(trajet.getTempsDeConduite().getHour());
+					nombreHeureJour.plusMinutes(trajet.getTempsDeConduite().getMinute());
 				}
-				else
-					nombreHeureNuit += trajet.getTempsDeConduite();
+				else {
+					nombreHeureNuit.plusHours(trajet.getTempsDeConduite().getHour());
+					nombreHeureNuit.plusMinutes(trajet.getTempsDeConduite().getMinute());
+				}
 			}
 			ContratDeTravail CT = getChauffeurById(mapentry.getKey()).getContratDeTravail();
-			if(CT.getNbrHeureJour() != nombreHeureJour || CT.getNbrHeureNuit() != nombreHeureNuit)
+			if(CT.getNbrHeureJour().compareTo(nombreHeureJour) != 0 || CT.getNbrHeureNuit().compareTo(nombreHeureNuit) != 0)
 				coutCT = false;
 		}
 

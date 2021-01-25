@@ -20,7 +20,17 @@ public abstract class Trajet {
 		
 	}
 
-	//Getters & Setters 
+	public Trajet(int identifiant, Ville villeDepart, Ville villeArrivee, LocalTime tempsDeConduite, ArrayList<LocalTime> tempsDePause, HashMap<Ville, LocalTime> listeVilleStop) {
+		this.identifiant = identifiant;
+		this.villeDepart = villeDepart;
+		this.villeArrivee = villeArrivee;
+		this.tempsDeConduite = tempsDeConduite;
+		this.tempsDePause = tempsDePause;
+		this.listeVilleStop = listeVilleStop;
+	}
+
+
+//Getters & Setters
 
 
 	public int getIdentifiant() {

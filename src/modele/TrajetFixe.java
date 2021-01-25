@@ -17,9 +17,11 @@ public class TrajetFixe extends Trajet{
 		super();
 	}
 
-	public TrajetFixe(Jour jourDepart, LocalTime heureDepart) {
+	public TrajetFixe(int identifiant, Ville villeDepart, Ville villeArrivee, LocalTime tempsDeConduite, ArrayList<LocalTime> tempsDePause, HashMap<Ville, LocalTime> listeVilleStop,Jour jourDepart, LocalTime heureDepart) {
+		super(identifiant, villeDepart, villeArrivee, tempsDeConduite, tempsDePause, listeVilleStop);
 		this.jourDepart = jourDepart;
 		this.heureDepart = heureDepart;
+
 	}
 
 	//Getters & Setters

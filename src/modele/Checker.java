@@ -3,6 +3,8 @@ package modele;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 public class Checker {
@@ -126,18 +128,41 @@ public class Checker {
      * respectée pour chaque chauffeurs
      */
     public boolean tempsReposHebdomadaire() {
-        boolean checker = true;
+
+        //verification que pour un trajet il n'y a pas de trajet pendant 2 jours
         for (Map.Entry<Integer, ArrayList<Integer>> mapentry : getSolution().getChauffeursTrajets().entrySet()) {
-            double conduiteHebdomadaire = 0.0;
+            boolean cptBoolean = false;
+            ArrayList<Double> tableauDebutTrajet = new ArrayList<Double>();
+            ArrayList<Double> tableauFinTrajet = new ArrayList<Double>();
             for(int i = 0; i<mapentry.getValue().size(); i++) {
                 TrajetFixe trajet = getSolution().getTrajetById(mapentry.getValue().get(i));
+                int jour = trajet.getJourDepart().getIdentifiant();
+                double horraireDepart = trajet.getHeureDepart().getHour() + ((double)trajet.getHeureDepart().getMinute() / 6);
                 double tempsDeConduite = trajet.getTempsDeConduite();
-                conduiteHebdomadaire += tempsDeConduite;
+                double finTrajet = horraireDepart+tempsDeConduite;
+
+                tableauDebutTrajet.add(horraireDepart+(24*jour));
+                tableauFinTrajet.add(finTrajet+(24*jour));
             }
-            if(24.0*7 - conduiteHebdomadaire < getSolution().getPlannification().getNbrConduiteHebdomadaireMax())
-                checker = false;
+
+            tableauDebutTrajet.add((double)24*7);
+
+            Collections.sort(tableauDebutTrajet);
+            Collections.sort(tableauFinTrajet);
+
+            System.out.println(tableauDebutTrajet);
+            System.out.println(tableauFinTrajet);
+
+            for(int i =0; i<tableauFinTrajet.size();i++){
+                System.out.println(tableauDebutTrajet.get(i+1) - tableauFinTrajet.get(i));
+                if (tableauDebutTrajet.get(i+1) - tableauFinTrajet.get(i) >= getSolution().getPlannification().getDureeReposHebdomadaire())
+                    cptBoolean = true;
+            }
+            if(cptBoolean == false)
+                return false;
+
         }
-        return checker;
+        return true;
     }
 
 /*********************************************Contraintes operationnelles***********************************************/
@@ -153,21 +178,33 @@ public class Checker {
                 int jour1 = trajet1.getJourDepart().getIdentifiant();
                 LocalTime heureDepart1 = trajet1.getHeureDepart();
                 for(int j = 0; j<mapentry.getValue().size(); j++) {
-
                     if(i != j) {
-                        TrajetFixe trajet2 = getSolution().getTrajetById(mapentry.getValue().get(i));
+                        TrajetFixe trajet2 = getSolution().getTrajetById(mapentry.getValue().get(j));
                         double tempsDeConduite2 = trajet2.getTempsDeConduite();
                         int jour2 = trajet2.getJourDepart().getIdentifiant();
                         LocalTime heureDepart2 = trajet2.getHeureDepart();
 
-                        if(jour1 == jour2) {
+
                             LocalTime tempsDeConduite = LocalTime.of(new Double(tempsDeConduite2).intValue(), (int) ((tempsDeConduite2-(new Double(tempsDeConduite2).intValue()))*6));
                             LocalTime cptTime = heureDepart2.plusHours(tempsDeConduite.getHour());
                             cptTime = cptTime.plusMinutes(tempsDeConduite.getMinute());
-                            if(heureDepart1.compareTo(heureDepart2) >= 0  && heureDepart1.isBefore(cptTime)) {
-                                checker = false;
+
+                            int JourSuivant = tempsDeConduite.getHour() + heureDepart2.getHour();
+
+                            if(JourSuivant < 24) {
+                                if ( (jour1 == jour2) && heureDepart1.compareTo(heureDepart2) >= 0 && heureDepart1.isBefore(cptTime)) {
+                                    checker = false;
+                                }
                             }
-                        }
+                            else{
+                                if ((jour1 == jour2) && heureDepart1.compareTo(heureDepart2) >= 0 && heureDepart1.isBefore(LocalTime.of(23,59))) {
+                                    checker = false;
+                                }
+                                else if((jour1 == jour2+1) && heureDepart1.isBefore(cptTime)){
+                                    checker = false;
+                                }
+                            }
+
                     }
                 }
             }
@@ -180,27 +217,39 @@ public class Checker {
      */
     public boolean unTrajetALaFoisCamions() {
         boolean checker = true;
-        for (Map.Entry<Integer, ArrayList<Integer>> mapentry : getSolution().getChauffeursTrajets().entrySet()) {
+        for (Map.Entry<Integer, ArrayList<Integer>> mapentry : getSolution().getCamionsTrajets().entrySet()) {
             for(int i = 0; i<mapentry.getValue().size(); i++) {
                 TrajetFixe trajet1 = getSolution().getTrajetById(mapentry.getValue().get(i));
                 int jour1 = trajet1.getJourDepart().getIdentifiant();
                 LocalTime heureDepart1 = trajet1.getHeureDepart();
                 for(int j = 0; j<mapentry.getValue().size(); j++) {
-
                     if(i != j) {
-                        TrajetFixe trajet2 = getSolution().getTrajetById(mapentry.getValue().get(i));
+                        TrajetFixe trajet2 = getSolution().getTrajetById(mapentry.getValue().get(j));
                         double tempsDeConduite2 = trajet2.getTempsDeConduite();
                         int jour2 = trajet2.getJourDepart().getIdentifiant();
                         LocalTime heureDepart2 = trajet2.getHeureDepart();
 
-                        if(jour1 == jour2) {
-                            LocalTime tempsDeConduite = LocalTime.of(new Double(tempsDeConduite2).intValue(), (int) ((tempsDeConduite2-(new Double(tempsDeConduite2).intValue()))*6));
-                            LocalTime cptTime = heureDepart2.plusHours(tempsDeConduite.getHour());
-                            cptTime = cptTime.plusMinutes(tempsDeConduite.getMinute());
-                            if(heureDepart1.compareTo(heureDepart2) >=0 && heureDepart1.isBefore(cptTime)) {
+
+                        LocalTime tempsDeConduite = LocalTime.of(new Double(tempsDeConduite2).intValue(), (int) ((tempsDeConduite2-(new Double(tempsDeConduite2).intValue()))*6));
+                        LocalTime cptTime = heureDepart2.plusHours(tempsDeConduite.getHour());
+                        cptTime = cptTime.plusMinutes(tempsDeConduite.getMinute());
+
+                        int JourSuivant = tempsDeConduite.getHour() + heureDepart2.getHour();
+
+                        if(JourSuivant < 24) {
+                            if ( (jour1 == jour2) && heureDepart1.compareTo(heureDepart2) >= 0 && heureDepart1.isBefore(cptTime)) {
                                 checker = false;
                             }
                         }
+                        else{
+                            if ((jour1 == jour2) && heureDepart1.compareTo(heureDepart2) >= 0 && heureDepart1.isBefore(LocalTime.of(23,59))) {
+                                checker = false;
+                            }
+                            else if((jour1 == jour2+1) && heureDepart1.isBefore(cptTime)){
+                                checker = false;
+                            }
+                        }
+
                     }
                 }
             }
@@ -213,13 +262,22 @@ public class Checker {
      */
     public boolean trajetCamionChauffeur() {
         boolean checker = true;
-        for(Trajet trajet : getSolution().getPlannification().getTrajetsFixe()) {
-            if(getSolution().getChauffeursTrajets().containsValue(trajet) == false) {
-                checker = false;
+
+        for(TrajetFixe trajet : getSolution().getTrajets()) {
+            int compteur = 0;
+
+            for (Map.Entry<Integer, ArrayList<Integer>> mapentry1 : getSolution().getCamionsTrajets().entrySet()) {
+                if (mapentry1.getValue().contains(trajet.getIdentifiant()) == true) {
+                    compteur += 1;
+                }
             }
-            if(getSolution().getCamionsTrajets().containsValue(trajet) == false) {
-                checker = false;
+            for (Map.Entry<Integer, ArrayList<Integer>> mapentry2 : getSolution().getChauffeursTrajets().entrySet()) {
+                if (mapentry2.getValue().contains(trajet.getIdentifiant()) == true) {
+                    compteur += 1;
+                }
             }
+           if (compteur < 2)
+               checker = false;
         }
         return checker;
     }
@@ -229,20 +287,46 @@ public class Checker {
      * leurs villes de rattachements
      */
     public boolean reposHebdomadaireVilleRattachement() {
-        boolean checker = true;
         for (Map.Entry<Integer, ArrayList<Integer>> mapentry : getSolution().getChauffeursTrajets().entrySet()) {
-            Chauffeur chauffeur = getSolution().getChauffeurById(mapentry.getKey());
-            boolean cptBoolean = false;
-            for(int i = 0; i<mapentry.getValue().size(); i++) {
-                TrajetFixe trajet1 = getSolution().getTrajetById(mapentry.getValue().get(i));
-                if(trajet1.getVilleArrivee() == chauffeur.getVilleRattachement())
-                    cptBoolean = true;
+
+            ArrayList<Double> tableauDebutTrajet = new ArrayList<Double>();
+            ArrayList<Double> tableauFinTrajet = new ArrayList<Double>();
+            for (int i = 0; i < mapentry.getValue().size(); i++) {
+                TrajetFixe trajet = getSolution().getTrajetById(mapentry.getValue().get(i));
+                int jour = trajet.getJourDepart().getIdentifiant();
+                double horraireDepart = trajet.getHeureDepart().getHour() + ((double) trajet.getHeureDepart().getMinute() / 6);
+                double tempsDeConduite = trajet.getTempsDeConduite();
+                double finTrajet = horraireDepart + tempsDeConduite;
+
+                tableauDebutTrajet.add(horraireDepart + (24 * jour));
+                tableauFinTrajet.add(finTrajet + (24 * jour));
             }
-            if(cptBoolean == false){
-                checker = false;
+
+            tableauDebutTrajet.add((double) 24 * 7);
+
+            Collections.sort(tableauDebutTrajet);
+            Collections.sort(tableauFinTrajet);
+
+            for (int i = 0; i < tableauFinTrajet.size(); i++) {
+                System.out.println(tableauDebutTrajet.get(i + 1) - tableauFinTrajet.get(i));
+                if (tableauDebutTrajet.get(i + 1) - tableauFinTrajet.get(i) >= getSolution().getPlannification().getDureeReposHebdomadaire()) {
+                    for (int j = 0; j < mapentry.getValue().size(); j++) {
+                        TrajetFixe trajetRepos = getSolution().getTrajetById(mapentry.getValue().get(i));
+                        int jour = trajetRepos.getJourDepart().getIdentifiant();
+                        double horraireDepart = trajetRepos.getHeureDepart().getHour() + ((double) trajetRepos.getHeureDepart().getMinute() / 6);
+                        double tempsDeConduite = trajetRepos.getTempsDeConduite();
+                        double finTrajet = horraireDepart + tempsDeConduite;
+                        if (finTrajet + (24 * jour) == tableauFinTrajet.get(i)) {
+                            if (trajetRepos.getVilleArrivee() != getSolution().getChauffeurById(mapentry.getKey()).getVilleRattachement()) {
+                                return false;
+                            }
+                        }
+                    }
+                }
             }
+
         }
-        return checker;
+        return true;
     }
 
     /**

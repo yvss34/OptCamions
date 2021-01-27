@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-public class Solution {
+public class Solution{
 
 	//Attributs
 	
@@ -18,8 +18,8 @@ public class Solution {
 	private ArrayList<Chauffeur> chauffeurs;
 	private ArrayList<TrajetFixe> trajets;
 
-	private HashMap<Integer,ArrayList<TrajetFixe>> camionsTrajets;
-	private HashMap<Integer,ArrayList<TrajetFixe>> chauffeursTrajets;
+	private HashMap<Integer,ArrayList<Integer>> camionsTrajets;
+	private HashMap<Integer,ArrayList<Integer>> chauffeursTrajets;
 	
 	
 	
@@ -30,7 +30,7 @@ public class Solution {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Solution(int nbrCamions, int nbrChauffeurs, Plannification plannification, ArrayList<Chauffeur> chauffeurs, ArrayList<TrajetFixe> trajets, HashMap<Integer, ArrayList<TrajetFixe>> camionsTrajets, HashMap<Integer, ArrayList<TrajetFixe>> chauffeursTrajets) {
+	public Solution(int nbrCamions, int nbrChauffeurs, Plannification plannification, ArrayList<Chauffeur> chauffeurs, ArrayList<TrajetFixe> trajets, HashMap<Integer, ArrayList<Integer>> camionsTrajets, HashMap<Integer, ArrayList<Integer>> chauffeursTrajets) {
 		this.nbrCamions = nbrCamions;
 		this.nbrChauffeurs = nbrChauffeurs;
 		this.plannification = plannification;
@@ -72,22 +72,22 @@ public class Solution {
 	}
 
 
-	public HashMap<Integer, ArrayList<TrajetFixe>> getCamionsTrajets() {
+	public HashMap<Integer, ArrayList<Integer>> getCamionsTrajets() {
 		return camionsTrajets;
 	}
 
 
-	public void setCamionsTrajets(HashMap<Integer, ArrayList<TrajetFixe>> camionsTrajets) {
+	public void setCamionsTrajets(HashMap<Integer, ArrayList<Integer>> camionsTrajets) {
 		this.camionsTrajets = camionsTrajets;
 	}
 
 
-	public HashMap<Integer, ArrayList<TrajetFixe>> getChauffeursTrajets() {
+	public HashMap<Integer, ArrayList<Integer>> getChauffeursTrajets() {
 		return chauffeursTrajets;
 	}
 
 
-	public void setChauffeursTrajets(HashMap<Integer, ArrayList<TrajetFixe>> chauffeursTrajets) {
+	public void setChauffeursTrajets(HashMap<Integer, ArrayList<Integer>> chauffeursTrajets) {
 		this.chauffeursTrajets = chauffeursTrajets;
 	}
 
@@ -108,4 +108,13 @@ public class Solution {
 		}
 		return null;
 	}
+
+	public TrajetFixe getTrajetById(int identifiant){
+		for (int i =0; i<getTrajets().size();i++){
+			if(getTrajets().get(i).getIdentifiant() == identifiant)
+				return getTrajets().get(i);
+		}
+		return null;
+	}
+
 }

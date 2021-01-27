@@ -3,6 +3,7 @@ package modele;
 import org.junit.jupiter.api.*;
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class SolutionTest {
@@ -13,6 +14,7 @@ public class SolutionTest {
     public void initSolution(){
         solution = new Solution();
         solution.setChauffeurs(new ArrayList<Chauffeur>());
+        solution.setTrajets(new ArrayList<TrajetFixe>());
     }
 
 
@@ -42,4 +44,47 @@ public class SolutionTest {
         assertEquals(chauffeur2,chauffeurTest2);
         assertEquals(null,chauffeurTest3);
     }
+
+    @Test
+    public void testGetTrajetById(){
+        //ARRANGE
+
+        //Ville
+        Ville paris = new Ville(1,"Paris");
+        Ville marseille = new Ville(2,"Marseille");
+        Ville lyon = new Ville(3,"Lyon");
+
+        //Trajets
+        TrajetFixe trajet1_1 = new TrajetFixe(1,paris,lyon,4.0,new ArrayList<Double>(),null,new Jour(1,"Lundi"), LocalTime.of(8,0));
+        TrajetFixe trajet1_2 = new TrajetFixe(2,lyon,paris,4.0,new ArrayList<Double>(),null,new Jour(2,"Mardi"),LocalTime.of(8,0));
+        TrajetFixe trajet1_3 = new TrajetFixe(3,paris,lyon,4.0,new ArrayList<Double>(),null,new Jour(3,"Mercredi"),LocalTime.of(8,0));
+        TrajetFixe trajet1_4 = new TrajetFixe(4,lyon,paris,4.0,new ArrayList<Double>(),null,new Jour(4,"Jeudi"),LocalTime.of(8,0));
+
+        TrajetFixe trajet2_1 = new TrajetFixe(5,marseille,paris,8.0,new ArrayList<Double>(),null,new Jour(1,"Lundi"),LocalTime.of(8,0));
+        TrajetFixe trajet2_2 = new TrajetFixe(6,paris,marseille,8.0,new ArrayList<Double>(),null,new Jour(2,"Mardi"),LocalTime.of(8,0));
+        TrajetFixe trajet2_3 = new TrajetFixe(7,marseille,paris,8.0,new ArrayList<Double>(),null,new Jour(3,"Mercredi"),LocalTime.of(8,0));
+        TrajetFixe trajet2_4 = new TrajetFixe();
+
+        solution.getTrajets().add(trajet1_1);
+        solution.getTrajets().add(trajet1_2);
+        solution.getTrajets().add(trajet1_3);
+        solution.getTrajets().add(trajet1_4);
+
+        solution.getTrajets().add(trajet2_1);
+        solution.getTrajets().add(trajet2_2);
+        solution.getTrajets().add(trajet2_3);
+        solution.getTrajets().add(trajet2_4);
+
+        //ACT
+        TrajetFixe TrajetFixeTest1 = solution.getTrajetById(0);
+        TrajetFixe TrajetFixeTest2 = solution.getTrajetById(1424);
+        TrajetFixe TrajetFixeTest3 = solution.getTrajetById(7);
+
+        //ASSERT
+        assertEquals(trajet2_4,TrajetFixeTest1);
+        assertEquals(null,TrajetFixeTest2);
+        assertEquals(trajet2_3,TrajetFixeTest3);
+    }
+
+
 }

@@ -150,11 +150,9 @@ public class Checker {
             Collections.sort(tableauDebutTrajet);
             Collections.sort(tableauFinTrajet);
 
-            System.out.println(tableauDebutTrajet);
-            System.out.println(tableauFinTrajet);
 
             for(int i =0; i<tableauFinTrajet.size();i++){
-                System.out.println(tableauDebutTrajet.get(i+1) - tableauFinTrajet.get(i));
+
                 if (tableauDebutTrajet.get(i+1) - tableauFinTrajet.get(i) >= getSolution().getPlannification().getDureeReposHebdomadaire())
                     cptBoolean = true;
             }
@@ -308,7 +306,7 @@ public class Checker {
             Collections.sort(tableauFinTrajet);
 
             for (int i = 0; i < tableauFinTrajet.size(); i++) {
-                System.out.println(tableauDebutTrajet.get(i + 1) - tableauFinTrajet.get(i));
+
                 if (tableauDebutTrajet.get(i + 1) - tableauFinTrajet.get(i) >= getSolution().getPlannification().getDureeReposHebdomadaire()) {
                     for (int j = 0; j < mapentry.getValue().size(); j++) {
                         TrajetFixe trajetRepos = getSolution().getTrajetById(mapentry.getValue().get(i));
@@ -371,11 +369,17 @@ public class Checker {
             LocalTime tempsDeConduite = LocalTime.of(new Double(FtempsTrajet).intValue(), (int) ((FtempsTrajet-(new Double(FtempsTrajet).intValue()))*6));
             LocalTime cptTime = getSolution().getTrajets().get(i).getHeureDepart().plusHours(tempsDeConduite.getHour());
             cptTime = cptTime.plusMinutes(tempsDeConduite.getMinute());
-            if (cptTime.isBefore(LocalTime.of(21, 0))) {
-                if (tempsDeConduite.isAfter(LocalTime.of(9, 0)))
+
+            if (getSolution().getTrajets().get(i).getHeureDepart().isAfter(LocalTime.of(6, 0)) &&getSolution().getTrajets().get(i).getHeureDepart().isBefore(LocalTime.of(21, 0))) {
+                if (FtempsTrajet>9.00)
                     checker = false;
-            } else if (tempsDeConduite.isAfter(LocalTime.of(8, 0)))
+            }
+            else if(getSolution().getTrajets().get(i).getHeureDepart().isAfter(LocalTime.of(20, 59))
+            || getSolution().getTrajets().get(i).getHeureDepart().isBefore(LocalTime.of(6, 0)))
+            {
+                if (FtempsTrajet>8.00)
                 checker = false;
+            }
         }
         return checker;
     }
@@ -390,7 +394,7 @@ public class Checker {
         boolean checker = true;
         for (Map.Entry<Integer, ArrayList<Integer>> mapentry : getSolution().getChauffeursTrajets().entrySet()) {
             int nombreRepos = 0;
-            int compteur = 1;
+            int compteur = 0;
             while(compteur < 7){
                 TrajetFixe dernierTrajet = null;
                 for(int i = 0; i<mapentry.getValue().size(); i++) {
@@ -404,8 +408,11 @@ public class Checker {
                             dernierTrajet = trajet;
                     }
                 }
-                if(dernierTrajet.getVilleArrivee() != getSolution().getChauffeurById(mapentry.getKey()).getVilleRattachement() )
-                    nombreRepos += 1;
+                if(dernierTrajet != null) {
+                    if(dernierTrajet.getVilleArrivee() != getSolution().getChauffeurById(mapentry.getKey()).getVilleRattachement() )
+                        nombreRepos += 1;
+                }
+                compteur += 1;
             }
             if(getSolution().getChauffeurById(mapentry.getKey()).getCoutHotellerie() != nombreRepos*(getSolution().getPlannification().getCoutHotellerie()))
                 checker = false;
@@ -424,11 +431,9 @@ public class Checker {
             double nombreHeureNuit = 0.0;
             for(int i = 0; i<mapentry.getValue().size(); i++) {
                 TrajetFixe trajet = getSolution().getTrajetById(mapentry.getValue().get(i));
-                double FtempsTrajet = getSolution().getTrajets().get(i).getTempsDeConduite();
-                LocalTime tempsDeConduite = LocalTime.of(new Double(FtempsTrajet).intValue(), (int) ((FtempsTrajet-(new Double(FtempsTrajet).intValue()))*6));
-                LocalTime cptTime = trajet.getHeureDepart().plusHours(tempsDeConduite.getHour());
-                cptTime = cptTime.plusMinutes(tempsDeConduite.getMinute());
-                if (cptTime.isBefore(LocalTime.of(18,0))){
+                double FtempsTrajet = trajet.getTempsDeConduite();
+                LocalTime heureDepart = trajet.getHeureDepart();
+                if (heureDepart.isBefore(LocalTime.of(21,0)) && heureDepart.isAfter(LocalTime.of(6,0))){
                     nombreHeureJour+=FtempsTrajet;
                 }
                 else {

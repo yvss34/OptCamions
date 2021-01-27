@@ -6,41 +6,44 @@ public class ContratDeTravail {
 	
 	//Attributs
 	
-	private LocalTime nbrHeureJour;
-	private LocalTime nbrHeureNuit;
-	private float coutTrajetVide;
+	private double nbrHeureJour;
+	private double nbrHeureNuit;
+	private double coutTrajetVide;
 	
 	
 	//Constructeurs
 	public ContratDeTravail() {
 		
 	}
-	
-	public ContratDeTravail(LocalTime nbrHeureJour, LocalTime nbrHeureNuit, float coutTrajetVide) {
-		super();
+
+	public ContratDeTravail(double nbrHeureJour, double nbrHeureNuit, double coutTrajetVide) {
 		this.nbrHeureJour = nbrHeureJour;
 		this.nbrHeureNuit = nbrHeureNuit;
 		this.coutTrajetVide = coutTrajetVide;
 	}
-	
-	//Getters & Setters
-	public LocalTime getNbrHeureJour() {
+
+
+	public double getNbrHeureJour() {
 		return nbrHeureJour;
 	}
-	public void setNbrHeureJour(LocalTime nbrHeureJour) {
+
+	public void setNbrHeureJour(double nbrHeureJour) {
 		this.nbrHeureJour = nbrHeureJour;
 	}
-	public LocalTime getNbrHeureNuit() {
+
+	public double getNbrHeureNuit() {
 		return nbrHeureNuit;
 	}
-	public void setNbrHeureNuit(LocalTime nbrHeureNuit) {
+
+	public void setNbrHeureNuit(double nbrHeureNuit) {
 		this.nbrHeureNuit = nbrHeureNuit;
 	}
-	public float getCoutTrajetVide() {
+
+	public double getCoutTrajetVide() {
 		return coutTrajetVide;
 	}
-	public void setCoutTrajetVide(float coutTrajetVide) {
+
+	public void setCoutTrajetVide(double coutTrajetVide) {
 		this.coutTrajetVide = coutTrajetVide;
 	}
-	
 }

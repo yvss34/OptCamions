@@ -1,5 +1,6 @@
 package modele;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,11 +18,13 @@ public class TrajetNonFixe extends Trajet{
 		super();
 	}
 
-	public TrajetNonFixe(int frequenceSemaine, float[][] fenetreDeTemps, int nombreTrajetWeekend, int nbrJourMin) {
+	public TrajetNonFixe(int identifiant, Ville villeDepart, Ville villeArrivee, double tempsDeConduite, ArrayList<Double> tempsDePause, HashMap<Ville, Double> listeVilleStop,int frequenceSemaine, float[][] fenetreDeTemps, int nombreTrajetWeekend, int nbrJourMin) {
+		super(identifiant, villeDepart, villeArrivee, tempsDeConduite, tempsDePause, listeVilleStop);
 		this.frequenceSemaine = frequenceSemaine;
 		this.fenetreDeTemps = fenetreDeTemps;
 		this.nombreTrajetWeekend = nombreTrajetWeekend;
 		this.nbrJourMin = nbrJourMin;
+
 	}
 
 //Getters & Setters

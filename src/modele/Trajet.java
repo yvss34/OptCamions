@@ -11,16 +11,16 @@ public abstract class Trajet {
 	private int identifiant;
 	private Ville villeDepart;
 	private Ville villeArrivee;
-	private LocalTime tempsDeConduite;
-	private ArrayList<LocalTime> tempsDePause;
-	private HashMap<Ville,LocalTime> listeVilleStop;
+	private double tempsDeConduite;
+	private ArrayList<Double> tempsDePause;
+	private HashMap<Ville,Double> listeVilleStop;
 	
 	//Constructeurs
 	public Trajet() {
 		
 	}
 
-	public Trajet(int identifiant, Ville villeDepart, Ville villeArrivee, LocalTime tempsDeConduite, ArrayList<LocalTime> tempsDePause, HashMap<Ville, LocalTime> listeVilleStop) {
+	public Trajet(int identifiant, Ville villeDepart, Ville villeArrivee, double tempsDeConduite, ArrayList<Double> tempsDePause, HashMap<Ville, Double> listeVilleStop) {
 		this.identifiant = identifiant;
 		this.villeDepart = villeDepart;
 		this.villeArrivee = villeArrivee;
@@ -57,27 +57,27 @@ public abstract class Trajet {
 		this.villeArrivee = villeArrivee;
 	}
 
-	public LocalTime getTempsDeConduite() {
+	public double getTempsDeConduite() {
 		return tempsDeConduite;
 	}
 
-	public void setTempsDeConduite(LocalTime tempsDeConduite) {
+	public void setTempsDeConduite(double tempsDeConduite) {
 		this.tempsDeConduite = tempsDeConduite;
 	}
 
-	public ArrayList<LocalTime> getTempsDePause() {
+	public ArrayList<Double> getTempsDePause() {
 		return tempsDePause;
 	}
 
-	public void setTempsDePause(ArrayList<LocalTime> tempsDePause) {
+	public void setTempsDePause(ArrayList<Double> tempsDePause) {
 		this.tempsDePause = tempsDePause;
 	}
 
-	public HashMap<Ville, LocalTime> getListeVilleStop() {
+	public HashMap<Ville, Double> getListeVilleStop() {
 		return listeVilleStop;
 	}
 
-	public void setListeVilleStop(HashMap<Ville, LocalTime> listeVilleStop) {
+	public void setListeVilleStop(HashMap<Ville, Double> listeVilleStop) {
 		this.listeVilleStop = listeVilleStop;
 	}
 }

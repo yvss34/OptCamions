@@ -7,18 +7,18 @@ public class Plannification {
 	
 	//Attributs
 	
-	private LocalTime nombreHeuresMin;
-	private LocalTime nombreHeuresMax;
-	private float coutHoraireJour;
-	private float coutHoraireNuit;
+	private double nombreHeuresMin;
+	private double nombreHeuresMax;
+	private double coutHoraireJour;
+	private double coutHoraireNuit;
 	
-	private float coutHotellerie;
+	private double coutHotellerie;
 	
-	private LocalTime nbrConduiteContinueMax;
-	private LocalTime tempsDeReposJournalier;
-	private LocalTime nbrConduiteJournaliereMax;
-	private LocalTime nbrConduiteHebdomadaireMax;
-	private LocalTime dureeReposHebdomadaire;
+	private double nbrConduiteContinueMax;
+	private double tempsDeReposJournalier;
+	private double nbrConduiteJournaliereMax;
+	private double nbrConduiteHebdomadaireMax;
+	private double dureeReposHebdomadaire;
 	
 	private ArrayList<TrajetNonFixe> trajetsNonFixe;
 	private ArrayList<TrajetFixe> trajetsFixe;
@@ -35,83 +35,83 @@ public class Plannification {
 //Getters & Setters
 
 
-	public LocalTime getNombreHeuresMin() {
+	public double getNombreHeuresMin() {
 		return nombreHeuresMin;
 	}
 
-	public void setNombreHeuresMin(LocalTime nombreHeuresMin) {
+	public void setNombreHeuresMin(double nombreHeuresMin) {
 		this.nombreHeuresMin = nombreHeuresMin;
 	}
 
-	public LocalTime getNombreHeuresMax() {
+	public double getNombreHeuresMax() {
 		return nombreHeuresMax;
 	}
 
-	public void setNombreHeuresMax(LocalTime nombreHeuresMax) {
+	public void setNombreHeuresMax(double nombreHeuresMax) {
 		this.nombreHeuresMax = nombreHeuresMax;
 	}
 
-	public float getCoutHoraireJour() {
+	public double getCoutHoraireJour() {
 		return coutHoraireJour;
 	}
 
-	public void setCoutHoraireJour(float coutHoraireJour) {
+	public void setCoutHoraireJour(double coutHoraireJour) {
 		this.coutHoraireJour = coutHoraireJour;
 	}
 
-	public float getCoutHoraireNuit() {
+	public double getCoutHoraireNuit() {
 		return coutHoraireNuit;
 	}
 
-	public void setCoutHoraireNuit(float coutHoraireNuit) {
+	public void setCoutHoraireNuit(double coutHoraireNuit) {
 		this.coutHoraireNuit = coutHoraireNuit;
 	}
 
-	public float getCoutHotellerie() {
+	public double getCoutHotellerie() {
 		return coutHotellerie;
 	}
 
-	public void setCoutHotellerie(float coutHotellerie) {
+	public void setCoutHotellerie(double coutHotellerie) {
 		this.coutHotellerie = coutHotellerie;
 	}
 
-	public LocalTime getNbrConduiteContinueMax() {
+	public double getNbrConduiteContinueMax() {
 		return nbrConduiteContinueMax;
 	}
 
-	public void setNbrConduiteContinueMax(LocalTime nbrConduiteContinueMax) {
+	public void setNbrConduiteContinueMax(double nbrConduiteContinueMax) {
 		this.nbrConduiteContinueMax = nbrConduiteContinueMax;
 	}
 
-	public LocalTime getTempsDeReposJournalier() {
+	public double getTempsDeReposJournalier() {
 		return tempsDeReposJournalier;
 	}
 
-	public void setTempsDeReposJournalier(LocalTime tempsDeReposJournalier) {
+	public void setTempsDeReposJournalier(double tempsDeReposJournalier) {
 		this.tempsDeReposJournalier = tempsDeReposJournalier;
 	}
 
-	public LocalTime getNbrConduiteJournaliereMax() {
+	public double getNbrConduiteJournaliereMax() {
 		return nbrConduiteJournaliereMax;
 	}
 
-	public void setNbrConduiteJournaliereMax(LocalTime nbrConduiteJournaliereMax) {
+	public void setNbrConduiteJournaliereMax(double nbrConduiteJournaliereMax) {
 		this.nbrConduiteJournaliereMax = nbrConduiteJournaliereMax;
 	}
 
-	public LocalTime getNbrConduiteHebdomadaireMax() {
+	public double getNbrConduiteHebdomadaireMax() {
 		return nbrConduiteHebdomadaireMax;
 	}
 
-	public void setNbrConduiteHebdomadaireMax(LocalTime nbrConduiteHebdomadaireMax) {
+	public void setNbrConduiteHebdomadaireMax(double nbrConduiteHebdomadaireMax) {
 		this.nbrConduiteHebdomadaireMax = nbrConduiteHebdomadaireMax;
 	}
 
-	public LocalTime getDureeReposHebdomadaire() {
+	public double getDureeReposHebdomadaire() {
 		return dureeReposHebdomadaire;
 	}
 
-	public void setDureeReposHebdomadaire(LocalTime dureeReposHebdomadaire) {
+	public void setDureeReposHebdomadaire(double dureeReposHebdomadaire) {
 		this.dureeReposHebdomadaire = dureeReposHebdomadaire;
 	}
 

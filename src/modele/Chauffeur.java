@@ -7,14 +7,14 @@ public class Chauffeur {
 	private int identifiant;
 	private Ville villeRattachement;
 	private ContratDeTravail contratDeTravail;
-	private float coutHotellerie;
+	private double coutHotellerie;
 	
 	//Constructeur
 	public Chauffeur() {
 		
 	}
 	
-	public Chauffeur(int identifiant, Ville villeRattachement, ContratDeTravail contratDeTravail, float coutHotellerie) {
+	public Chauffeur(int identifiant, Ville villeRattachement, ContratDeTravail contratDeTravail, double coutHotellerie) {
 		super();
 		this.identifiant = identifiant;
 		this.villeRattachement = villeRattachement;
@@ -40,10 +40,10 @@ public class Chauffeur {
 	public void setContratDeTravail(ContratDeTravail contratDeTravail) {
 		this.contratDeTravail = contratDeTravail;
 	}
-	public float getCoutHotellerie() {
+	public double getCoutHotellerie() {
 		return coutHotellerie;
 	}
-	public void setCoutHotellerie(float coutHotellerie) {
+	public void setCoutHotellerie(double coutHotellerie) {
 		this.coutHotellerie = coutHotellerie;
 	}
 	

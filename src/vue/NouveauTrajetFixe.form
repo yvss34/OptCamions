@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="vue.NouveauTrajetFixe">
+  <grid id="27dc6" binding="mainPanel" layout-manager="FormLayout">
+    <rowspec value="center:35px:noGrow"/>
+    <rowspec value="top:20dlu:noGrow"/>
+    <rowspec value="center:35px:noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:35px:noGrow"/>
+    <rowspec value="top:20dlu:noGrow"/>
+    <rowspec value="center:35px:noGrow"/>
+    <rowspec value="top:5dlu:noGrow"/>
+    <rowspec value="center:35px:noGrow"/>
+    <rowspec value="top:10dlu:noGrow"/>
+    <rowspec value="center:35px:noGrow"/>
+    <colspec value="center:110px:noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:110px:noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="center:110px:noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:110px:noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="center:110px:noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="center:114px:grow"/>
+    <constraints>
+      <xy x="12" y="20" width="699" height="318"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="d3f4" class="javax.swing.JLabel" binding="villeDepartLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Ville départ"/>
+        </properties>
+      </component>
+      <component id="f18e9" class="javax.swing.JComboBox" binding="villeDepartComboBox">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="7b293" class="javax.swing.JLabel" binding="villeArriveeLabel">
+        <constraints>
+          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Ville arrivée"/>
+        </properties>
+      </component>
+      <component id="31ca2" class="javax.swing.JComboBox" binding="villeArriveeComboBox">
+        <constraints>
+          <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="fca37" class="javax.swing.JLabel" binding="tempsDeConduiteLabel">
+        <constraints>
+          <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Temps de conduite"/>
+        </properties>
+      </component>
+      <component id="df3a2" class="javax.swing.JLabel" binding="villeStopLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Ville stop"/>
+        </properties>
+      </component>
+      <component id="7860e" class="javax.swing.JComboBox" binding="villeStopComboBox">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="b0a1" class="javax.swing.JLabel" binding="tempsSousTrajetLabel">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Temps sous-trajet"/>
+        </properties>
+      </component>
+      <component id="6b3e7" class="javax.swing.JButton" binding="villeStopButton">
+        <constraints>
+          <grid row="2" column="4" row-span="3" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Ajout ville stop"/>
+        </properties>
+      </component>
+      <component id="3b499" class="javax.swing.JList" binding="villeStopList">
+        <constraints>
+          <grid row="2" column="8" row-span="3" col-span="3" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <forms defaultalign-vert="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="c535" class="javax.swing.JLabel" binding="jourDeDepartLabel">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Jour de départ"/>
+        </properties>
+      </component>
+      <component id="e4f05" class="javax.swing.JComboBox" binding="jourDeDepartComboBox">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="330f5" class="javax.swing.JLabel" binding="heureDeDepartLabel">
+        <constraints>
+          <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Heure de départ"/>
+        </properties>
+      </component>
+      <component id="91eb7" class="javax.swing.JButton" binding="annulerButton">
+        <constraints>
+          <grid row="10" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Annuler"/>
+        </properties>
+      </component>
+      <component id="ee0b9" class="javax.swing.JButton" binding="validerButton">
+        <constraints>
+          <grid row="10" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Valider"/>
+        </properties>
+      </component>
+      <component id="ad64" class="javax.swing.JTextField" binding="tempsSousTrajetText">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="91a55" class="javax.swing.JTextField" binding="heureDeDepartText">
+        <constraints>
+          <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="8897" class="javax.swing.JTextField" binding="tempsDeConduiteText">
+        <constraints>
+          <grid row="0" column="10" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties/>
+      </component>
+    </children>
+  </grid>
+</form>

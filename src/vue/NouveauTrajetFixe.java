@@ -1,6 +1,8 @@
 package vue;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class NouveauTrajetFixe extends JFrame{
 
@@ -30,18 +32,27 @@ public class NouveauTrajetFixe extends JFrame{
     private JTextField tempsSousTrajetText;
     private JTextField heureDeDepartText;
     private JTextField tempsDeConduiteText;
+    private JLabel messageErrorLabel;
 
     public NouveauTrajetFixe(String titre){
         super(titre);
-
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
         this.pack();
+
+        validerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Creation de l'objet Trajet fixe
+
+            }
+        });
+        annulerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new NouveauTrajetFixe("Nouveau trajet fixe");
-        frame.setVisible(true);
-    }
 
 }

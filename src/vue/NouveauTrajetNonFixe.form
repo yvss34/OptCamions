@@ -16,6 +16,8 @@
     <rowspec value="center:31px:noGrow"/>
     <rowspec value="top:4dlu:noGrow"/>
     <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
     <colspec value="center:110px:noGrow"/>
     <colspec value="left:4dlu:noGrow"/>
     <colspec value="fill:110px:noGrow"/>
@@ -28,7 +30,7 @@
     <colspec value="left:4dlu:noGrow"/>
     <colspec value="fill:110px:grow"/>
     <constraints>
-      <xy x="20" y="20" width="695" height="329"/>
+      <xy x="20" y="20" width="695" height="352"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -224,6 +226,15 @@
           <forms defaultalign-horz="false"/>
         </constraints>
         <properties/>
+      </component>
+      <component id="ec0e9" class="javax.swing.JLabel" binding="messageErrorLabel">
+        <constraints>
+          <grid row="16" column="0" row-span="1" col-span="11" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
       </component>
     </children>
   </grid>

@@ -8,6 +8,8 @@
     <rowspec value="fill:263px:noGrow"/>
     <rowspec value="top:4dlu:noGrow"/>
     <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
     <colspec value="fill:341px:noGrow"/>
     <colspec value="left:7dlu:noGrow"/>
     <colspec value="fill:44px:noGrow"/>
@@ -271,7 +273,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="ac115" class="javax.swing.JButton" binding="nouveauTrajetButton">
+          <component id="ac115" class="javax.swing.JButton" binding="nouveauTrajetNonFixeButton">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <forms/>
@@ -316,6 +318,15 @@
         </constraints>
         <properties>
           <text value="Lancement de la resolution"/>
+        </properties>
+      </component>
+      <component id="7b21c" class="javax.swing.JLabel" binding="messageErrorLabel">
+        <constraints>
+          <grid row="8" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value=""/>
         </properties>
       </component>
     </children>

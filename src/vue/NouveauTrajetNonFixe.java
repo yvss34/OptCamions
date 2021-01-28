@@ -1,6 +1,8 @@
 package vue;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class NouveauTrajetNonFixe extends JFrame{
 
@@ -32,18 +34,49 @@ public class NouveauTrajetNonFixe extends JFrame{
     private JTextField frequenceParSemaineText;
     private JTextField nombreTrajetMinText;
     private JTextField nombreJoursMinText;
+    private JLabel messageErrorLabel;
+
+    private boolean checker;
 
     public NouveauTrajetNonFixe(String titre){
         super(titre);
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         this.setContentPane(mainPanel);
         this.pack();
+        annulerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
+        validerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checker = true;
+                //Verification
+                if(villeDepartComboBox.getSelectedItem() == null){
+                    checker = false;
+                    villeDepartLabel.setText("Ville départ *");
+                }
+
+                if(villeArriveeComboBox.getSelectedItem() == null){
+                    checker = false;
+                    villeArriveeLabel.setText("Ville arrivée *");
+                }
+
+                try
+                {
+                    double tempsDeConduite = Double.parseDouble(tempsDeConduiteText.getText());
+                } catch (NumberFormatException ex){
+                    checker = false;
+                    tempsDeConduiteText.setText("?");
+                }
+
+                //Creation de l'objet Trajet non fixe
+            }
+        });
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new NouveauTrajetNonFixe("Nouveau trajet non fixe");
-        frame.setVisible(true);
-    }
 
 }

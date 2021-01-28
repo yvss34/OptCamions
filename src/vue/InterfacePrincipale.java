@@ -1,6 +1,8 @@
 package vue;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class InterfacePrincipale extends JFrame{
     private JPanel mainPanel;
@@ -27,11 +29,12 @@ public class InterfacePrincipale extends JFrame{
     private JTextField nombreHeuresConduiteJournaliereText;
     private JTextField nombreHeuresHebdomadaireText;
     private JTextField dureeReposHebdomadaireText;
-    private JButton nouveauTrajetButton;
+    private JButton nouveauTrajetNonFixeButton;
     private JButton nouveauTrajetFixeButton;
     private JList trajetNonFixeList;
     private JList trajetFixeList;
     private JButton resolutionButton;
+    private JLabel messageErrorLabel;
 
     public InterfacePrincipale(String titre){
         super(titre);
@@ -39,6 +42,29 @@ public class InterfacePrincipale extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
         this.pack();
+
+        nouveauTrajetNonFixeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new NouveauTrajetNonFixe("Nouveau trajet non fixe");
+                frame.setVisible(true);
+            }
+        });
+
+        nouveauTrajetFixeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new NouveauTrajetFixe("Nouveau trajet fixe");
+                frame.setVisible(true);
+            }
+        });
+
+        resolutionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Creation de l'objet plannification
+            }
+        });
     }
 
     public static void main(String[] args) {

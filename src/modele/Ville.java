@@ -1,5 +1,8 @@
 package modele;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Ville {
 	
 	//Attributs
@@ -31,6 +34,27 @@ public class Ville {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return nom;
+	}
+
+	public static ArrayList<Ville> getVilles(){
+		ArrayList<Ville> villes = new ArrayList<Ville>();
+
+		Ville paris = new Ville(1, "Paris");
+		Ville marseille = new Ville(2, "Marseille");
+		Ville lyon = new Ville(3, "Lyon");
+		Ville toulouse = new Ville(4, "Toulouse");
+		Ville bordeaux = new Ville(5, "Bordeaux");
+
+		villes.add(paris);
+		villes.add(marseille);
+		villes.add(lyon);
+		villes.add(toulouse);
+		villes.add(bordeaux);
+
+		return villes;
+	}
 }

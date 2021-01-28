@@ -14,19 +14,30 @@ public abstract class Trajet {
 	private double tempsDeConduite;
 	private ArrayList<Double> tempsDePause;
 	private HashMap<Ville,Double> listeVilleStop;
-	
+	static int nbrTrajet = 0;
+
 	//Constructeurs
 	public Trajet() {
-		
+		nbrTrajet++;
 	}
 
-	public Trajet(int identifiant, Ville villeDepart, Ville villeArrivee, double tempsDeConduite, ArrayList<Double> tempsDePause, HashMap<Ville, Double> listeVilleStop) {
-		this.identifiant = identifiant;
+	public Trajet(int identifiant,Ville villeDepart, Ville villeArrivee, double tempsDeConduite, ArrayList<Double> tempsDePause, HashMap<Ville, Double> listeVilleStop) {
+		this.identifiant = nbrTrajet;
 		this.villeDepart = villeDepart;
 		this.villeArrivee = villeArrivee;
 		this.tempsDeConduite = tempsDeConduite;
 		this.tempsDePause = tempsDePause;
 		this.listeVilleStop = listeVilleStop;
+		nbrTrajet++;
+	}
+
+	public Trajet(int identifiant,Ville villeDepart, Ville villeArrivee, double tempsDeConduite, HashMap<Ville, Double> listeVilleStop) {
+		this.identifiant = nbrTrajet;
+		this.villeDepart = villeDepart;
+		this.villeArrivee = villeArrivee;
+		this.tempsDeConduite = tempsDeConduite;
+		this.listeVilleStop = listeVilleStop;
+		nbrTrajet++;
 	}
 
 

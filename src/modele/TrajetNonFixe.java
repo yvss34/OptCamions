@@ -1,6 +1,5 @@
 package modele;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,7 +8,7 @@ public class TrajetNonFixe extends Trajet{
 	//Attributs
 	
 	private int frequenceSemaine;
-	private float[][] fenetreDeTemps;
+	private String[] fenetreDeTemps;
 	private int nombreTrajetWeekend;
 	private int nbrJourMin;
 	
@@ -18,8 +17,17 @@ public class TrajetNonFixe extends Trajet{
 		super();
 	}
 
-	public TrajetNonFixe(int identifiant, Ville villeDepart, Ville villeArrivee, double tempsDeConduite, ArrayList<Double> tempsDePause, HashMap<Ville, Double> listeVilleStop,int frequenceSemaine, float[][] fenetreDeTemps, int nombreTrajetWeekend, int nbrJourMin) {
+	public TrajetNonFixe(int identifiant, Ville villeDepart, Ville villeArrivee, double tempsDeConduite, ArrayList<Double> tempsDePause, HashMap<Ville, Double> listeVilleStop,int frequenceSemaine, String[] fenetreDeTemps, int nombreTrajetWeekend, int nbrJourMin) {
 		super(identifiant, villeDepart, villeArrivee, tempsDeConduite, tempsDePause, listeVilleStop);
+		this.frequenceSemaine = frequenceSemaine;
+		this.fenetreDeTemps = fenetreDeTemps;
+		this.nombreTrajetWeekend = nombreTrajetWeekend;
+		this.nbrJourMin = nbrJourMin;
+
+	}
+
+	public TrajetNonFixe(int identifiant, Ville villeDepart, Ville villeArrivee, double tempsDeConduite, HashMap<Ville, Double> listeVilleStop,int frequenceSemaine, String[] fenetreDeTemps, int nombreTrajetWeekend, int nbrJourMin) {
+		super(identifiant, villeDepart, villeArrivee, tempsDeConduite, listeVilleStop);
 		this.frequenceSemaine = frequenceSemaine;
 		this.fenetreDeTemps = fenetreDeTemps;
 		this.nombreTrajetWeekend = nombreTrajetWeekend;
@@ -38,11 +46,11 @@ public class TrajetNonFixe extends Trajet{
 		this.frequenceSemaine = frequenceSemaine;
 	}
 
-	public float[][] getFenetreDeTemps() {
+	public String[] getFenetreDeTemps() {
 		return fenetreDeTemps;
 	}
 
-	public void setFenetreDeTemps(float[][] fenetreDeTemps) {
+	public void setFenetreDeTemps(String[] fenetreDeTemps) {
 		this.fenetreDeTemps = fenetreDeTemps;
 	}
 
@@ -62,7 +70,10 @@ public class TrajetNonFixe extends Trajet{
 		this.nbrJourMin = nbrJourMin;
 	}
 
-	
+	public String toString(){
+
+		return Integer.toString(this.getIdentifiant());
+	}
 	
 
 	

@@ -106,15 +106,6 @@
           <text value="Ajout ville stop"/>
         </properties>
       </component>
-      <component id="3b499" class="javax.swing.JList" binding="villeStopList">
-        <constraints>
-          <grid row="2" column="8" row-span="3" col-span="3" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-          <forms defaultalign-vert="false"/>
-        </constraints>
-        <properties/>
-      </component>
       <component id="c535" class="javax.swing.JLabel" binding="jourDeDepartLabel">
         <constraints>
           <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -193,6 +184,15 @@
         <properties>
           <text value=""/>
         </properties>
+      </component>
+      <component id="925ea" class="javax.swing.JList" binding="villeStopList" custom-create="true">
+        <constraints>
+          <grid row="2" column="8" row-span="3" col-span="3" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <forms defaultalign-vert="false"/>
+        </constraints>
+        <properties/>
       </component>
     </children>
   </grid>

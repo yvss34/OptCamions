@@ -192,6 +192,7 @@ public class ChecherCouts {
         ContratDeTravail contratDeTravail1 = new ContratDeTravail(16, 8, 0);
         ContratDeTravail contratDeTravail2 = new ContratDeTravail(32, 0, 00);
         TrajetFixe trajet1 = new TrajetFixe(256, new Ville(1, "Paris"), new Ville(1, "lyon"), 8.0, new ArrayList<Double>(), null, new Jour(4, "Jeudi"), LocalTime.of(21, 0));
+
         solution.getTrajets().add(trajet1);
         solution.getChauffeursTrajets().get(18).add(256);
 

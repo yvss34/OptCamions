@@ -183,7 +183,7 @@ public class Checker {
                         LocalTime heureDepart2 = trajet2.getHeureDepart();
 
 
-                            LocalTime tempsDeConduite = LocalTime.of(new Double(tempsDeConduite2).intValue(), (int) ((tempsDeConduite2-(new Double(tempsDeConduite2).intValue()))*6));
+                            LocalTime tempsDeConduite = LocalTime.of(new Double(tempsDeConduite2).intValue(), (int) ((tempsDeConduite2-(new Double(tempsDeConduite2).intValue()))*600));
                             LocalTime cptTime = heureDepart2.plusHours(tempsDeConduite.getHour());
                             cptTime = cptTime.plusMinutes(tempsDeConduite.getMinute());
 
@@ -228,7 +228,7 @@ public class Checker {
                         LocalTime heureDepart2 = trajet2.getHeureDepart();
 
 
-                        LocalTime tempsDeConduite = LocalTime.of(new Double(tempsDeConduite2).intValue(), (int) ((tempsDeConduite2-(new Double(tempsDeConduite2).intValue()))*6));
+                        LocalTime tempsDeConduite = LocalTime.of(new Double(tempsDeConduite2).intValue(), (int) ((tempsDeConduite2-(new Double(tempsDeConduite2).intValue()))*600));
                         LocalTime cptTime = heureDepart2.plusHours(tempsDeConduite.getHour());
                         cptTime = cptTime.plusMinutes(tempsDeConduite.getMinute());
 
@@ -366,7 +366,7 @@ public class Checker {
         boolean checker = true;
         for(int i = 0; i<getSolution().getTrajets().size();i++) {
             double FtempsTrajet = getSolution().getTrajets().get(i).getTempsDeConduite();
-            LocalTime tempsDeConduite = LocalTime.of(new Double(FtempsTrajet).intValue(), (int) ((FtempsTrajet-(new Double(FtempsTrajet).intValue()))*6));
+            LocalTime tempsDeConduite = LocalTime.of(new Double(FtempsTrajet).intValue(), (int) ((FtempsTrajet-(new Double(FtempsTrajet).intValue()))*600));
             LocalTime cptTime = getSolution().getTrajets().get(i).getHeureDepart().plusHours(tempsDeConduite.getHour());
             cptTime = cptTime.plusMinutes(tempsDeConduite.getMinute());
 

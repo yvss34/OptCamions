@@ -40,10 +40,23 @@ public class Jour {
 			Jour mardi = new Jour(1,"Mardi");
 			Jour mercredi = new Jour(2,"Mercredi");
 			Jour jeudi = new Jour(3,"Jeudi");
-			Jour Vendredi = new Jour(4,"Vendredi");
-			Jour Samedi = new Jour(5,"Samedi");
-			Jour Dimanche = new Jour(6,"Dimanche");
+			Jour vendredi = new Jour(4,"Vendredi");
+			Jour samedi = new Jour(5,"Samedi");
+			Jour dimanche = new Jour(6,"Dimanche");
+
+			jours.add(lundi);
+			jours.add(mardi);
+			jours.add(mercredi);
+			jours.add(jeudi);
+			jours.add(vendredi);
+			jours.add(samedi);
+			jours.add(dimanche);
 
 			return jours;
 		}
+
+	@Override
+	public String toString() {
+		return nom;
+	}
 }

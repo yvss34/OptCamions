@@ -22,7 +22,7 @@ public abstract class Trajet {
 	}
 
 	public Trajet(int identifiant,Ville villeDepart, Ville villeArrivee, double tempsDeConduite, ArrayList<Double> tempsDePause, HashMap<Ville, Double> listeVilleStop) {
-		this.identifiant = nbrTrajet;
+		this.identifiant = identifiant;
 		this.villeDepart = villeDepart;
 		this.villeArrivee = villeArrivee;
 		this.tempsDeConduite = tempsDeConduite;
@@ -32,7 +32,7 @@ public abstract class Trajet {
 	}
 
 	public Trajet(int identifiant,Ville villeDepart, Ville villeArrivee, double tempsDeConduite, HashMap<Ville, Double> listeVilleStop) {
-		this.identifiant = nbrTrajet;
+		this.identifiant = identifiant;
 		this.villeDepart = villeDepart;
 		this.villeArrivee = villeArrivee;
 		this.tempsDeConduite = tempsDeConduite;
@@ -43,6 +43,20 @@ public abstract class Trajet {
 
 //Getters & Setters
 
+
+	@Override
+	public String toString() {
+		return "Trajet{" +
+				"identifiant=" + identifiant +
+				", villeDepart=" + villeDepart +
+				", villeArrivee=" + villeArrivee +
+				", tempsDeConduite=" + tempsDeConduite +
+				", tempsDePause=" + tempsDePause +
+				", listeVilleStop=" + listeVilleStop +
+				'}';
+	}
+
+	public static int getNbrTrajet(){return nbrTrajet;}
 
 	public int getIdentifiant() {
 		return identifiant;

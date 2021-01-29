@@ -291,24 +291,34 @@
               <text value="Nouveau trajet fixe"/>
             </properties>
           </component>
-          <component id="39f64" class="javax.swing.JList" binding="trajetNonFixeList">
+          <scrollpane id="2c6d5" binding="JScreollPane1">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="50"/>
-              </grid>
-              <forms defaultalign-vert="false"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <forms defaultalign-horz="false" defaultalign-vert="false"/>
             </constraints>
             <properties/>
-          </component>
-          <component id="b5d4e" class="javax.swing.JList" binding="trajetFixeList">
+            <border type="none"/>
+            <children>
+              <component id="461c1" class="javax.swing.JList" binding="trajetNonFixeList" custom-create="true">
+                <constraints/>
+                <properties/>
+              </component>
+            </children>
+          </scrollpane>
+          <scrollpane id="37e75" binding="JScreollPane2">
             <constraints>
-              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="50"/>
-              </grid>
-              <forms defaultalign-vert="false"/>
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <forms defaultalign-horz="false" defaultalign-vert="false"/>
             </constraints>
             <properties/>
-          </component>
+            <border type="none"/>
+            <children>
+              <component id="b57b1" class="javax.swing.JList" binding="trajetFixeList" custom-create="true">
+                <constraints/>
+                <properties/>
+              </component>
+            </children>
+          </scrollpane>
         </children>
       </grid>
       <component id="b89da" class="javax.swing.JButton" binding="resolutionButton">

@@ -1,9 +1,6 @@
 package vue;
 
-import modele.Jour;
-import modele.TrajetFixe;
-import modele.TrajetNonFixe;
-import modele.Ville;
+import modele.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -47,16 +44,20 @@ public class NouveauTrajetFixe extends JFrame{
     private boolean checkerValider;
     private boolean checherAjoutVilleStop;
 
+    ArrayList<Ville> villes;
+
+    InterfacePrincipale interfacePrincipale;
+
     /**Les elements a envoyer**/
     TrajetFixe trajet;
     HashMap<Ville,Double> hashMapVilleStops = new HashMap<Ville,Double>();
 
-    public NouveauTrajetFixe(String titre){
+    public NouveauTrajetFixe(String titre, InterfacePrincipale interfacePrincipale){
         super(titre);
         this.setContentPane(mainPanel);
         this.pack();
-
-        ArrayList<Ville> villes = new ArrayList<Ville>();
+        this.interfacePrincipale = interfacePrincipale;
+        villes = new ArrayList<Ville>();
         villes = Ville.getVilles();
         for(Ville ville:villes){
             villeDepartComboBox.addItem(ville);
@@ -73,6 +74,7 @@ public class NouveauTrajetFixe extends JFrame{
         validerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                checkerValider =true;
                 /**Verification**/
                 if(villeDepartComboBox.getSelectedItem() == null){
                     checkerValider = false;
@@ -99,7 +101,7 @@ public class NouveauTrajetFixe extends JFrame{
 
                 try{
                     double heureDepart = Double.parseDouble(heureDeDepartText.getText());
-                    if((int)heureDepart >24||(int)heureDepart<0 ||  heureDepart - (int)heureDepart > 60 ||heureDepart - (int)heureDepart < 0){
+                    if((int)heureDepart >24||(int)heureDepart<0 ||  heureDepart - (int)heureDepart > 0.6 ||heureDepart - (int)heureDepart < 0){
                         checkerValider = false;
                         heureDeDepartText.setText("?");
                     }
@@ -110,10 +112,7 @@ public class NouveauTrajetFixe extends JFrame{
                     heureDeDepartText.setText("?");
                 }
 
-                if(villeDepartComboBox.getSelectedItem() == villeArriveeComboBox.getSelectedItem()){
-                    checkerValider = false;
-                    villeArriveeLabel.setText("Ville arrivée ***");
-                }
+
 
                 /**Creation de l'objet Trajet fixe**/
 
@@ -121,11 +120,15 @@ public class NouveauTrajetFixe extends JFrame{
                     double tempsDeConduite = Double.parseDouble(tempsDeConduiteText.getText());
                     double heureDepart = Double.parseDouble(heureDeDepartText.getText());
 
-                    if(hashMapVilleStops.isEmpty())
-                        trajet = new TrajetFixe(0,(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,null,(Jour)jourDeDepartComboBox.getSelectedItem(), LocalTime.of((int)heureDepart,(int)(heureDepart-(int)heureDepart)));
+                    if(hashMapVilleStops.isEmpty() || hashMapVilleStops==null)
+                        trajet = new TrajetFixe(Trajet.getNbrTrajet(),(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,null,(Jour)jourDeDepartComboBox.getSelectedItem(), LocalTime.of((int)heureDepart, (int) ((heureDepart-(int)heureDepart)*100)));
                     else
-                        trajet = new TrajetFixe(0,(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,hashMapVilleStops,(Jour)jourDeDepartComboBox.getSelectedItem(),LocalTime.of((int)heureDepart,(int)(heureDepart-(int)heureDepart)));
+                        trajet = new TrajetFixe(Trajet.getNbrTrajet(),(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,hashMapVilleStops,(Jour)jourDeDepartComboBox.getSelectedItem(),LocalTime.of((int)heureDepart,(int) ((heureDepart-(int)heureDepart)*100)));
 
+                    System.out.println(trajet.toString());
+                    interfacePrincipale.getTrajetFixe().add(trajet);
+                    interfacePrincipale.getModelTrajetFixe().addElement(trajet);
+                    interfacePrincipale.setTrajetFixeList(new JList(interfacePrincipale.getModelTrajetFixe()));
                 }
 
             }
@@ -163,7 +166,7 @@ public class NouveauTrajetFixe extends JFrame{
                 }
 
                 if(villeStopComboBox.getSelectedItem() == villeArriveeComboBox.getSelectedItem() || villeStopComboBox.getSelectedItem() == villeDepartComboBox.getSelectedItem()){
-                    checkerValider = false;
+                    checherAjoutVilleStop = false;
                     villeStopLabel.setText("Ville stop ***");
                 }
 
@@ -192,5 +195,87 @@ public class NouveauTrajetFixe extends JFrame{
         // TODO: place custom component creation code here
         model = new DefaultListModel();
         villeStopList = new JList(model);
+    }
+
+    /*** Getters & Setters ***/
+
+    public JComboBox getVilleDepartComboBox() {
+        return villeDepartComboBox;
+    }
+
+    public void setVilleDepartComboBox(JComboBox villeDepartComboBox) {
+        this.villeDepartComboBox = villeDepartComboBox;
+    }
+
+    public JComboBox getVilleArriveeComboBox() {
+        return villeArriveeComboBox;
+    }
+
+    public void setVilleArriveeComboBox(JComboBox villeArriveeComboBox) {
+        this.villeArriveeComboBox = villeArriveeComboBox;
+    }
+
+    public JComboBox getVilleStopComboBox() {
+        return villeStopComboBox;
+    }
+
+    public void setVilleStopComboBox(JComboBox villeStopComboBox) {
+        this.villeStopComboBox = villeStopComboBox;
+    }
+
+    public JComboBox getJourDeDepartComboBox() {
+        return jourDeDepartComboBox;
+    }
+
+    public void setJourDeDepartComboBox(JComboBox jourDeDepartComboBox) {
+        this.jourDeDepartComboBox = jourDeDepartComboBox;
+    }
+
+    public JButton getValiderButton() {
+        return validerButton;
+    }
+
+    public void setValiderButton(JButton validerButton) {
+        this.validerButton = validerButton;
+    }
+
+    public JTextField getTempsSousTrajetText() {
+        return tempsSousTrajetText;
+    }
+
+    public void setTempsSousTrajetText(JTextField tempsSousTrajetText) {
+        this.tempsSousTrajetText = tempsSousTrajetText;
+    }
+
+    public JTextField getHeureDeDepartText() {
+        return heureDeDepartText;
+    }
+
+    public void setHeureDeDepartText(JTextField heureDeDepartText) {
+        this.heureDeDepartText = heureDeDepartText;
+    }
+
+    public JTextField getTempsDeConduiteText() {
+        return tempsDeConduiteText;
+    }
+
+    public void setTempsDeConduiteText(JTextField tempsDeConduiteText) {
+        this.tempsDeConduiteText = tempsDeConduiteText;
+    }
+
+    public TrajetFixe getTrajet() {
+        return trajet;
+    }
+
+    public void setTrajet(TrajetFixe trajet) {
+        this.trajet = trajet;
+    }
+
+    public ArrayList<Ville> getVilles() {
+        return villes;
+    }
+
+    public void setVilles(ArrayList<Ville> villes) {
+        this.villes = villes;
     }
 }

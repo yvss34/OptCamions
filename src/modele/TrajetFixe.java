@@ -31,6 +31,18 @@ public class TrajetFixe extends Trajet{
 
 	}
 
+	@Override
+	public String toString() {
+		return "identifiant=" + getIdentifiant() +
+				", villeDepart=" + getVilleDepart() +
+				", villeArrivee=" + getVilleArrivee() +
+				", tempsDeConduite=" + getTempsDeConduite() +
+				", tempsDePause=" + getTempsDePause() +
+				", listeVilleStop=" + getListeVilleStop() +
+				"jourDepart=" + jourDepart +
+				", heureDepart=" + heureDepart;
+	}
+
 	//Getters & Setters
 	public Jour getJourDepart() {
 		return jourDepart;
@@ -47,6 +59,15 @@ public class TrajetFixe extends Trajet{
 	public void setHeureDepart(LocalTime heureDepart) {
 		this.heureDepart = heureDepart;
 	}
-	
-	
+
+	public static boolean egale(TrajetFixe obj1,TrajetFixe obj2) {
+		boolean checker = true;
+
+		checker = (obj1.getVilleArrivee().getIdentifiant() == obj2.getVilleArrivee().getIdentifiant());
+		checker = (obj1.getVilleDepart().getIdentifiant() == obj2.getVilleDepart().getIdentifiant());
+		checker = (obj1.getTempsDeConduite() == obj2.getTempsDeConduite());
+		checker = (obj1.getJourDepart().getIdentifiant()) == obj2.getJourDepart().getIdentifiant();
+
+		return checker;
+	}
 }

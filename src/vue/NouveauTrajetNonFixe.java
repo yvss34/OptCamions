@@ -1,6 +1,7 @@
 package vue;
 
 import modele.Jour;
+import modele.Trajet;
 import modele.TrajetNonFixe;
 import modele.Ville;
 
@@ -51,16 +52,21 @@ public class NouveauTrajetNonFixe extends JFrame{
     private boolean checherAjoutVilleStop;
     private JLabel messageErrorLabel;
 
+    InterfacePrincipale interfacePrincipale;
+    ArrayList<Ville> villes;
+
     /**Les elements a envoyer**/
     TrajetNonFixe trajet;
     HashMap<Ville,Double> hashMapVilleStops = new HashMap<Ville,Double>();
 
-    public NouveauTrajetNonFixe(String titre){
+    public NouveauTrajetNonFixe(String titre, InterfacePrincipale interfacePrincipale){
         super(titre);
         this.setContentPane(mainPanel);
         this.pack();
 
-        ArrayList<Ville> villes = new ArrayList<Ville>();
+        this.interfacePrincipale = interfacePrincipale;
+
+        villes = new ArrayList<Ville>();
         villes = Ville.getVilles();
         for(Ville ville:villes){
             villeDepartComboBox.addItem(ville);
@@ -117,7 +123,7 @@ public class NouveauTrajetNonFixe extends JFrame{
 
                 }
 
-                if(nombreJoursMinText.getText().isEmpty() == false){
+                if(nombreJoursMinText.getText().length() != 0){
                     try
                     {
                         int nombreJoursMin = Integer.parseInt(nombreJoursMinText.getText());
@@ -126,6 +132,8 @@ public class NouveauTrajetNonFixe extends JFrame{
                         nombreJoursMinText.setText("?");
 
                     }
+                }else{
+                    nombreJoursMinText.setText("0");
                 }
 
                 try
@@ -147,7 +155,7 @@ public class NouveauTrajetNonFixe extends JFrame{
                                 checkerValider = false;
                                 fenetreTempsDepartText.setText("?");
                             }
-                            if(heureArrivee - (int)heureArrivee > 60 ||heureArrivee - (int)heureArrivee < 0||heureDepart - (int)heureDepart < 0||heureDepart - (int)heureDepart < 0){
+                            if(heureArrivee - (int)heureArrivee > 0.6 ||heureArrivee - (int)heureArrivee < 0||heureDepart - (int)heureDepart >0.6||heureDepart - (int)heureDepart < 0){
                                 checkerValider = false;
                                 fenetreTempsDepartText.setText("?");
                             }
@@ -168,16 +176,25 @@ public class NouveauTrajetNonFixe extends JFrame{
 
                     /**Creation de l'objet Trajet non fixe**/
 
-                double tempsDeConduite = Double.parseDouble(tempsDeConduiteText.getText());
-                int frequenceParSemaine = Integer.parseInt(frequenceParSemaineText.getText());
-                int nombreTrajetMin = Integer.parseInt(nombreTrajetMinText.getText());
-                int nombreJoursMin = Integer.parseInt(nombreJoursMinText.getText());
-                String[] fenetreTempsDepart = fenetreTempsDepartText.getText().split(";");
+                    if(checkerValider == true){
+                        double tempsDeConduite = Double.parseDouble(tempsDeConduiteText.getText());
+                        int frequenceParSemaine = Integer.parseInt(frequenceParSemaineText.getText());
+                        int nombreTrajetMin = Integer.parseInt(nombreTrajetMinText.getText());
+                        int nombreJoursMin = Integer.parseInt(nombreJoursMinText.getText());
+                        String[] fenetreTempsDepart = fenetreTempsDepartText.getText().split(";");
 
-                if(hashMapVilleStops.isEmpty())
-                    trajet = new TrajetNonFixe(0,(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,null,frequenceParSemaine,fenetreTempsDepart,nombreTrajetMin,nombreJoursMin);
-                else
-                    trajet = new TrajetNonFixe(0,(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,hashMapVilleStops,frequenceParSemaine,fenetreTempsDepart,nombreTrajetMin,nombreJoursMin);
+                        if(hashMapVilleStops.isEmpty() || hashMapVilleStops == null)
+                            trajet = new TrajetNonFixe(Trajet.getNbrTrajet(),(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,null,frequenceParSemaine,fenetreTempsDepart,nombreTrajetMin,nombreJoursMin);
+                        else
+                            trajet = new TrajetNonFixe(Trajet.getNbrTrajet(),(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,hashMapVilleStops,frequenceParSemaine,fenetreTempsDepart,nombreTrajetMin,nombreJoursMin);
+
+                        System.out.println(trajet.toString());
+                        interfacePrincipale.getTrajetNonFixe().add(trajet);
+                        interfacePrincipale.getModelTrajetNonFixe().addElement(trajet);
+                        interfacePrincipale.setTrajetNonFixeList(new JList(interfacePrincipale.getModelTrajetNonFixe()));
+                    }
+
+
             }
         });
 
@@ -206,7 +223,7 @@ public class NouveauTrajetNonFixe extends JFrame{
                 }
 
                 if(villeStopComboBox.getSelectedItem() == villeArriveeComboBox.getSelectedItem() || villeStopComboBox.getSelectedItem() == villeDepartComboBox.getSelectedItem()){
-                    checkerValider = false;
+                    checherAjoutVilleStop = false;
                     villeStopLabel.setText("Ville stop ***");
                 }
 
@@ -239,5 +256,103 @@ public class NouveauTrajetNonFixe extends JFrame{
         // TODO: place custom component creation code here
         model = new DefaultListModel();
         villeStopList = new JList(model);
+    }
+
+    /** Getters & Setters **/
+
+    public JComboBox getVilleDepartComboBox() {
+        return villeDepartComboBox;
+    }
+
+    public void setVilleDepartComboBox(JComboBox villeDepartComboBox) {
+        this.villeDepartComboBox = villeDepartComboBox;
+    }
+
+    public JComboBox getVilleArriveeComboBox() {
+        return villeArriveeComboBox;
+    }
+
+    public void setVilleArriveeComboBox(JComboBox villeArriveeComboBox) {
+        this.villeArriveeComboBox = villeArriveeComboBox;
+    }
+
+    public JComboBox getVilleStopComboBox() {
+        return villeStopComboBox;
+    }
+
+    public void setVilleStopComboBox(JComboBox villeStopComboBox) {
+        this.villeStopComboBox = villeStopComboBox;
+    }
+
+    public JButton getValiderButton() {
+        return validerButton;
+    }
+
+    public void setValiderButton(JButton validerButton) {
+        this.validerButton = validerButton;
+    }
+
+    public JTextField getFenetreTempsDepartText() {
+        return fenetreTempsDepartText;
+    }
+
+    public void setFenetreTempsDepartText(JTextField fenetreTempsDepartText) {
+        this.fenetreTempsDepartText = fenetreTempsDepartText;
+    }
+
+    public JTextField getTempsSousTrajetText() {
+        return tempsSousTrajetText;
+    }
+
+    public void setTempsSousTrajetText(JTextField tempsSousTrajetText) {
+        this.tempsSousTrajetText = tempsSousTrajetText;
+    }
+
+    public JTextField getTempsDeConduiteText() {
+        return tempsDeConduiteText;
+    }
+
+    public void setTempsDeConduiteText(JTextField tempsDeConduiteText) {
+        this.tempsDeConduiteText = tempsDeConduiteText;
+    }
+
+    public JTextField getFrequenceParSemaineText() {
+        return frequenceParSemaineText;
+    }
+
+    public void setFrequenceParSemaineText(JTextField frequenceParSemaineText) {
+        this.frequenceParSemaineText = frequenceParSemaineText;
+    }
+
+    public JTextField getNombreTrajetMinText() {
+        return nombreTrajetMinText;
+    }
+
+    public void setNombreTrajetMinText(JTextField nombreTrajetMinText) {
+        this.nombreTrajetMinText = nombreTrajetMinText;
+    }
+
+    public JTextField getNombreJoursMinText() {
+        return nombreJoursMinText;
+    }
+
+    public void setNombreJoursMinText(JTextField nombreJoursMinText) {
+        this.nombreJoursMinText = nombreJoursMinText;
+    }
+
+    public TrajetNonFixe getTrajet() {
+        return trajet;
+    }
+
+    public void setTrajet(TrajetNonFixe trajet) {
+        this.trajet = trajet;
+    }
+
+    public ArrayList<Ville> getVilles() {
+        return villes;
+    }
+
+    public void setVilles(ArrayList<Ville> villes) {
+        this.villes = villes;
     }
 }

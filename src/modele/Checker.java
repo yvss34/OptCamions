@@ -2,10 +2,7 @@ package modele;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 
 public class Checker {
 
@@ -292,7 +289,7 @@ public class Checker {
             for (int i = 0; i < mapentry.getValue().size(); i++) {
                 TrajetFixe trajet = getSolution().getTrajetById(mapentry.getValue().get(i));
                 int jour = trajet.getJourDepart().getIdentifiant();
-                double horraireDepart = trajet.getHeureDepart().getHour() + ((double) trajet.getHeureDepart().getMinute() / 6);
+                double horraireDepart = trajet.getHeureDepart().getHour() + ((double) trajet.getHeureDepart().getMinute() / 600);
                 double tempsDeConduite = trajet.getTempsDeConduite();
                 double finTrajet = horraireDepart + tempsDeConduite;
 
@@ -311,7 +308,7 @@ public class Checker {
                     for (int j = 0; j < mapentry.getValue().size(); j++) {
                         TrajetFixe trajetRepos = getSolution().getTrajetById(mapentry.getValue().get(i));
                         int jour = trajetRepos.getJourDepart().getIdentifiant();
-                        double horraireDepart = trajetRepos.getHeureDepart().getHour() + ((double) trajetRepos.getHeureDepart().getMinute() / 6);
+                        double horraireDepart = trajetRepos.getHeureDepart().getHour() + ((double) trajetRepos.getHeureDepart().getMinute() / 600);
                         double tempsDeConduite = trajetRepos.getTempsDeConduite();
                         double finTrajet = horraireDepart + tempsDeConduite;
                         if (finTrajet + (24 * jour) == tableauFinTrajet.get(i)) {
@@ -381,6 +378,105 @@ public class Checker {
                 checker = false;
             }
         }
+        return checker;
+    }
+
+
+    /**
+     * Un chauffeur doit être dans la bonne ville pour faire le trajet
+     */
+
+    private static HashMap sort(HashMap map) {
+        List linkedlist = new LinkedList(map.entrySet());
+        Collections.sort(linkedlist, new Comparator() {
+            public int compare(Object o1, Object o2) {
+                return ((Comparable) ((Map.Entry) (o1)).getValue())
+                        .compareTo(((Map.Entry) (o2)).getValue());
+            }
+        });
+        HashMap sortedHashMap = new LinkedHashMap();
+        for (Iterator it = linkedlist.iterator(); it.hasNext();) {
+            Map.Entry entry = (Map.Entry) it.next();
+            sortedHashMap.put(entry.getKey(), entry.getValue());
+        }
+        return sortedHashMap;
+    }
+
+    public boolean chauffeurBonneVille() {
+
+        boolean checker = true;
+
+        for (Map.Entry<Integer, ArrayList<Integer>> mapentry : getSolution().getChauffeursTrajets().entrySet()) {
+
+            HashMap<TrajetFixe,Double> tableauTrajet = new HashMap<TrajetFixe,Double>();
+
+            for (int i = 0; i < mapentry.getValue().size(); i++) {
+                TrajetFixe trajet = getSolution().getTrajetById(mapentry.getValue().get(i));
+                int jour = trajet.getJourDepart().getIdentifiant();
+                double horraireDepart = (trajet.getHeureDepart().getHour()*60 + ((double) trajet.getHeureDepart().getMinute() ))+(24*60*jour);
+
+                tableauTrajet.put(trajet,horraireDepart);
+            }
+
+            Map<TrajetFixe, Double> tableauTrajetTrier = sort(tableauTrajet);
+
+            int compteur = 0;
+            Ville ville = new Ville();
+
+            for (Map.Entry<TrajetFixe, Double> map : tableauTrajetTrier.entrySet()) {
+
+                if(compteur == 0){
+                    if(map.getKey().getVilleDepart() != getSolution().getChauffeurById(mapentry.getKey()).getVilleRattachement()){
+                        checker = false;
+                    }
+                    ville = map.getKey().getVilleArrivee();
+                }
+                else{
+                    if(ville != map.getKey().getVilleDepart()){
+                        checker = false;
+                    }
+                    ville = map.getKey().getVilleArrivee();
+                }
+                compteur += 1;
+            }
+
+            }
+
+        return checker;
+    }
+
+    /**
+     * Un camion doit être dans la bonne ville pour faire le trajet
+     */
+    public boolean camionBonneVille() {
+        boolean checker = true;
+        for (Map.Entry<Integer, ArrayList<Integer>> mapentry : getSolution().getCamionsTrajets().entrySet()) {
+
+            HashMap<TrajetFixe,Double> tableauTrajet = new HashMap<TrajetFixe,Double>();
+
+            for (int i = 0; i < mapentry.getValue().size(); i++) {
+                TrajetFixe trajet = getSolution().getTrajetById(mapentry.getValue().get(i));
+                int jour = trajet.getJourDepart().getIdentifiant();
+                double horraireDepart = (trajet.getHeureDepart().getHour()*60 + ((double) trajet.getHeureDepart().getMinute() ))+(24*60*jour);
+
+                tableauTrajet.put(trajet,horraireDepart);
+            }
+
+            Map<TrajetFixe, Double> tableauTrajetTrier = sort(tableauTrajet);
+
+            int compteur = 0;
+            Ville ville = new Ville();
+
+            for (Map.Entry<TrajetFixe, Double> map : tableauTrajetTrier.entrySet()) {
+                if(ville != map.getKey().getVilleDepart() && compteur !=0){
+                    checker = false;
+                }
+                ville = map.getKey().getVilleArrivee();
+                compteur += 1;
+            }
+
+        }
+
         return checker;
     }
 
@@ -527,6 +623,18 @@ public class Checker {
             System.out.println("tempsTrajets == false");
         else
             System.out.println("tempsTrajets == true");
+
+        checker2 = chauffeurBonneVille();
+        if(chauffeurBonneVille() == false)
+            System.out.println("chauffeurBonneVille == false");
+        else
+            System.out.println("chauffeurBonneVille == true");
+
+        checker2 = camionBonneVille();
+        if(camionBonneVille() == false)
+            System.out.println("camionBonneVille == false");
+        else
+            System.out.println("camionBonneVille == true");
 
         System.out.println("**********************************Respect des couts***************************************************");
         boolean checker3 = true;

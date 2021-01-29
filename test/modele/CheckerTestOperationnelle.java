@@ -590,6 +590,61 @@ public class CheckerTestOperationnelle {
         //ASSERT
         assertEquals(true, resultat);
     }
+
+    @Test
+    public void testChauffeurBonneVille1() {
+        //ARRANGE
+        Checker checker = new Checker(solution);
+
+        // ACT
+        boolean resultat = checker.chauffeurBonneVille();
+
+        //ASSERT
+        assertEquals(true, resultat);
+    }
+
+    @Test
+    public void testChauffeurBonneVille2() {
+        //ARRANGE
+        Checker checker = new Checker(solution);
+        TrajetFixe trajet1 = new TrajetFixe(256, new Ville(9, "Lille"), new Ville(4, "Luxembourg"), 24.0, new ArrayList<Double>(), null, new Jour(4, "Jeudi"), LocalTime.of(20, 0));
+        solution.getTrajets().add(trajet1);
+        solution.getChauffeursTrajets().get(18).add(256);
+
+        // ACT
+        boolean resultat = checker.chauffeurBonneVille();
+
+        //ASSERT
+        assertEquals(false, resultat);
+    }
+
+
+    @Test
+    public void testCamionBonneVille1() {
+        //ARRANGE
+        Checker checker = new Checker(solution);
+
+        // ACT
+        boolean resultat = checker.camionBonneVille();
+
+        //ASSERT
+        assertEquals(true, resultat);
+    }
+
+    @Test
+    public void testCamionBonneVille2() {
+        //ARRANGE
+        Checker checker = new Checker(solution);
+        TrajetFixe trajet1 = new TrajetFixe(256, new Ville(9, "Lille"), new Ville(4, "Luxembourg"), 24.0, new ArrayList<Double>(), null, new Jour(4, "Jeudi"), LocalTime.of(20, 0));
+        solution.getTrajets().add(trajet1);
+        solution.getCamionsTrajets().get(1).add(256);
+
+        // ACT
+        boolean resultat = checker.camionBonneVille();
+
+        //ASSERT
+        assertEquals(false, resultat);
+    }
 }
 
 

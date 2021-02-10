@@ -6,9 +6,9 @@ Camions;Identifiant
 ;2
 
 Chauffeurs;Identifiant;Ville;Heure de jour; Heure de nuit; Cout trajet à vide; Cout hotellerie
-;1;Paris;35.0;0.0;0.0;100.0
-;2;Paris;28.0;0.0;0.0;50.0
-;3;Marseille;0.0;16.0;0.0;0.0
+;1;Paris;32.0;0.0;0.0;100.0
+;2;Paris;23.0;0.0;0.0;50.0
+;3;Marseille;8.0;8.0;0.0;100.0
 
 Trajets;Ville depart;Ville arrivee;Jour de la semaine; Heure de depart; Identifiant chauffeur; Identifiant camion
 ;Paris;Marseille;Lundi;08:00;1;1

@@ -108,6 +108,10 @@ public class NouveauTrajetNonFixe extends JFrame{
                 try
                 {
                     int frequenceParSemaine = Integer.parseInt(frequenceParSemaineText.getText());
+                    if(frequenceParSemaine > 6){
+                        checkerValider = false;
+                        frequenceParSemaineText.setText("IMPOSSIBLE");
+                    }
                 } catch (NumberFormatException ex) {
                     checkerValider = false;
                     frequenceParSemaineText.setText("?");
@@ -117,6 +121,10 @@ public class NouveauTrajetNonFixe extends JFrame{
                 try
                 {
                     int nombreTrajetMin = Integer.parseInt(nombreTrajetMinText.getText());
+                    if(nombreTrajetMin>2){
+                        checkerValider = false;
+                        nombreTrajetMinText.setText("IMPOSSIBLE");
+                    }
                 } catch (NumberFormatException ex) {
                     checkerValider = false;
                     nombreTrajetMinText.setText("?");
@@ -134,6 +142,34 @@ public class NouveauTrajetNonFixe extends JFrame{
                     }
                 }else{
                     nombreJoursMinText.setText("0");
+                }
+
+                try
+                {
+                    int nombreJoursMin = Integer.parseInt(nombreJoursMinText.getText());
+                    int frequenceParSemaine = Integer.parseInt(frequenceParSemaineText.getText());
+
+                    if(7-frequenceParSemaine*(1+nombreJoursMin)+1<nombreJoursMin){
+                        checkerValider = false;
+                        frequenceParSemaineText.setText("IMPOSSIBLE");
+                        nombreJoursMinText.setText("IMPOSSIBLE");
+                    }
+                } catch (NumberFormatException ex) {
+
+                }
+
+                try
+                {
+                    int nombreJoursMin = Integer.parseInt(nombreJoursMinText.getText());
+                    int nombreTrajetMin = Integer.parseInt(nombreTrajetMinText.getText());
+
+                    if(2-nombreTrajetMin*(1+nombreJoursMin)+1<nombreJoursMin){
+                        checkerValider = false;
+                        nombreJoursMinText.setText("IMPOSSIBLE");
+                        nombreTrajetMinText.setText("IMPOSSIBLE");
+                    }
+                } catch (NumberFormatException ex) {
+
                 }
 
                 try

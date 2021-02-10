@@ -510,8 +510,10 @@ public class Checker {
                 }
                 compteur += 1;
             }
-            if(getSolution().getChauffeurById(mapentry.getKey()).getCoutHotellerie() != nombreRepos*(getSolution().getPlannification().getCoutHotellerie()))
+            if(getSolution().getChauffeurById(mapentry.getKey()).getCoutHotellerie() != nombreRepos*(getSolution().getPlannification().getCoutHotellerie())) {
                 checker = false;
+                System.out.println("Le bon cout d'hotellerie pour le chauffeur" + mapentry.getKey() + " = " + nombreRepos*(getSolution().getPlannification().getCoutHotellerie()));
+            }
         }
         return checker;
     }
@@ -537,8 +539,11 @@ public class Checker {
                 }
             }
             ContratDeTravail CT = getSolution().getChauffeurById(mapentry.getKey()).getContratDeTravail();
-            if(CT.getNbrHeureJour()!= (nombreHeureJour) || CT.getNbrHeureNuit()!= (nombreHeureNuit))
+            if(CT.getNbrHeureJour()!= (nombreHeureJour) || CT.getNbrHeureNuit()!= (nombreHeureNuit)){
                 checker = false;
+                System.out.println("Le bon nombre d'heures de CT pour le chauffeur" +mapentry.getKey()+" = "+nombreHeureJour +" de jour et "+nombreHeureNuit+" de nuit");
+            }
+
         }
         return checker;
     }

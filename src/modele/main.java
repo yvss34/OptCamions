@@ -35,15 +35,15 @@ public class main {
         Ville bordeaux = new Ville(5, "Bordeaux");
 
         //Contrat Travail
-        ContratDeTravail contratDeTravail1 = new ContratDeTravail(35,0,0);
-        ContratDeTravail contratDeTravail2 = new ContratDeTravail(28,0,0);
-        ContratDeTravail contratDeTravail3 = new ContratDeTravail(0,16,0);
+        ContratDeTravail contratDeTravail1 = new ContratDeTravail(32,0,0);
+        ContratDeTravail contratDeTravail2 = new ContratDeTravail(23,0,0);
+        ContratDeTravail contratDeTravail3 = new ContratDeTravail(8,8,0);
 
         //Chauffeurs
         solution.setChauffeurs(new ArrayList<Chauffeur>());
         Chauffeur chauffeur1 = new Chauffeur(1, paris, contratDeTravail1, 100);
         Chauffeur chauffeur2 = new Chauffeur(2, paris, contratDeTravail2, 50);
-        Chauffeur chauffeur3 = new Chauffeur(3, marseille, contratDeTravail3, 0);
+        Chauffeur chauffeur3 = new Chauffeur(3, marseille, contratDeTravail3, 100);
         solution.getChauffeurs().add(chauffeur1);
         solution.getChauffeurs().add(chauffeur2);
         solution.getChauffeurs().add(chauffeur3);

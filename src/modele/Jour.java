@@ -59,4 +59,24 @@ public class Jour {
 	public String toString() {
 		return nom;
 	}
+
+	public static Jour getJourById(int identifiant){
+			switch (identifiant){
+				case 0:
+					return new Jour(0,"Lundi");
+				case 1:
+					return new Jour(1,"Mardi");
+				case 2:
+					return new Jour(2,"Mercredi");
+				case 3:
+					return new Jour(3,"Jeudi");
+				case 4:
+					return new Jour(4,"Vendredi");
+				case 5:
+					return new Jour(5,"Samedi");
+				case 6:
+					return new Jour(6,"Dimanche");
+			}
+			return null;
+	}
 }

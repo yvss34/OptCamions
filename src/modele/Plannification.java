@@ -208,19 +208,22 @@ public class Plannification {
 		return null;
 	}
 
-	/***Algorithme***/
+	/****************************************************Algorithme************************************************************************/
 
-	public void camionTrajets(){
-
-
-
-		//Etape 1 : trier l'ensemble des trajets par date de départ possible
+	/**
+	 * Retourne une liste de trajets composés de
+	 * position 0 : l'identifiant du trajet
+	 * position 1 : le numero de frequence du trajet
+	 * position 2 : le jour de la semaine du trajet
+	 * @return La liste de trajets respectant le standard (id,num frequence,jour)
+	 */
+	public ArrayList<ArrayList<Integer>> listeTrajetsStandard(){
 		ArrayList<ArrayList<Integer>> trajetTrier = new ArrayList<ArrayList<Integer>>();
 
 		for (TrajetNonFixe trajet : trajetsNonFixe){
 			trajet.liste();
 			for(int i=0 ; i<trajet.getListeJourDepart().size();i++){
-				for(int j=0; j<trajet.getListeJourDepart().get(j).size();j++){
+				for(int j=0; j<trajet.getListeJourDepart().get(i).size();j++){
 					ArrayList<Integer> list = new ArrayList<Integer>();
 					list.add(trajet.getIdentifiant());
 					list.add(i);
@@ -240,100 +243,308 @@ public class Plannification {
 			trajetTrier.add(list);
 		}
 
+		return trajetTrier;
+	}
+
+	/**
+	 * @param trajets, la liste de trajets respectant le standard (id,num frequence,jour)
+	 * Tri la liste de trajets en fonction du jour de la semaine
+	 */
+	public void triTrajetsStandard(ArrayList<ArrayList<Integer>> trajets){
 		int i,j;
 		ArrayList<Integer> c = new ArrayList<Integer>();
-		for(i = 1; i<=trajetTrier.size(); i++){
-			for(j=0; j<trajetTrier.size()-1;j++){
-				if(trajetTrier.get(i).get(2) >= trajetTrier.get(i+1).get(2)){
-					if(trajetTrier.get(i).get(2) == trajetTrier.get(i+1).get(2)){
-						LocalTime horaire1 = LocalTime.of(0,0);
-						LocalTime horaire2= LocalTime.of(0,0);
+		for(i = 0; i<trajets.size(); i++){
+			for(j=0; j<trajets.size();j++){
+				if(trajets.get(i).get(2) <= trajets.get(j).get(2)){
+					if(trajets.get(i).get(2) == trajets.get(j).get(2)){
+						if(trajets.get(i).get(0) == trajets.get(j).get(0)){
+							if(trajets.get(i).get(1) < trajets.get(j).get(1)){
+								c = trajets.get(i);
+								trajets.set(i, trajets.get(j));
+								trajets.set(j, c);
+							}
+						}else {
+							LocalTime horaire1 = LocalTime.of(0, 0);
+							LocalTime horaire2 = LocalTime.of(0, 0);
 
-						TrajetFixe trajet1_1 = getTrajetFixeById(trajetTrier.get(i).get(0));
-						TrajetFixe trajet2_1 = getTrajetFixeById(trajetTrier.get(i+1).get(0));
+							TrajetFixe trajet1_1 = getTrajetFixeById(trajets.get(i).get(0));
+							TrajetFixe trajet2_1 = getTrajetFixeById(trajets.get(j).get(0));
 
-						TrajetNonFixe trajet1_2 = getTrajetNonFixeById(trajetTrier.get(i).get(0));
-						TrajetNonFixe trajet2_2 = getTrajetNonFixeById(trajetTrier.get(i+1).get(0));
+							TrajetNonFixe trajet1_2 = getTrajetNonFixeById(trajets.get(i).get(0));
+							TrajetNonFixe trajet2_2 = getTrajetNonFixeById(trajets.get(j).get(0));
 
-						if(trajet1_1 != null){
-							horaire1 = trajet1_1.getHeureDepart();
-						}else if(trajet1_2 != null){
-							String[] fenetreTempsDepart = trajet1_2.getFenetreDeTemps()[0].split(";");
-							String[] tempsDepart = fenetreTempsDepart[0].split("-");
-							double heureArrivee = Double.parseDouble(tempsDepart[0]);
-							horaire1 = LocalTime.of((int)heureArrivee,(int)(heureArrivee-(int)heureArrivee*100));
-						}
+							if (trajet1_1 != null) {
+								horaire1 = trajet1_1.getHeureDepart();
+							} else if (trajet1_2 != null) {
+								String[] fenetreTempsDepart = trajet1_2.getFenetreDeTemps()[0].split(";");
+								String[] tempsDepart = fenetreTempsDepart[0].split("-");
+								double heureArrivee = Double.parseDouble(tempsDepart[0]);
+								horaire1 = LocalTime.of((int) heureArrivee, (int) ((heureArrivee - (int) heureArrivee) * 100));
+							}
 
-						if(trajet2_1 != null){
-							horaire2 = trajet2_1.getHeureDepart();
-						}else if(trajet2_2 != null){
-							String[] fenetreTempsDepart = trajet2_2.getFenetreDeTemps()[0].split(";");
-							String[] tempsDepart = fenetreTempsDepart[0].split("-");
-							double heureArrivee = Double.parseDouble(tempsDepart[0]);
-							horaire1 = LocalTime.of((int)heureArrivee,(int)(heureArrivee-(int)heureArrivee*100));
-						}
-						if(horaire1.isAfter(horaire2)){
-							c = trajetTrier.get(i);
-							trajetTrier.set(i,trajetTrier.get(i+1));
-							trajetTrier.set(i+1,c);
+							if (trajet2_1 != null) {
+								horaire2 = trajet2_1.getHeureDepart();
+							} else if (trajet2_2 != null) {
+								String[] fenetreTempsDepart = trajet2_2.getFenetreDeTemps()[0].split(";");
+								String[] tempsDepart = fenetreTempsDepart[0].split("-");
+								double heureArrivee = Double.parseDouble(tempsDepart[0]);
+								horaire2 = LocalTime.of((int) heureArrivee, (int) ((heureArrivee - (int) heureArrivee) * 100));
+							}
+							if (horaire1.isBefore(horaire2)) {
+								c = trajets.get(i);
+								trajets.set(i, trajets.get(j));
+								trajets.set(j, c);
+							}
+
 						}
 					}else{
-						c = trajetTrier.get(i);
-						trajetTrier.set(i,trajetTrier.get(i+1));
-						trajetTrier.set(i+1,c);
+						c = trajets.get(i);
+						trajets.set(i,trajets.get(j));
+						trajets.set(j,c);
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 *
+	 * @param index, position du dernier trajet ajouté à la liste
+	 * @param trajetTrier, la liste de trajets respectant le standard (id,num frequence,jour) trié
+	 * Met a jour les trajets connectés du dernier trajet ajouté
+	 */
+	public void miseAJour(int index,ArrayList<ArrayList<Integer>> trajetTrier){
+		ArrayList<Integer> indexTrajet = trajetTrier.get(index);
+		ArrayList<ArrayList<Integer>> tableauASupprimer = new ArrayList<ArrayList<Integer>>();
+
+		ArrayList<Integer> MAJ = new ArrayList<Integer>();
+		for (ArrayList<Integer> MAJTrajet : trajetTrier){
+			if (indexTrajet.get(1) == MAJTrajet.get(1) && indexTrajet.get(0) == MAJTrajet.get(0) && indexTrajet.get(2) == MAJTrajet.get(2)) {
+				tableauASupprimer.add(MAJTrajet);
+			}
+			else if (indexTrajet.get(1) == MAJTrajet.get(1) && indexTrajet.get(0) == MAJTrajet.get(0)&& indexTrajet.get(2) != MAJTrajet.get(2)) {
+				tableauASupprimer.add(MAJTrajet);
+			}
+			else if(indexTrajet.get(1) < MAJTrajet.get(1) && indexTrajet.get(0) == MAJTrajet.get(0)){
+				TrajetNonFixe trajetNonFixe = getTrajetNonFixeById(MAJTrajet.get(0));
+				if(MAJTrajet.get(2) <= indexTrajet.get(2)+trajetNonFixe.getNbrJourMin()){
+					tableauASupprimer.add(MAJTrajet);
+				}
+			}
+			else if(indexTrajet.get(1) > MAJTrajet.get(1) && indexTrajet.get(0) == MAJTrajet.get(0)){
+				TrajetNonFixe trajetNonFixe = getTrajetNonFixeById(MAJTrajet.get(0));
+				if(MAJTrajet.get(2) >= indexTrajet.get(2)-trajetNonFixe.getNbrJourMin()){
+					tableauASupprimer.add(MAJTrajet);
+				}
+			}
+		}
+		for (ArrayList<Integer> trajet : tableauASupprimer) {
+			trajetTrier.remove(trajet);
+		}
+	}
+
+	/**
+	 * Affectation Camions-Trajets
+	 */
+	public HashMap<Integer,ArrayList<Integer>> camionTrajets(ArrayList<TrajetFixe> trajets){
+
+		//Etape 1 : trier l'ensemble des trajets par date de départ possible
+		ArrayList<ArrayList<Integer>> trajetTrier = this.listeTrajetsStandard();
+		triTrajetsStandard(trajetTrier);
 
 		//Etape 2 : liste Symone et ajout des camions
-		HashMap<Integer,ArrayList<TrajetFixe>>camionTrajet = new HashMap<Integer,ArrayList<TrajetFixe>>();
+		HashMap<Integer,ArrayList<Integer>> camionTrajet = new HashMap<Integer,ArrayList<Integer>>();
 		ArrayList<TrajetFixe> trajet = new ArrayList<TrajetFixe>();
+		ArrayList<Integer> idTrajet = new ArrayList<Integer>();
 		int identifiantCamion = 1;
 		int compteur = 0;
 		int index=0;
 		boolean premierTrajet = true;
+		Ville premiereVille = null;
+		Jour jourDepart = null;
+		TrajetFixe trajetActuelle = new TrajetFixe();
+		int nbrTrajetNonFixe = 100;
+		int nbrTrajetAVide = 200;
+		boolean put = false;
 		//Etape 3 : Retirer trajet de la liste et ajouter à un camion
 		while(trajetTrier.isEmpty() == false){
+			put = false;
 			if(premierTrajet == true){
 				if(getTrajetFixeById(trajetTrier.get(compteur).get(0)) != null){
-					trajet.add(getTrajetFixeById(trajetTrier.get(compteur).get(0)));
+					TrajetFixe trajetFixe = getTrajetFixeById(trajetTrier.get(compteur).get(0));
+					trajet.add(trajetFixe);
+					idTrajet.add(trajetFixe.getIdentifiant());
 					index = compteur;
 					premierTrajet = false;
+					trajetActuelle = getTrajetFixeById(trajetTrier.get(compteur).get(0));
+					premiereVille = trajetActuelle.getVilleDepart();
+					jourDepart = trajetActuelle.getJourDepart();
 				}else{
 					TrajetNonFixe trajetNonFixe= getTrajetNonFixeById(trajetTrier.get(compteur).get(0));
 					String[] fenetreTempsDepart = trajetNonFixe.getFenetreDeTemps()[0].split(";");
 					String[] tempsDepart = fenetreTempsDepart[0].split("-");
 					double heureArrivee = Double.parseDouble(tempsDepart[0]);
-					LocalTime horaire = LocalTime.of((int)heureArrivee,(int)(heureArrivee-(int)heureArrivee*100));
+					LocalTime horaire = LocalTime.of((int)heureArrivee,(int)(heureArrivee-(int)heureArrivee)*100);
 
-					TrajetFixe trajetAdd = new TrajetFixe(trajetNonFixe.getIdentifiant(),trajetNonFixe.getVilleDepart(),trajetNonFixe.getVilleArrivee(),trajetNonFixe.getTempsDeConduite(),trajetNonFixe.getListeVilleStop()
+					TrajetFixe trajetAdd = new TrajetFixe(nbrTrajetNonFixe,trajetNonFixe.getVilleDepart(),trajetNonFixe.getVilleArrivee(),trajetNonFixe.getTempsDeConduite(),trajetNonFixe.getListeVilleStop()
 							,Jour.getJourById(trajetTrier.get(compteur).get(2)),horaire);
 
 					trajet.add(trajetAdd);
+					idTrajet.add(trajetAdd.getIdentifiant());
 
 					index = compteur;
 					premierTrajet = false;
+					trajetActuelle = trajetAdd;
+					premiereVille = trajetActuelle.getVilleDepart();
+					jourDepart = trajetActuelle.getJourDepart();
+					nbrTrajetNonFixe++;
 				}
+				miseAJour(index,trajetTrier);
 			}
 			else{
 
+				boolean ajoutTrajet = false;
+				while(compteur<trajetTrier.size() && ajoutTrajet == false){
+					ajoutTrajet = false;
+					TrajetFixe trajetFixe = getTrajetFixeById(trajetTrier.get(compteur).get(0));
+					TrajetNonFixe trajetNonFixe = getTrajetNonFixeById(trajetTrier.get(compteur).get(0));
+					if(trajetFixe != null){
+						if(trajetFixe.getVilleDepart().getIdentifiant() == trajetActuelle.getVilleArrivee().getIdentifiant()){
+							if(trajetFixe.getJourDepart().getIdentifiant() == trajetActuelle.getJourDepart().getIdentifiant()){
+								LocalTime heureArrivee = trajetActuelle.getHeureDepart();
+								heureArrivee.plusHours((int)trajetActuelle.getTempsDeConduite());
+								heureArrivee.plusMinutes((int)(trajetActuelle.getTempsDeConduite()-(int)trajetActuelle.getTempsDeConduite())*100);
+								if(trajetFixe.getHeureDepart().isAfter(heureArrivee)){
+									if(trajetFixe.getVilleArrivee().getIdentifiant() == premiereVille.getIdentifiant() || trajetFixe.getJourDepart().getIdentifiant() < jourDepart.getIdentifiant()+6){
+										trajet.add(trajetFixe);
+										idTrajet.add(trajetFixe.getIdentifiant());
+										index = compteur;
+										ajoutTrajet = true;
+										trajetActuelle = trajetFixe;
+									}
+								}
+							}else if(trajetFixe.getJourDepart().getIdentifiant() > trajetActuelle.getJourDepart().getIdentifiant()){
+								if(trajetFixe.getVilleArrivee().getIdentifiant() == premiereVille.getIdentifiant() || trajetFixe.getJourDepart().getIdentifiant() < jourDepart.getIdentifiant()+6){
+									trajet.add(trajetFixe);
+									idTrajet.add(trajetFixe.getIdentifiant());
+									index = compteur;
+									ajoutTrajet = true;
+									trajetActuelle = trajetFixe;
+								}
+							}
+						}
+					}
+					else{
+							if(trajetNonFixe.getVilleDepart().getIdentifiant() == trajetActuelle.getVilleArrivee().getIdentifiant()){
+								if(trajetTrier.get(compteur).get(2) == trajetActuelle.getJourDepart().getIdentifiant()){
+									String[] fenetreTempsDepart = trajetNonFixe.getFenetreDeTemps()[0].split(";");
+									String[] tempsDepart = fenetreTempsDepart[0].split("-");
+									double heureDebut = Double.parseDouble(tempsDepart[0]);
+									double heureFin = Double.parseDouble(tempsDepart[1]);
+									LocalTime horaireDebut = LocalTime.of((int) heureDebut, (int) (heureDebut - (int) heureDebut )* 100);
+									LocalTime horaireFin = LocalTime.of((int) heureFin, (int) (heureFin - (int) heureFin )* 100);
+
+									LocalTime heureArrivee = trajetActuelle.getHeureDepart();
+									heureArrivee.plusHours((int)trajetActuelle.getTempsDeConduite());
+									heureArrivee.plusMinutes((int)(trajetActuelle.getTempsDeConduite()-(int)trajetActuelle.getTempsDeConduite())*100);
+
+									if(heureArrivee.isBefore(horaireDebut)){
+										if(trajetNonFixe.getVilleArrivee().getIdentifiant() == premiereVille.getIdentifiant() || trajetTrier.get(compteur).get(2) < jourDepart.getIdentifiant()+6) {
+											TrajetFixe trajetAdd = new TrajetFixe(nbrTrajetNonFixe, trajetNonFixe.getVilleDepart(), trajetNonFixe.getVilleArrivee(), trajetNonFixe.getTempsDeConduite(), trajetNonFixe.getListeVilleStop()
+													, Jour.getJourById(trajetTrier.get(compteur).get(2)), horaireDebut);
+											trajet.add(trajetAdd);
+											idTrajet.add(trajetAdd.getIdentifiant());
+											index = compteur;
+											ajoutTrajet = true;
+											trajetActuelle = trajetAdd;
+											nbrTrajetNonFixe++;
+										}
+									}
+									else if(heureArrivee.isBefore(horaireFin)){
+										if(trajetNonFixe.getVilleArrivee().getIdentifiant() == premiereVille.getIdentifiant() || trajetTrier.get(compteur).get(2) < jourDepart.getIdentifiant()+6) {
+											TrajetFixe trajetAdd = new TrajetFixe(nbrTrajetNonFixe, trajetNonFixe.getVilleDepart(), trajetNonFixe.getVilleArrivee(), trajetNonFixe.getTempsDeConduite(), trajetNonFixe.getListeVilleStop()
+													, Jour.getJourById(trajetTrier.get(compteur).get(2)), horaireFin);
+											trajet.add(trajetAdd);
+											idTrajet.add(trajetAdd.getIdentifiant());
+											index = compteur;
+											ajoutTrajet = true;
+											trajetActuelle = trajetAdd;
+											nbrTrajetNonFixe++;
+										}
+									}
+								}else if(trajetTrier.get(compteur).get(2) > trajetActuelle.getJourDepart().getIdentifiant()){
+									if(trajetNonFixe.getVilleArrivee().getIdentifiant() == premiereVille.getIdentifiant() || trajetTrier.get(compteur).get(2) < jourDepart.getIdentifiant()+6) {
+										String[] fenetreTempsDepart = trajetNonFixe.getFenetreDeTemps()[0].split(";");
+										String[] tempsDepart = fenetreTempsDepart[0].split("-");
+										double heureDebut = Double.parseDouble(tempsDepart[0]);
+										double heureFin = Double.parseDouble(tempsDepart[1]);
+										LocalTime horaireDebut = LocalTime.of((int) heureDebut, (int) (heureDebut - (int) heureDebut )* 100);
+										TrajetFixe trajetAdd = new TrajetFixe(nbrTrajetNonFixe, trajetNonFixe.getVilleDepart(), trajetNonFixe.getVilleArrivee(), trajetNonFixe.getTempsDeConduite(), trajetNonFixe.getListeVilleStop()
+												, Jour.getJourById(trajetTrier.get(compteur).get(2)), horaireDebut);
+										trajet.add(trajetAdd);
+										idTrajet.add(trajetAdd.getIdentifiant());
+										index = compteur;
+										ajoutTrajet = true;
+										trajetActuelle = trajetAdd;
+										nbrTrajetNonFixe++;
+									}
+								}
+							}
+					}
+					compteur++;
+				}
+				if(ajoutTrajet == true){
+					if(trajetActuelle.getVilleArrivee().getIdentifiant() == premiereVille.getIdentifiant()){
+						if(trajetActuelle.getJourDepart().getIdentifiant()>=4){
+							camionTrajet.put(identifiantCamion,idTrajet);
+							identifiantCamion++;
+							idTrajet = new ArrayList<Integer>();
+							compteur=0;
+							put = true;
+						}
+					}
+					miseAJour(index,trajetTrier);
+				}else{
+					if(trajetActuelle.getVilleArrivee().getIdentifiant() != premiereVille.getIdentifiant()){
+						LocalTime heureArrivee = trajetActuelle.getHeureDepart();
+						heureArrivee.plusHours((int)trajetActuelle.getTempsDeConduite());
+						heureArrivee.plusMinutes((int)(trajetActuelle.getTempsDeConduite()-(int)trajetActuelle.getTempsDeConduite())*100);
+						TrajetFixe trajetAdd = new TrajetFixe(nbrTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, 9, null
+								, trajetActuelle.getJourDepart(), heureArrivee);
+
+						trajet.add(trajetAdd);
+						idTrajet.add(trajetAdd.getIdentifiant());
+						nbrTrajetAVide++;
+					}
+					camionTrajet.put(identifiantCamion,idTrajet);
+					identifiantCamion++;
+					idTrajet = new ArrayList<Integer>();
+					compteur=  0;
+					put = true;
+				}
 			}
+		}
+		if(put == false){
+			if(trajetActuelle.getVilleArrivee().getIdentifiant() != premiereVille.getIdentifiant()){
+				LocalTime heureArrivee = trajetActuelle.getHeureDepart();
+				heureArrivee.plusHours((int)trajetActuelle.getTempsDeConduite());
+				heureArrivee.plusMinutes((int)(trajetActuelle.getTempsDeConduite()-(int)trajetActuelle.getTempsDeConduite())*100);
+				TrajetFixe trajetAdd = new TrajetFixe(nbrTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, 9, null
+						, trajetActuelle.getJourDepart(), heureArrivee);
 
-			//Etape 4 : MAJ
-
-			trajetTrier.remove(index);
-			compteur++;
+				trajet.add(trajetAdd);
+				idTrajet.add(trajetAdd.getIdentifiant());
+				nbrTrajetAVide++;
+			}
+			camionTrajet.put(identifiantCamion,idTrajet);
+			identifiantCamion++;
+			idTrajet = new ArrayList<Integer>();
+			compteur=  0;
+			put = true;
 		}
 
-
-		//Etape 5 : Tq Liste <> vide alors
-
-			//Etape 6:Cherche trajet suivant
-
-			//3 Cas spéciaux
-
-
+		trajets = trajet;
+		return camionTrajet;
 	}
 
 

@@ -317,8 +317,6 @@ public class PlannificationTest {
         idTrajet.add(100);
         camionTrajet.put(1,idTrajet);
 
-
-
         //ACT
         camionTrajetTest = plannification.camionTrajets(trajets);
 
@@ -346,6 +344,19 @@ public class PlannificationTest {
 
         //ASSERT
         assertEquals(camionTrajet,camionTrajetTest);
+
+    }
+
+    @Test
+    public void camionTrajets3(){
+        //ARRANGE
+        ArrayList<HashMap<Integer,ArrayList<Integer>>> camionTrajetTest = new ArrayList<HashMap<Integer,ArrayList<Integer>>>();
+        //ACT
+        camionTrajetTest = plannification.camionTrajetsAleatoire(100);
+
+        //ASSERT
+        assertEquals(null,camionTrajetTest);
+
 
     }
 }

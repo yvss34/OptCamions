@@ -45,6 +45,7 @@ public class Solution{
 	}
 
 	/**Getters & Setters**/
+
 	public Plannification getPlannification() {
 		return plannification;
 	}
@@ -128,6 +129,34 @@ public class Solution{
 				return getTrajets().get(i);
 		}
 		return null;
+	}
+
+	/**
+	 * Verifie que deux pbjets solution sont égaux
+	 * @param obj1 le premier objet Solution
+	 * @param obj2 le second objet Solution
+	 * @return true si deux solutions sont égales, faux sinon
+	 */
+	public static boolean egale(Solution obj1,Solution obj2) {
+		boolean checker = true;
+
+		int size1 = obj1.getCamionsTrajets().size();
+		int size2 = obj2.getCamionsTrajets().size();
+
+		if(size1 == size2){
+			for (int i = 0;i<size1;i++){
+				checker = obj1.getCamionsTrajets().get(i+1).equals(obj2.getCamionsTrajets().get(i+1));
+				if(checker){
+					for (int iterateur : obj1.getCamionsTrajets().get(i+1)){
+						if(!TrajetFixe.egale(obj1.getTrajetById(iterateur),obj2.getTrajetById(iterateur))){
+							checker = false;
+						}
+					}
+				}
+			}
+		}else
+			checker = false;
+		return checker;
 	}
 
 	/**

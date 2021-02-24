@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Cette classe correspond au moteur de résolution
@@ -163,10 +164,12 @@ public class MoteurDeResolution {
 
     /**
      * Affectation des camions aux trajets
-     * @return un objet HashMap avec une clé correspondant à l'identifiant du chauffeur et en valeur une liste d'Integer
+     * @return un objet Solution
      * correspondant aux identifiants des trajets
      */
     public Solution camionTrajets(){
+
+        //Scanner clavier = new Scanner(System.in);
 
         Solution solution = new Solution();
 
@@ -346,8 +349,28 @@ public class MoteurDeResolution {
                             LocalTime heureArrivee = trajetActuelle.getHeureDepart();
                             heureArrivee = heureArrivee.plusHours((int)trajetActuelle.getTempsDeConduite());
                             heureArrivee = heureArrivee.plusMinutes((int)(trajetActuelle.getTempsDeConduite()-(int)trajetActuelle.getTempsDeConduite())*100);
-                            TrajetFixe trajetAdd = new TrajetFixe(nbrTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, 9, null
-                                    , trajetActuelle.getJourDepart(), heureArrivee);
+
+
+                            //1ere solution pour trajet à vide
+                            TrajetFixe trajetAdd = new TrajetFixe(nbrTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, 9, null, trajetActuelle.getJourDepart(), heureArrivee);
+
+                            //2eme solution pour trajet à vide
+//                            double tempsDeConduite = 9;
+//                            boolean entreeCorrecte = false;
+//                            while(entreeCorrecte == false){
+//                                Scanner sc = new Scanner(System.in);
+//                                System.out.println("Quel est le temps de conduite entre "+trajetActuelle.getVilleArrivee().getNom()+" et "+premiereVille.getNom()+ " ?");
+//                                String str = sc.nextLine();
+//
+//                                try {
+//                                    tempsDeConduite = Double.parseDouble(str);
+//                                    entreeCorrecte = true;
+//                                }catch (Exception e){
+//                                    System.out.println("Veuillez entrer un nombre valide");
+//                                }
+//                            }
+//                            TrajetFixe trajetAdd = new TrajetFixe(nbrTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, tempsDeConduite, null, trajetActuelle.getJourDepart(), heureArrivee);
+
 
                             trajet.add(trajetAdd);
                             idTrajet.add(trajetAdd.getIdentifiant());
@@ -363,8 +386,25 @@ public class MoteurDeResolution {
                         LocalTime heureArrivee = trajetActuelle.getHeureDepart();
                         heureArrivee = heureArrivee.plusHours((int)trajetActuelle.getTempsDeConduite());
                         heureArrivee = heureArrivee.plusMinutes((int)(trajetActuelle.getTempsDeConduite()-(int)trajetActuelle.getTempsDeConduite())*100);
-                        TrajetFixe trajetAdd = new TrajetFixe(nbrTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, 9, null
-                                , trajetActuelle.getJourDepart(), heureArrivee);
+                        //1ere solution pour trajet à vide
+                        TrajetFixe trajetAdd = new TrajetFixe(nbrTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, 9, null, trajetActuelle.getJourDepart(), heureArrivee);
+
+                        //2eme solution pour trajet à vide
+//                        double tempsDeConduite = 9;
+//                        boolean entreeCorrecte = false;
+//                        while(entreeCorrecte == false){
+//                            Scanner sc = new Scanner(System.in);
+//                            System.out.println("Quel est le temps de conduite entre "+trajetActuelle.getVilleArrivee().getNom()+" et "+premiereVille.getNom()+ " ?");
+//                            String str = sc.nextLine();
+//
+//                            try {
+//                                tempsDeConduite = Double.parseDouble(str);
+//                                entreeCorrecte = true;
+//                            }catch (Exception e){
+//                                System.out.println("Veuillez entrer un nombre valide");
+//                            }
+//                        }
+//                        TrajetFixe trajetAdd = new TrajetFixe(nbrTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, tempsDeConduite, null, trajetActuelle.getJourDepart(), heureArrivee);
 
                         trajet.add(trajetAdd);
                         idTrajet.add(trajetAdd.getIdentifiant());
@@ -551,11 +591,14 @@ public class MoteurDeResolution {
                         boolean ajout = false;
 
                         Random r = new Random();
-                        nombreAleatoire = r.nextInt(nombreAjout-1);
+                        if(nombreAjout == 1)
+                            nombreAleatoire = 0;
+                        else
+                            nombreAleatoire = r.nextInt(nombreAjout-1);
 
                         trajet.add(trajetAjout.get(nombreAleatoire));
                         idTrajet.add(trajetAjout.get(nombreAleatoire).getIdentifiant());
-                        index = compteur;
+                        index = nombreAleatoire;
                         trajetActuelle = trajetAjout.get(nombreAleatoire);
 
                         if (trajetActuelle.getVilleArrivee().getIdentifiant() == premiereVille.getIdentifiant()) {
@@ -575,8 +618,26 @@ public class MoteurDeResolution {
                                 LocalTime heureArrivee = trajetActuelle.getHeureDepart();
                                 heureArrivee = heureArrivee.plusHours((int) trajetActuelle.getTempsDeConduite());
                                 heureArrivee = heureArrivee.plusMinutes((int) (trajetActuelle.getTempsDeConduite() - (int) trajetActuelle.getTempsDeConduite()) * 100);
-                                TrajetFixe trajetAdd = new TrajetFixe(identifiantTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, 9, null
-                                        , trajetActuelle.getJourDepart(), heureArrivee);
+
+                                //1ere solution pour trajet à vide
+                                TrajetFixe trajetAdd = new TrajetFixe(identifiantTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, 9, null, trajetActuelle.getJourDepart(), heureArrivee);
+
+                                //2eme solution pour trajet à vide
+//                                double tempsDeConduite = 9;
+//                                boolean entreeCorrecte = false;
+//                                while(entreeCorrecte == false){
+//                                    Scanner sc = new Scanner(System.in);
+//                                    System.out.println("Quel est le temps de conduite entre "+trajetActuelle.getVilleArrivee().getNom()+" et "+premiereVille.getNom()+ " ?");
+//                                    String str = sc.nextLine();
+//
+//                                    try {
+//                                        tempsDeConduite = Double.parseDouble(str);
+//                                        entreeCorrecte = true;
+//                                    }catch (Exception e){
+//                                        System.out.println("Veuillez entrer un nombre valide");
+//                                    }
+//                                }
+//                                TrajetFixe trajetAdd = new TrajetFixe(identifiantTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, tempsDeConduite, null, trajetActuelle.getJourDepart(), heureArrivee);
 
                                 trajet.add(trajetAdd);
                                 idTrajet.add(trajetAdd.getIdentifiant());
@@ -591,8 +652,26 @@ public class MoteurDeResolution {
                             LocalTime heureArrivee = trajetActuelle.getHeureDepart();
                             heureArrivee = heureArrivee.plusHours((int) trajetActuelle.getTempsDeConduite());
                             heureArrivee = heureArrivee.plusMinutes((int) (trajetActuelle.getTempsDeConduite() - (int) trajetActuelle.getTempsDeConduite()) * 100);
-                            TrajetFixe trajetAdd = new TrajetFixe(identifiantTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, 9, null
-                                    , trajetActuelle.getJourDepart(), heureArrivee);
+                            //1ere solution pour trajet à vide
+                            TrajetFixe trajetAdd = new TrajetFixe(identifiantTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, 9, null, trajetActuelle.getJourDepart(), heureArrivee);
+
+                            //2eme solution pour trajet à vide
+//                            double tempsDeConduite = 9;
+//                            boolean entreeCorrecte = false;
+//                            while(entreeCorrecte == false){
+//                                Scanner sc = new Scanner(System.in);
+//                                System.out.println("Quel est le temps de conduite entre "+trajetActuelle.getVilleArrivee().getNom()+" et "+premiereVille.getNom()+ " ?");
+//                                String str = sc.nextLine();
+//
+//                                try {
+//                                    tempsDeConduite = Double.parseDouble(str);
+//                                    entreeCorrecte = true;
+//                                }catch (Exception e){
+//                                    System.out.println("Veuillez entrer un nombre valide");
+//                                }
+//                            }
+//                            TrajetFixe trajetAdd = new TrajetFixe(identifiantTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, tempsDeConduite, null, trajetActuelle.getJourDepart(), heureArrivee);
+
 
                             trajet.add(trajetAdd);
                             idTrajet.add(trajetAdd.getIdentifiant());
@@ -613,7 +692,16 @@ public class MoteurDeResolution {
                 solution.setCamionsTrajets(camionTrajet);
                 solution.setNbrCamions(identifiantCamion);
                 solution.setTrajets(trajet);
-                listeSolution.add(solution);
+
+                boolean existe = false;
+                for(Solution solutionIterateur : listeSolution){
+                    if(Solution.egale(solution,solutionIterateur)){
+                        existe = true;
+                    }
+                }
+                if(!existe){
+                    listeSolution.add(solution);
+                }
             }
             //On ajoute la solution après avoir supprimer les anciennces solutions
             // si le nombre de camion est inferieur au nombre de camion minimale existant

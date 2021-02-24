@@ -310,7 +310,7 @@ public class MoteurDeResolutionTest {
     public void camionTrajets1(){
         //ARRANGE
         HashMap<Integer,ArrayList<Integer>> camionTrajet = new HashMap<Integer,ArrayList<Integer>>();
-        HashMap<Integer,ArrayList<Integer>> camionTrajetTest = new HashMap<Integer,ArrayList<Integer>>();
+        Solution solution = new Solution();
         ArrayList<Integer> idTrajet = new ArrayList<Integer>();
         ArrayList<TrajetFixe> trajets = new ArrayList<TrajetFixe>();
 
@@ -319,10 +319,12 @@ public class MoteurDeResolutionTest {
         camionTrajet.put(1,idTrajet);
 
         //ACT
-        camionTrajetTest = moteurDeResolution.camionTrajets(trajets);
+        solution = moteurDeResolution.camionTrajets();
+        Checker checker = new Checker(solution);
 
         //ASSERT
-        assertEquals(camionTrajet,camionTrajetTest);
+        assertEquals(camionTrajet,solution.getCamionsTrajets());
+        assertEquals(true,checker.verificationCamion());
 
     }
 
@@ -330,7 +332,7 @@ public class MoteurDeResolutionTest {
     public void camionTrajets2(){
         //ARRANGE
         HashMap<Integer,ArrayList<Integer>> camionTrajet = new HashMap<Integer,ArrayList<Integer>>();
-        HashMap<Integer,ArrayList<Integer>> camionTrajetTest = new HashMap<Integer,ArrayList<Integer>>();
+        Solution solution = new Solution();
         ArrayList<Integer> idTrajet = new ArrayList<Integer>();
         ArrayList<TrajetFixe> trajets = new ArrayList<TrajetFixe>();
 
@@ -342,10 +344,12 @@ public class MoteurDeResolutionTest {
         moteurDeResolution = new MoteurDeResolution(plannification);
 
         //ACT
-        camionTrajetTest = moteurDeResolution.camionTrajets(trajets);
+        solution = moteurDeResolution.camionTrajets();
+        Checker checker = new Checker(solution);
 
         //ASSERT
-        assertEquals(camionTrajet,camionTrajetTest);
+        assertEquals(camionTrajet,solution.getCamionsTrajets());
+        assertEquals(true,checker.verificationCamion());
 
     }
 }

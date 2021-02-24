@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 
 public class TriTrajetNonFixeTest {
 
-    TriTrajetNonFixe trajetNF;
+    TrajetNonFixe trajetNF;
 
     @Before
     public void initSolution() {
@@ -22,7 +22,7 @@ public class TriTrajetNonFixeTest {
 
         //Trajets
         String[] fenetreDeTemps = {"10.00-20.00"};
-        trajetNF = new TriTrajetNonFixe(1, paris, lyon, 4.0,  null,null, 1,fenetreDeTemps,0,0 );
+        trajetNF = new TrajetNonFixe(1, paris, lyon, 4.0,  null,null, 1,fenetreDeTemps,0,0 );
 
 
     }

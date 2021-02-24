@@ -4,15 +4,17 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Classe representant un TrajetFixe qui hérite de la classe Trajet
+ * un trajet fixe se caractérise par un jour et une heure de départ fixe
+ */
 public class TrajetFixe extends Trajet{
 
-	//Attributs
-	
+	/**Attributes**/
 	private Jour jourDepart;
 	private LocalTime heureDepart;
-	
-	//Constructeurs
 
+	/**Constructors**/
 	public TrajetFixe() {
 		super();
 	}
@@ -31,6 +33,7 @@ public class TrajetFixe extends Trajet{
 
 	}
 
+	/**Getters & Setters**/
 	@Override
 	public String toString() {
 		return "identifiant=" + getIdentifiant() +
@@ -43,7 +46,6 @@ public class TrajetFixe extends Trajet{
 				", heureDepart=" + heureDepart;
 	}
 
-	//Getters & Setters
 	public Jour getJourDepart() {
 		return jourDepart;
 	}
@@ -60,6 +62,12 @@ public class TrajetFixe extends Trajet{
 		this.heureDepart = heureDepart;
 	}
 
+	/**
+	 * Verifie que deux trajets fixe sont égaux
+	 * @param obj1 premier trajet fixe
+	 * @param obj2 second trajet fixe
+	 * @return true si égaux, faux sinon
+	 */
 	public static boolean egale(TrajetFixe obj1,TrajetFixe obj2) {
 		boolean checker = true;
 

@@ -1,11 +1,18 @@
 package modele;
 
+/**
+ * Cette classe represente une Symone
+ */
 public class Camion {
-	
-	//Attribut
+
+	/**
+	 * Attributes
+	 */
 	private int identifiant;
 
-	//Constructeurs
+	/**
+	 * Constructors
+	 */
 	public Camion() {
 		
 	}
@@ -15,7 +22,9 @@ public class Camion {
 		this.identifiant = identifiant;
 	}
 
-	//Getters & Setters
+	/**
+	 * Getters & Setters
+	 */
 	public int getIdentifiant() {
 		return identifiant;
 	}

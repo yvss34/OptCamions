@@ -4,16 +4,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * Cette classe représente un trajet non fixe qui hérite de la classe Trajet
+ * un trajet non fixe se caracterise par une fréquence par semaine, une fenêtre
+ * de temps de départ, un nombre de trajet minimum le week-end et un nombre de jours
+ * minimum séparant deux trajets
+ */
 public class TrajetNonFixe extends Trajet{
 
-	//Attributs
-	
+	/**Attributes**/
 	private int frequenceSemaine;
 	private String[] fenetreDeTemps;
 	private int nombreTrajetWeekend;
 	private int nbrJourMin;
-	
-	//Constructeurs
+	/**
+	 * Cette liste contient la liste des départs possible d'un trajet non fixe
+	 */
+	private ArrayList<ArrayList<Integer>> listeJourDepart;
+
+	/**Constructors**/
 	public TrajetNonFixe() {
 		super();
 	}
@@ -36,9 +45,7 @@ public class TrajetNonFixe extends Trajet{
 
 	}
 
-//Getters & Setters
-
-
+	/**Getters & Setters**/
 	public int getFrequenceSemaine() {
 		return frequenceSemaine;
 	}
@@ -71,6 +78,14 @@ public class TrajetNonFixe extends Trajet{
 		this.nbrJourMin = nbrJourMin;
 	}
 
+	public ArrayList<ArrayList<Integer>> getListeJourDepart() {
+		return listeJourDepart;
+	}
+
+	public void setListeJourDepart(ArrayList<ArrayList<Integer>> listeJourDepart) {
+		this.listeJourDepart = listeJourDepart;
+	}
+
 	@Override
 	public String toString() {
 		return 	"identifiant=" + getIdentifiant() +
@@ -85,6 +100,12 @@ public class TrajetNonFixe extends Trajet{
 				", nbrJourMin=" + nbrJourMin ;
 	}
 
+	/**
+	 * Verifie que deux objets TrajetNonFixe sont égaux
+	 * @param obj1 premier objet TrajetNonFixe
+	 * @param obj2 second objet TrajetNonFixe
+	 * @return true si les deux obejts sont égaux, faux sinon
+	 */
 	public static boolean egale(TrajetNonFixe obj1,TrajetNonFixe obj2) {
 		boolean checker = true;
 
@@ -97,16 +118,11 @@ public class TrajetNonFixe extends Trajet{
 
 		return checker;
 	}
-	private ArrayList<ArrayList<Integer>> listeJourDepart;
 
-	public ArrayList<ArrayList<Integer>> getListeJourDepart() {
-		return listeJourDepart;
-	}
-
-	public void setListeJourDepart(ArrayList<ArrayList<Integer>> listeJourDepart) {
-		this.listeJourDepart = listeJourDepart;
-	}
-
+	/**
+	 * Cette fonction permet de lister les différents départ possibles du trajet non fixe,
+	 * ces differents départ sont stockés dans l'attribut listeJourDepart
+	 */
 	public void liste() {
 
 		listeJourDepart = new ArrayList<ArrayList<Integer>>();

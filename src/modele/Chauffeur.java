@@ -1,15 +1,21 @@
 package modele;
 
+/**
+ * Cette classe represente un chauffeur Symone
+ */
 public class Chauffeur {
-	
-	//Attributs
-	
+
+	/**
+	 * Attributes
+	 */
 	private int identifiant;
 	private Ville villeRattachement;
 	private ContratDeTravail contratDeTravail;
 	private double coutHotellerie;
-	
-	//Constructeur
+
+	/**
+	 * Constructors
+	 */
 	public Chauffeur() {
 		
 	}
@@ -21,7 +27,10 @@ public class Chauffeur {
 		this.contratDeTravail = contratDeTravail;
 		this.coutHotellerie = coutHotellerie;
 	}
-	//Getters & Setters
+
+	/**
+	 * Getters & Setters
+	 */
 	public int getIdentifiant() {
 		return identifiant;
 	}

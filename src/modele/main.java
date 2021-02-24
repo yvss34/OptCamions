@@ -163,10 +163,9 @@ public class main {
         solution.getChauffeursTrajets().put(3, trajets3chauffeurs);
 
         Checker checker = new Checker(solution);
-        System.out.println(checker.verification());
+        System.out.println(checker.verificationComplete());
 
         solution.creationCsv();
-
     }
 }
 

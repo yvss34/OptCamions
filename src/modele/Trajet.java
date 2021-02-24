@@ -4,10 +4,12 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Classe abstraite représentant un trajet
+ */
 public abstract class Trajet {
 	
-	//Attributs
-	
+	/**Attributes**/
 	private int identifiant;
 	private Ville villeDepart;
 	private Ville villeArrivee;
@@ -16,7 +18,7 @@ public abstract class Trajet {
 	private HashMap<Ville,Double> listeVilleStop;
 	static int nbrTrajet = 0;
 
-	//Constructeurs
+	/**Constructors**/
 	public Trajet() {
 		nbrTrajet++;
 	}
@@ -40,10 +42,7 @@ public abstract class Trajet {
 		nbrTrajet++;
 	}
 
-
-//Getters & Setters
-
-
+	/**Getters & Setters**/
 	@Override
 	public String toString() {
 		return "Trajet{" +

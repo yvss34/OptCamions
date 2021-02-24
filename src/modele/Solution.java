@@ -10,10 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * Cette classe represente la solution d'une plannification
+ */
 public class Solution{
 
-	//Attributs
-	
+	/**Attributes**/
 	private int nbrCamions;
 	private int nbrChauffeurs;
 	private Plannification plannification;
@@ -23,11 +25,10 @@ public class Solution{
 
 	private HashMap<Integer,ArrayList<Integer>> camionsTrajets;
 	private HashMap<Integer,ArrayList<Integer>> chauffeursTrajets;
-	
-	
-	
-	//Constructeurs
-	
+
+
+
+	/**Constructors**/
 	public Solution() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -43,8 +44,7 @@ public class Solution{
 		this.chauffeursTrajets = chauffeursTrajets;
 	}
 
-	// Getters & Setters
-	
+	/**Getters & Setters**/
 	public Plannification getPlannification() {
 		return plannification;
 	}
@@ -104,6 +104,11 @@ public class Solution{
 
 	public void setTrajets(ArrayList<TrajetFixe> trajets) {this.trajets = trajets;}
 
+	/**
+	 * Recupere le chauffeur d'identifiant passé en paramètre
+	 * @param identifiant du chauffeur
+	 * @return l'objet Chauffeur
+	 */
 	public Chauffeur getChauffeurById(int identifiant){
 		for (int i =0; i<getChauffeurs().size();i++){
 			if(getChauffeurs().get(i).getIdentifiant() == identifiant)
@@ -112,6 +117,11 @@ public class Solution{
 		return null;
 	}
 
+	/**
+	 * Recupere le trahet d'identifiant passé en paramètre
+	 * @param identifiant du trajet
+	 * @return l'objet TrajetFixe
+	 */
 	public TrajetFixe getTrajetById(int identifiant){
 		for (int i =0; i<getTrajets().size();i++){
 			if(getTrajets().get(i).getIdentifiant() == identifiant)
@@ -120,6 +130,11 @@ public class Solution{
 		return null;
 	}
 
+	/**
+	 * Exporte la solution sous un format CSV, nommé Solution.csv dans le
+	 * dossier du programme
+	 * @throws IOException
+	 */
 	public void creationCsv() throws IOException {
 		final String DELIMITER = ";";
 		final String SEPARATOR = "\n";
@@ -154,7 +169,6 @@ public class Solution{
 
 
 			// HEADER 3
-
 			file.append(SEPARATOR);
 			file.append(HEADER3);
 			file.append(SEPARATOR);
@@ -209,8 +223,6 @@ public class Solution{
 		{
 			e.printStackTrace();
 		}
-
-
 	}
 
 }

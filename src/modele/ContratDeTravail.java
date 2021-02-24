@@ -2,16 +2,22 @@ package modele;
 
 import java.time.LocalTime;
 
+/**
+ * Classe represente un contrat de travail d'un chauffeur
+ */
 public class ContratDeTravail {
-	
-	//Attributs
-	
+
+	/**
+	 * Attributes
+	 */
 	private double nbrHeureJour;
 	private double nbrHeureNuit;
 	private double coutTrajetVide;
-	
-	
-	//Constructeurs
+
+
+	/**
+	 * Constructors
+	 */
 	public ContratDeTravail() {
 		
 	}
@@ -22,7 +28,9 @@ public class ContratDeTravail {
 		this.coutTrajetVide = coutTrajetVide;
 	}
 
-
+	/**
+	 * Getters & Setters
+	 */
 	public double getNbrHeureJour() {
 		return nbrHeureJour;
 	}

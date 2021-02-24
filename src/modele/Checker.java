@@ -4,14 +4,28 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+/**
+ * Cette classe est une classe de verification
+ * des solutions, pour vérifier que la solution proposée
+ * par l'outil est réalisable
+ */
 public class Checker {
 
+    /**
+     * Attributes
+     */
     private Solution solution;
 
+    /**
+     * Constructors
+     */
     public Checker(Solution solution) {
         this.solution = solution;
     }
 
+    /**
+     * Getters & Setters
+     */
     public Solution getSolution() {
         return solution;
     }
@@ -19,6 +33,7 @@ public class Checker {
     public void setSolution(Solution solution) {
         this.solution = solution;
     }
+
 
 /*********************************************Contraintes de Reglementations***********************************************/
 
@@ -383,9 +398,9 @@ public class Checker {
 
 
     /**
-     * Un chauffeur doit être dans la bonne ville pour faire le trajet
+     * Tri un HashMap<Integer,ArrayList<Integer>> en fonction de l'ArrayList<Integer>
+     *  utilisé dans les fonctions chauffeurBonneVille() et camionBonneVille()
      */
-
     private static HashMap sort(HashMap map) {
         List linkedlist = new LinkedList(map.entrySet());
         Collections.sort(linkedlist, new Comparator() {
@@ -402,6 +417,9 @@ public class Checker {
         return sortedHashMap;
     }
 
+    /**
+     * Un chauffeur doit être dans la bonne ville pour faire le trajet
+     */
     public boolean chauffeurBonneVille() {
 
         boolean checker = true;
@@ -550,7 +568,7 @@ public class Checker {
 
 
 /*********************************************Verififaction***********************************************/
-    public boolean verification(){
+    public boolean verificationComplete(){
         boolean checker1 = true;
 
         System.out.println("**********************************Contraintes de reglementations***************************************************");
@@ -659,5 +677,22 @@ public class Checker {
         return checker1 && checker2 && checker3;
     }
 
+    public boolean verificationCamion(){
+        boolean checker = true;
+
+        checker = unTrajetALaFoisCamions();
+        if(unTrajetALaFoisCamions() == false)
+            System.out.println("unTrajetALaFoisCamions == false");
+        else
+            System.out.println("unTrajetALaFoisCamions == true");
+
+        checker = camionBonneVille();
+        if(camionBonneVille() == false)
+            System.out.println("camionBonneVille == false");
+        else
+            System.out.println("camionBonneVille == true");
+
+        return checker;
+    }
 
 }

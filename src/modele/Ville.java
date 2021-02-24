@@ -3,13 +3,16 @@ package modele;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * Cette classe represente une ville
+ */
 public class Ville {
-	
-	//Attributs
+
+	/**Attributes**/
 	private int identifiant;
 	private String nom;
 	
-	//Constructeurs
+	/**Constructors**/
 	public Ville() {
 		
 	}
@@ -21,7 +24,7 @@ public class Ville {
 	}
 	
 	
-	//Getters & Setters
+	/**Getters & Setters**/
 	public int getIdentifiant() {
 		return identifiant;
 	}
@@ -40,6 +43,9 @@ public class Ville {
 		return nom;
 	}
 
+	/**
+	 * @return une ArrayList des villes de France (non exhaustive)
+	 */
 	public static ArrayList<Ville> getVilles(){
 		ArrayList<Ville> villes = new ArrayList<Ville>();
 

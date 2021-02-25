@@ -143,19 +143,35 @@ public class Solution{
 		int size1 = obj1.getCamionsTrajets().size();
 		int size2 = obj2.getCamionsTrajets().size();
 
-		if(size1 == size2){
+		int sizeTrajet1 = obj1.getTrajets().size();
+		int sizeTrajet2 = obj2.getTrajets().size();
+		if(size1 == size2 && sizeTrajet1==sizeTrajet2){
+			int compteur = 0;
+			for(TrajetFixe trajet1: obj1.getTrajets()){
+				for(TrajetFixe trajet2: obj1.getTrajets()){
+					if(trajet1.equals(trajet2)){
+						compteur++;
+					}
+				}
+			}
+			if(compteur != sizeTrajet1){
+				return false;
+			}
+
 			for (int i = 0;i<size1;i++){
-				checker = obj1.getCamionsTrajets().get(i+1).equals(obj2.getCamionsTrajets().get(i+1));
-				if(checker){
-					for (int iterateur : obj1.getCamionsTrajets().get(i+1)){
-						if(!TrajetFixe.egale(obj1.getTrajetById(iterateur),obj2.getTrajetById(iterateur))){
-							checker = false;
+				for(int j =0;j<size1;j++){
+					if (obj1.getCamionsTrajets().get(i+1).equals(obj2.getCamionsTrajets().get(j+1))){
+						for (int iterateur : obj1.getCamionsTrajets().get(i+1)){
+							if(!TrajetFixe.egale(obj1.getTrajetById(iterateur),obj2.getTrajetById(iterateur))){
+								checker = false;
+							}
 						}
 					}
 				}
 			}
 		}else
 			checker = false;
+
 		return checker;
 	}
 

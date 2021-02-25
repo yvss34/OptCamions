@@ -293,6 +293,26 @@ public class Checker {
     }
 
     /**
+     * Tous les trajets ont un camion
+     */
+    public boolean trajetCamion() {
+        boolean checker = true;
+
+        for(TrajetFixe trajet : getSolution().getTrajets()) {
+            int compteur = 0;
+
+            for (Map.Entry<Integer, ArrayList<Integer>> mapentry1 : getSolution().getCamionsTrajets().entrySet()) {
+                if (mapentry1.getValue().contains(trajet.getIdentifiant()) == true) {
+                    compteur += 1;
+                }
+            }
+            if (compteur < 1)
+                checker = false;
+        }
+        return checker;
+    }
+
+    /**
      * Les chauffeurs passent leur repos hebdomadaire dans
      * leurs villes de rattachements
      */
@@ -691,6 +711,12 @@ public class Checker {
             System.out.println("camionBonneVille == false");
         else
             System.out.println("camionBonneVille == true");
+
+        checker = trajetCamion();
+        if(trajetCamion() == false)
+            System.out.println("trajetCamion == false");
+        else
+            System.out.println("trajetCamion == true");
 
         return checker;
     }

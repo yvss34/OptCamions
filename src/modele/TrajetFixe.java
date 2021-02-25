@@ -75,6 +75,7 @@ public class TrajetFixe extends Trajet{
 		checker = (obj1.getVilleDepart().getIdentifiant() == obj2.getVilleDepart().getIdentifiant());
 		checker = (obj1.getTempsDeConduite() == obj2.getTempsDeConduite());
 		checker = (obj1.getJourDepart().getIdentifiant()) == obj2.getJourDepart().getIdentifiant();
+		checker = (obj1.getHeureDepart()).compareTo(obj2.getHeureDepart()) == 0;
 
 		return checker;
 	}

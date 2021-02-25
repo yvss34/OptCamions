@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 
-public class MoteurDeResolutionTest {
+public class MoteurDeResolutionTestPetiteInstance {
 
     Plannification plannification;
     MoteurDeResolution moteurDeResolution;

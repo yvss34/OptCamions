@@ -28,7 +28,9 @@ public class Plannification {
 	private double nbrConduiteJournaliereMax;
 	private double nbrConduiteHebdomadaireMax;
 	private double dureeReposHebdomadaire;
-	
+
+	private final int dureeTempsDePause = 45;
+
 	private ArrayList<TrajetNonFixe> trajetsNonFixe;
 	private ArrayList<TrajetFixe> trajetsFixe;
 

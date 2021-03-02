@@ -8,7 +8,7 @@ import java.util.HashMap;
  * Classe representant un TrajetFixe qui hérite de la classe Trajet
  * un trajet fixe se caractérise par un jour et une heure de départ fixe
  */
-public class TrajetFixe extends Trajet{
+public class TrajetFixe extends Trajet implements Cloneable{
 
 	/**Attributes**/
 	private Jour jourDepart;
@@ -31,6 +31,15 @@ public class TrajetFixe extends Trajet{
 		this.jourDepart = jourDepart;
 		this.heureDepart = heureDepart;
 
+	}
+
+	public Object clone() {
+		Object o = null;
+		// On récupère l'instance à renvoyer par l'appel de la
+		// méthode super.clone()
+		o = super.clone();
+		// on renvoie le clone
+		return o;
 	}
 
 	/**Getters & Setters**/

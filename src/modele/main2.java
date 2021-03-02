@@ -2,58 +2,47 @@ package modele;
 
 import org.junit.jupiter.api.BeforeEach;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.*;
 
 public class main2 {
 
-    /**
-     * Tri un HashMap<Ville,Double> en fonction du Double
-     */
-    private static HashMap sort(HashMap map) {
-        List linkedlist = new LinkedList(map.entrySet());
-        Collections.sort(linkedlist, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                return ((Comparable) ((Map.Entry) (o1)).getValue())
-                        .compareTo(((Map.Entry) (o2)).getValue());
-            }
-        });
-        HashMap sortedHashMap = new LinkedHashMap();
-        for (Iterator it = linkedlist.iterator(); it.hasNext();) {
-            Map.Entry entry = (Map.Entry) it.next();
-            sortedHashMap.put(entry.getKey(), entry.getValue());
-        }
-        return sortedHashMap;
-    }
 
-    public static void main(String[] args) {
-        // Creating an empty HashMap
-        HashMap<Ville, Double> hash_map = new HashMap<Ville, Double>();
+    public static void main(String[] args) throws IOException {Plannification plannification;
+        MoteurDeResolutionPrototype moteurDeResolution;
+
+        //Ville
+        Ville paris = new Ville(1, "Paris");
+        Ville marseille = new Ville(2, "Marseille");
+        Ville lyon = new Ville(3, "Lyon");
+        Ville bordeaux = new Ville(4, "Bordeaux");
+        Ville toulouse = new Ville(5, "Toulouse");
+
+        Jour jour = new Jour(0,"Lundi");
+
+        //Trajets
+        String[] fenetreDeTemps = {"8.00-10.00"};
+        HashMap<Ville,Double> listeVilleStop = new HashMap<Ville,Double>();
+        listeVilleStop.put(lyon,5.0);
+        TrajetNonFixe trajet2_1 = new TrajetNonFixe(0, paris, marseille, 9.0,  null,listeVilleStop, 1,fenetreDeTemps,0,0 );
+
+        LocalTime heureDepart = LocalTime.of(14,00);
+        TrajetFixe trajet1_1 = new TrajetFixe(1, bordeaux, toulouse, 5.0, new ArrayList<Double>(), null, jour, heureDepart);
+        ArrayList<TrajetFixe> trajetFixeTableau= new ArrayList<TrajetFixe>();
+        trajetFixeTableau.add(trajet1_1);
 
 
-        Ville ville1 = new Ville(0,"Lyon");
-        Ville ville2 = new Ville(1,"Paris");
-        Ville ville3 = new Ville(2,"Mtp");
-        Ville ville4 = new Ville(3,"Marseille");
-        Ville ville5 = new Ville(4,"Toulouse");
-        Ville ville6 = new Ville(5,"Reims");
-        Ville ville7 = new Ville(6,"Carcassonne");
+        ArrayList<TrajetNonFixe> trajetNonFixeTableau= new ArrayList<TrajetNonFixe>();
+        trajetNonFixeTableau.add(trajet2_1);
 
-        // Mapping string values to int keys
-        hash_map.put(ville1, 3.0);
-        hash_map.put(ville2, 8.0);
-        hash_map.put(ville3, 7.0);
-        hash_map.put(ville4, 2.0);
-        hash_map.put(ville5, 1.0);
-        hash_map.put(ville6, 10.0);
-        hash_map.put(ville7, 4.0);
+        plannification = new Plannification(2.0,45,12,14,50,4.5,9,9,54,48,trajetNonFixeTableau,trajetFixeTableau);
+        moteurDeResolution = new MoteurDeResolutionPrototype(plannification);
 
-        // Displaying the HashMap
-        System.out.println("Initial Mappings are: " + hash_map);
+        ArrayList<Solution> solutions = moteurDeResolution.camionTrajetsAleatoire(1000);
+        solutions = moteurDeResolution.chauffeurTrajets(solutions,100000);
+        Solution solution = moteurDeResolution.optimisationCout(solutions);
+        solution.creationCsv();
 
-        hash_map = sort(hash_map);
-
-        // Displaying the HashMap
-        System.out.println("Initial Mappings are: " + hash_map);
     }
 }

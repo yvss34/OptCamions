@@ -13,7 +13,7 @@ import java.util.Map.Entry;
 /**
  * Cette classe represente la solution d'une plannification
  */
-public class Solution{
+public class Solution implements Cloneable{
 
 	/**Attributes**/
 	private int nbrCamions;
@@ -42,6 +42,54 @@ public class Solution{
 		this.trajets = trajets;
 		this.camionsTrajets = camionsTrajets;
 		this.chauffeursTrajets = chauffeursTrajets;
+	}
+
+	public Object clone() {
+		Solution solution = null;
+		try {
+			// On récupère l'instance à renvoyer par l'appel de la
+			// méthode super.clone()
+			solution = (Solution) super.clone();
+		} catch(CloneNotSupportedException cnse) {
+			// Ne devrait jamais arriver, car nous implémentons
+			// l'interface Cloneable
+			cnse.printStackTrace(System.err);
+		}
+		if(chauffeurs != null) {
+			ArrayList<Chauffeur> pChauffeur = new ArrayList<Chauffeur>();
+			for (Chauffeur chauffeur : chauffeurs) {
+				pChauffeur.add((Chauffeur) chauffeur.clone());
+			}
+			solution.chauffeurs = pChauffeur;
+		}else{
+			solution.chauffeurs = null;
+		}
+		if(trajets != null){
+			ArrayList<TrajetFixe> pTrajet = new ArrayList<TrajetFixe>();
+			for(TrajetFixe trajetFixe : trajets){
+				pTrajet.add((TrajetFixe) trajetFixe.clone());
+			}
+			solution.trajets = trajets;
+		}else{
+			solution.trajets = null;
+		}
+
+
+		// on renvoie le clone
+		return solution;
+	}
+
+	@Override
+	public String toString() {
+		return "Solution{" +
+				"nbrCamions=" + nbrCamions +
+				", nbrChauffeurs=" + nbrChauffeurs +
+				", plannification=" + plannification +
+				", chauffeurs=" + chauffeurs +
+				", trajets=" + trajets +
+				", camionsTrajets=" + camionsTrajets +
+				", chauffeursTrajets=" + chauffeursTrajets +
+				'}';
 	}
 
 	/**Getters & Setters**/
@@ -253,6 +301,75 @@ public class Solution{
 							file.append(Integer.toString(mapentry.getKey()));
 					}
 				}
+				file.append(DELIMITER);
+				for (Map.Entry<Integer, ArrayList<Integer>> mapentry : getCamionsTrajets().entrySet()) {
+					for (int j = 0; j < mapentry.getValue().size(); j++) {
+						if (getTrajets().get(i).getIdentifiant() == mapentry.getValue().get(j))
+							file.append(Integer.toString(mapentry.getKey()));
+					}
+				}
+				file.append(SEPARATOR);
+			}
+			file.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void creationCsvCamion() throws IOException {
+		final String DELIMITER = ";";
+		final String SEPARATOR = "\n";
+
+		final String HEADER1 = "Nombre camions;Nombre Chauffeurs";
+		final String HEADER2 = "Camions;Identifiant";
+		final String HEADER3 = "Chauffeurs;Identifiant;Ville;Heure de jour; Heure de nuit; Cout trajet à vide; Cout hotellerie";
+		final String HEADER4 = "Trajets;Ville depart;Ville arrivee;Jour de la semaine; Heure de depart; Identifiant camion; Identifiant chauffeur";
+
+		FileWriter file = null;
+		try {
+			file = new FileWriter("Solution.csv");
+
+			// HEADER 1
+			file.append(HEADER1);
+			file.append(SEPARATOR);
+			file.append(Integer.toString(this.getNbrCamions()));
+			file.append(DELIMITER);
+			file.append("-");
+			file.append(SEPARATOR);
+
+			// HEADER 2
+
+			file.append(SEPARATOR);
+			file.append(HEADER2);
+			file.append(SEPARATOR);
+			for (int i = 0; i < this.getNbrCamions(); i++) {
+				file.append(DELIMITER);
+				file.append(Integer.toString(i+1));
+				file.append(SEPARATOR);
+			}
+
+
+			// HEADER 3
+			file.append(SEPARATOR);
+			file.append(HEADER3);
+			file.append(SEPARATOR);
+
+
+			// HEADER 4
+			file.append(SEPARATOR);
+			file.append(HEADER4);
+			file.append(SEPARATOR);
+			for (int i = 0; i < this.getTrajets().size(); i++) {
+				file.append(DELIMITER);
+				file.append(getTrajets().get(i).getVilleDepart().getNom());
+				file.append(DELIMITER);
+				file.append(getTrajets().get(i).getVilleArrivee().getNom());
+				file.append(DELIMITER);
+				file.append(getTrajets().get(i).getJourDepart().getNom());
+				file.append(DELIMITER);
+				file.append(getTrajets().get(i).getHeureDepart().toString());
 				file.append(DELIMITER);
 				for (Map.Entry<Integer, ArrayList<Integer>> mapentry : getCamionsTrajets().entrySet()) {
 					for (int j = 0; j < mapentry.getValue().size(); j++) {

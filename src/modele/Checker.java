@@ -76,7 +76,9 @@ public class Checker {
         boolean checker = true;
         for (Map.Entry<Integer, ArrayList<Integer>> mapentry : getSolution().getChauffeursTrajets().entrySet()) {
             double conduiteJournaliere[] = {0,0,0,0,0,0,0};
+
             for(int i = 0; i<mapentry.getValue().size(); i++) {
+
                 TrajetFixe trajet = getSolution().getTrajetById(mapentry.getValue().get(i));
                 double tempsDeConduite = trajet.getTempsDeConduite();
                 int jour = trajet.getJourDepart().getIdentifiant();
@@ -277,7 +279,10 @@ public class Checker {
             int compteur = 0;
 
             for (Map.Entry<Integer, ArrayList<Integer>> mapentry1 : getSolution().getCamionsTrajets().entrySet()) {
-                if (mapentry1.getValue().contains(trajet.getIdentifiant()) == true) {
+                if (trajet.getIdentifiant() >= 5000){
+                    compteur+=1;
+                }
+                else if (mapentry1.getValue().contains(trajet.getIdentifiant()) == true) {
                     compteur += 1;
                 }
             }
@@ -700,90 +705,49 @@ public class Checker {
     public boolean verificationChauffeur(){
         boolean checker1 = true;
 
-        System.out.println("**********************************Contraintes de reglementations***************************************************");
+
         checker1 = dureeConduiteContinue();
-        if(dureeConduiteContinue() == false)
-            System.out.println("dureeConduiteContinue == false");
-        else
-            System.out.println("dureeConduiteContinue == true");
+
 
         checker1 = dureeConduiteJournaliere();
-        if(dureeConduiteJournaliere() == false)
-            System.out.println("dureeConduiteJournaliere == false");
-        else
-            System.out.println("dureeConduiteJournaliere == true");
+
 
         checker1 = dureeConduiteHebdomadaire();
-        if(dureeConduiteHebdomadaire() == false)
-            System.out.println("dureeConduiteHebdomadaire == false");
-        else
-            System.out.println("dureeConduiteHebdomadaire == true");
+
 
         checker1 = tempsReposJournalier();
-        if(tempsReposJournalier() == false)
-            System.out.println("tempsReposJournalier == false");
-        else
-            System.out.println("tempsReposJournalier == true");
+
 
         checker1 = tempsReposHebdomadaire();
-        if(tempsReposHebdomadaire() == false)
-            System.out.println("tempsReposHebdomadaire == false");
-        else
-            System.out.println("tempsReposHebdomadaire == true");
 
-        System.out.println("**********************************Contraintes operationnelles***************************************************");
+
 
         boolean checker2 = true;
         checker2 = unTrajetALaFoisChauffeurs();
-        if(unTrajetALaFoisChauffeurs() == false)
-            System.out.println("unTrajetALaFoisChauffeurs == false");
-        else
-            System.out.println("unTrajetALaFoisChauffeurs == true");
+
 
         checker2 = unTrajetALaFoisCamions();
-        if(unTrajetALaFoisCamions() == false)
-            System.out.println("unTrajetALaFoisCamions == false");
-        else
-            System.out.println("unTrajetALaFoisCamions == true");
+
 
         checker2 = trajetCamionChauffeur();
-        if(trajetCamionChauffeur() == false)
-            System.out.println("trajetCamionChauffeur == false");
-        else
-            System.out.println("trajetCamionChauffeur == true");
+
 
         checker2 = reposHebdomadaireVilleRattachement();
-        if(reposHebdomadaireVilleRattachement() == false)
-            System.out.println("reposHebdomadaireVilleRattachement == false");
-        else
-            System.out.println("reposHebdomadaireVilleRattachement == true");
+
 
 
         checker2 = trajetsPause();
-        if(trajetsPause() == false)
-            System.out.println("trajetsPause == false");
-        else
-            System.out.println("trajetsPause == true");
+
 
         checker2 = tempsTrajets();
-        if(tempsTrajets() == false)
-            System.out.println("tempsTrajets == false");
-        else
-            System.out.println("tempsTrajets == true");
+
 
         checker2 = chauffeurBonneVille();
-        if(chauffeurBonneVille() == false)
-            System.out.println("chauffeurBonneVille == false");
-        else
-            System.out.println("chauffeurBonneVille == true");
+
 
         checker2 = camionBonneVille();
-        if(camionBonneVille() == false)
-            System.out.println("camionBonneVille == false");
-        else
-            System.out.println("camionBonneVille == true");
 
-        System.out.println("**********************************Respect des couts***************************************************");
+
         boolean checker3 = true;
 
         return checker1 && checker2 && checker3;

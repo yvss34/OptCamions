@@ -4,6 +4,7 @@ import modele.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ public class InterfacePrincipaleTest {
     Plannification plannification;
 
     @Before
-    public void initSolution() {
+    public void initSolution() throws IOException {
 
         interfacePrincipale = new InterfacePrincipale("SymoneTest");
 
@@ -61,6 +62,7 @@ public class InterfacePrincipaleTest {
         trajetNonFixeTableau.add(trajet2_1);
         trajetNonFixeTableau.add(trajet2_2);
         plannification = new Plannification(10.0,40.0,12,14,50,4.5,11,9,54,24,trajetNonFixeTableau,trajetFixeTableau);
+
     }
 
     @Test

@@ -5,6 +5,7 @@ import modele.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -184,7 +185,43 @@ public class InterfacePrincipale extends JFrame{
 
                     if(trajetFixe.isEmpty()==false && trajetFixe!=null || trajetNonFixe.isEmpty()==false || trajetNonFixe!=null){
                         plannification = new Plannification(nombreHeureMin,nombreHeureMax,coutHoraireJour,coutHoraireNuit,coutHotellerie,nombreHeureConduiteMaximum,tempsReposJournalier,nombreHeuresConduiteJournaliere,nombreHeuresHebdomadaire,dureeReposHebdomadaire,trajetNonFixe,trajetFixe);
-                        System.out.println(plannification.toString());
+                        // Moteur de resolution
+
+                        MoteurDeResolutionPrototype moteurDeResolution;
+                        moteurDeResolution = new MoteurDeResolutionPrototype(plannification);
+                        ArrayList<Solution> solutions = new ArrayList<Solution>();
+
+                        System.out.println(plannification);
+
+                        //ACT
+                        solutions = moteurDeResolution.camionTrajetsAleatoire(10000000);
+                        System.out.println(solutions.size());
+                        if(!solutions.isEmpty()) {
+                            try {
+                                System.out.println(solutions.get(0));
+                                solutions.get(0).creationCsvCamion();
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+                        }
+
+                        // Moteur de resolution prototype
+            //        MoteurDeResolutionPrototype moteurDeResolutionPrototype;
+            //        moteurDeResolutionPrototype = new MoteurDeResolutionPrototype(plannification);
+            //        ArrayList<Solution> solutionsPrototype = new ArrayList<Solution>();
+            //        int compteur = 0;
+            //        solutions = moteurDeResolutionPrototype.camionTrajetsAleatoire(1000);
+            //        if(!solutions.isEmpty()) {
+            //            do {
+            //                solutions = moteurDeResolutionPrototype.chauffeurTrajets(solutions, 1000);
+            //                compteur++;
+            //            }while(solutions.isEmpty() && compteur < 5);
+            //
+            //            if(!solutions.isEmpty()) {
+            //                Solution solution = moteurDeResolutionPrototype.optimisationCout(solutions);
+            //                solution.creationCsv();
+            //            }
+            //        }
                     }
 
                 }

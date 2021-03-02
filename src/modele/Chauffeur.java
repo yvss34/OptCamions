@@ -3,7 +3,7 @@ package modele;
 /**
  * Cette classe represente un chauffeur Symone
  */
-public class Chauffeur {
+public class Chauffeur implements Cloneable{
 
 	/**
 	 * Attributes
@@ -26,6 +26,21 @@ public class Chauffeur {
 		this.villeRattachement = villeRattachement;
 		this.contratDeTravail = contratDeTravail;
 		this.coutHotellerie = coutHotellerie;
+	}
+
+	public Object clone() {
+		Chauffeur chauffeur = null;
+		try {
+			// On récupère l'instance à renvoyer par l'appel de la
+			// méthode super.clone()
+			chauffeur = (Chauffeur) super.clone();
+		} catch(CloneNotSupportedException cnse) {
+			// Ne devrait jamais arriver, car nous implémentons
+			// l'interface Cloneable
+			cnse.printStackTrace(System.err);
+		}
+		// on renvoie le clone
+		return chauffeur;
 	}
 
 	/**

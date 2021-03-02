@@ -98,7 +98,7 @@ public class MoteurDeResolution {
                                 String[] fenetreTempsDepart = trajet1_2.getFenetreDeTemps()[0].split(";");
                                 String[] tempsDepart = fenetreTempsDepart[0].split("-");
                                 double heureArrivee = Double.parseDouble(tempsDepart[0]);
-                                horaire1 = LocalTime.of((int) heureArrivee, (int) ((heureArrivee - (int) heureArrivee) * 100));
+                                horaire1 = LocalTime.of((int) heureArrivee, (int) ((heureArrivee - (int) heureArrivee)) * 100);
                             }
 
                             if (trajet2_1 != null) {
@@ -107,7 +107,7 @@ public class MoteurDeResolution {
                                 String[] fenetreTempsDepart = trajet2_2.getFenetreDeTemps()[0].split(";");
                                 String[] tempsDepart = fenetreTempsDepart[0].split("-");
                                 double heureArrivee = Double.parseDouble(tempsDepart[0]);
-                                horaire2 = LocalTime.of((int) heureArrivee, (int) ((heureArrivee - (int) heureArrivee) * 100));
+                                horaire2 = LocalTime.of((int) heureArrivee, (int) ((heureArrivee - (int) heureArrivee))* 100);
                             }
                             if (horaire1.isBefore(horaire2)) {
                                 temp = trajets.get(i);

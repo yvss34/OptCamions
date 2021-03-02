@@ -126,7 +126,7 @@ class MoteurDeResolutionTestGrandeInstance {
         //ACT
         solutions = moteurDeResolution.camionTrajetsAleatoire(1000);
 
-        System.out.println(solutions);
+        System.out.println(solutions.size());
 
         if(!solutions.isEmpty()) {
             for (Solution solution : solutions) {

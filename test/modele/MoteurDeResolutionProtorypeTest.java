@@ -360,4 +360,129 @@ public class MoteurDeResolutionProtorypeTest {
         }
     }
 
+
+    @Test
+    public void FixCamionsChauffeurs(){
+
+        //ARRANGE
+        ArrayList<Solution> solutions = new ArrayList<Solution>();
+        MoteurDeResolutionPrototype moteurDeResolutionTest;
+
+        //Ville
+        Ville paris = new Ville(1, "Paris");
+        Ville marseille = new Ville(2, "Marseille");
+        Ville lyon = new Ville(3, "Lyon");
+        Ville bordeaux = new Ville(4, "Bordeaux");
+        Ville toulouse = new Ville(5, "Toulouse");
+
+        Jour jour1 = new Jour(0,"Lundi");
+        Jour jour2 = new Jour(1,"Mardi");
+        Jour jour3 = new Jour(2,"Mercredi");
+
+
+        //Trajets
+        String[] fenetreDeTemps = {"8.00-10.00"};
+        HashMap<Ville,Double> listeVilleStop = new HashMap<Ville,Double>();
+        listeVilleStop.put(lyon,5.0);
+        TrajetNonFixe trajet2_1 = new TrajetNonFixe(0, paris, marseille, 9.0,  null,listeVilleStop, 1,fenetreDeTemps,0,0 );
+
+        LocalTime heureDepart1 = LocalTime.of(8,00);
+        TrajetFixe trajet1_1 = new TrajetFixe(1, marseille, toulouse, 5.0, new ArrayList<Double>(), null, jour2, heureDepart1);
+
+
+        LocalTime heureDepart2 = LocalTime.of(8,00);
+        TrajetFixe trajet1_2 = new TrajetFixe(2, toulouse, paris, 5.0, new ArrayList<Double>(), null, jour3, heureDepart2);
+
+
+        ArrayList<TrajetNonFixe> trajetNonFixeTableauTest= new ArrayList<TrajetNonFixe>();
+        trajetNonFixeTableauTest.add(trajet2_1);
+
+        ArrayList<TrajetFixe> trajetFixeTableauTest= new ArrayList<TrajetFixe>();
+        trajetFixeTableauTest.add(trajet1_1);
+        trajetFixeTableauTest.add(trajet1_2);
+
+        plannification = new Plannification(2.0,45,12,14,50,4.5,9,9,54,48,trajetNonFixeTableauTest,trajetFixeTableauTest);
+        moteurDeResolutionTest = new MoteurDeResolutionPrototype(plannification);
+
+        //ACT
+        solutions = moteurDeResolutionTest.camionTrajetsAleatoire(10);
+
+        System.out.println(solutions.size());
+        if(!solutions.isEmpty()) {
+            for (Solution solution : solutions) {
+                assertEquals(1, solution.getNbrCamions());
+            }
+        }
+    }
+
+    @Test
+    public void ListeTrajetUnitaire(){
+
+        //ARRANGE
+        ArrayList<Solution> solutions = new ArrayList<Solution>();
+        MoteurDeResolutionPrototype moteurDeResolutionTest;
+
+        //Ville
+        Ville paris = new Ville(1, "Paris");
+        Ville marseille = new Ville(2, "Marseille");
+        Ville lyon = new Ville(3, "Lyon");
+        Ville bordeaux = new Ville(4, "Bordeaux");
+        Ville toulouse = new Ville(5, "Toulouse");
+
+        Jour jour1 = new Jour(0,"Lundi");
+        Jour jour2 = new Jour(1,"Mardi");
+        Jour jour3 = new Jour(2,"Mercredi");
+
+
+        //Trajets
+        String[] fenetreDeTemps = {"8.00-10.00"};
+        HashMap<Ville,Double> listeVilleStop = new HashMap<Ville,Double>();
+        listeVilleStop.put(lyon,5.0);
+        TrajetNonFixe trajet2_1 = new TrajetNonFixe(0, paris, marseille, 9.0,  null,listeVilleStop, 1,fenetreDeTemps,0,0 );
+
+        LocalTime heureDepart1 = LocalTime.of(8,00);
+        HashMap<Ville,Double> listeVilleStop1 = new HashMap<Ville,Double>();
+        listeVilleStop1.put(lyon,5.0);
+        listeVilleStop1.put(bordeaux,8.0);
+        TrajetFixe trajet1_1 = new TrajetFixe(1, marseille, toulouse, 10.0, new ArrayList<Double>(), listeVilleStop1, jour2, heureDepart1);
+
+
+        LocalTime heureDepart2 = LocalTime.of(8,00);
+        TrajetFixe trajet1_2 = new TrajetFixe(2, toulouse, paris, 5.0, new ArrayList<Double>(), null, jour3, heureDepart2);
+
+
+        ArrayList<TrajetNonFixe> trajetNonFixeTableauTest= new ArrayList<TrajetNonFixe>();
+        trajetNonFixeTableauTest.add(trajet2_1);
+
+        ArrayList<TrajetFixe> trajetFixeTableauTest= new ArrayList<TrajetFixe>();
+        trajetFixeTableauTest.add(trajet1_1);
+        trajetFixeTableauTest.add(trajet1_2);
+
+        plannification = new Plannification(2.0,45,12,14,50,4.5,9,9,54,48,trajetNonFixeTableauTest,trajetFixeTableauTest);
+        moteurDeResolutionTest = new MoteurDeResolutionPrototype(plannification);
+
+        //ACT
+        solutions = moteurDeResolutionTest.camionTrajetsAleatoire(100);
+
+        System.out.println(solutions.size());
+        if(!solutions.isEmpty()) {
+            for (Solution solution : solutions) {
+
+                System.out.println(solution.getCamionsTrajets());
+//                for(Trajet trajet : solution.getTrajets()){
+//                    System.out.println(trajet);
+//                }
+//                System.out.println("2eme");
+//                moteurDeResolutionTest.listeTrajetsUnitaire(solution);
+//                for(Trajet trajet : solution.getTrajets()){
+//                    System.out.println(trajet);
+//                }
+//                Checker checker = new Checker(solution);
+//                //assertEquals(true, checker.verificationCamion());
+//                assertEquals(1, solution.getNbrCamions());
+            }
+        }
+
+    }
+
     }

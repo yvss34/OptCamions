@@ -468,7 +468,7 @@ public class MoteurDeResolutionPrototype {
 
 
             while (trajetTrier.isEmpty() == false) {
-
+                compteur = 0;
                 //Etape 3 : Retire 1er trajet de la liste aleatoirement parmi les 3 premiers et l'affecte au camion courant
                 if (premierTrajet == true) {
 
@@ -489,7 +489,6 @@ public class MoteurDeResolutionPrototype {
                     if (plannification.getTrajetFixeById(trajetTrier.get(nombreAleatoire).get(0)) != null) {
                         TrajetFixe trajetFixe = plannification.getTrajetFixeById(trajetTrier.get(nombreAleatoire).get(0));
                         trajet.add(trajetFixe);
-                        System.out.println(trajetFixe);
                         idTrajet.add(trajetFixe.getIdentifiant());
                         index = nombreAleatoire;
                         premierTrajet = false;
@@ -540,7 +539,6 @@ public class MoteurDeResolutionPrototype {
                                         if (trajetFixe.getHeureDepart().isAfter(heureArrivee)) {
                                             if (trajetFixe.getVilleArrivee().getIdentifiant() == premiereVille.getIdentifiant() || trajetFixe.getJourDepart().getIdentifiant() < jourDepart.getIdentifiant() + 6) {
                                                 trajetAjout.add(trajetFixe);
-                                                System.out.println(trajetFixe  + " if if ");
                                                 nombreAjout++;
                                             }
                                         }
@@ -548,7 +546,6 @@ public class MoteurDeResolutionPrototype {
                                 } else if (trajetFixe.getJourDepart().getIdentifiant() > trajetActuelle.getJourDepart().getIdentifiant()) {
                                     if (trajetFixe.getVilleArrivee().getIdentifiant() == premiereVille.getIdentifiant() || trajetFixe.getJourDepart().getIdentifiant() < jourDepart.getIdentifiant() + 6) {
                                         trajetAjout.add(trajetFixe);
-                                        System.out.println(trajetFixe + "else if ");
                                         nombreAjout++;
                                     }
                                 }
@@ -709,26 +706,8 @@ public class MoteurDeResolutionPrototype {
                 LocalTime heureArrivee = trajetActuelle.getHeureDepart();
                 heureArrivee = heureArrivee.plusHours((int) trajetActuelle.getTempsDeConduite());
                 heureArrivee = heureArrivee.plusMinutes((int) (trajetActuelle.getTempsDeConduite() - (int) trajetActuelle.getTempsDeConduite()) * 100);
-                //1ere solution pour trajet à vide
+
                 TrajetFixe trajetAdd = new TrajetFixe(identifiantTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, 9, null, trajetActuelle.getJourDepart(), heureArrivee);
-
-                //2eme solution pour trajet à vide
-//                            double tempsDeConduite = 9;
-//                            boolean entreeCorrecte = false;
-//                            while(entreeCorrecte == false){
-//                                Scanner sc = new Scanner(System.in);
-//                                System.out.println("Quel est le temps de conduite entre "+trajetActuelle.getVilleArrivee().getNom()+" et "+premiereVille.getNom()+ " ?");
-//                                String str = sc.nextLine();
-//
-//                                try {
-//                                    tempsDeConduite = Double.parseDouble(str);
-//                                    entreeCorrecte = true;
-//                                }catch (Exception e){
-//                                    System.out.println("Veuillez entrer un nombre valide");
-//                                }
-//                            }
-//                            TrajetFixe trajetAdd = new TrajetFixe(identifiantTrajetAVide, trajetActuelle.getVilleArrivee(), premiereVille, tempsDeConduite, null, trajetActuelle.getJourDepart(), heureArrivee);
-
 
                 trajet.add(trajetAdd);
                 idTrajet.add(trajetAdd.getIdentifiant());
@@ -745,7 +724,7 @@ public class MoteurDeResolutionPrototype {
             if(identifiantCamion == nombreCamionMin){
                 Solution solution = new Solution();
                 solution.setCamionsTrajets(camionTrajet);
-                System.out.println(camionTrajet);
+
                 solution.setNbrCamions(identifiantCamion-1);
                 solution.setTrajets(trajet);
                 solution.setPlannification(plannification);
@@ -755,9 +734,7 @@ public class MoteurDeResolutionPrototype {
                 if(checker.verificationCamion()){
                     boolean existe = false;
                     for(Solution solutionIterateur : listeSolution){
-                        if(Solution.egale(solution,solutionIterateur)){
-                            existe = true;
-                        }
+                        existe = Solution.egale(solution,solutionIterateur);
                     }
                     if(!existe){
                         listeSolution.add(solution);
@@ -770,7 +747,7 @@ public class MoteurDeResolutionPrototype {
 
                 Solution solution = new Solution();
                 solution.setCamionsTrajets(camionTrajet);
-                System.out.println(camionTrajet);
+
                 solution.setNbrCamions(identifiantCamion-1);
                 solution.setTrajets(trajet);
                 solution.setPlannification(plannification);
@@ -782,9 +759,7 @@ public class MoteurDeResolutionPrototype {
                     listeSolution.add(solution);
                     nombreCamionMin = identifiantCamion;
                 }
-
             }
-
             occurence++;
         }
         return listeSolution;

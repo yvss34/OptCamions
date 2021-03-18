@@ -193,11 +193,12 @@ public class Solution implements Cloneable{
 
 		int sizeTrajet1 = obj1.getTrajets().size();
 		int sizeTrajet2 = obj2.getTrajets().size();
+
 		if(size1 == size2 && sizeTrajet1==sizeTrajet2){
 			int compteur = 0;
 			for(TrajetFixe trajet1: obj1.getTrajets()){
-				for(TrajetFixe trajet2: obj1.getTrajets()){
-					if(trajet1.equals(trajet2)){
+				for(TrajetFixe trajet2: obj2.getTrajets()){
+					if(TrajetFixe.egale(trajet1,trajet2)){
 						compteur++;
 					}
 				}
@@ -206,17 +207,26 @@ public class Solution implements Cloneable{
 				return false;
 			}
 
-			for (int i = 0;i<size1;i++){
-				for(int j =0;j<size1;j++){
-					if (obj1.getCamionsTrajets().get(i+1).equals(obj2.getCamionsTrajets().get(j+1))){
-						for (int iterateur : obj1.getCamionsTrajets().get(i+1)){
-							if(!TrajetFixe.egale(obj1.getTrajetById(iterateur),obj2.getTrajetById(iterateur))){
-								checker = false;
-							}
-						}
+//			for (int i = 0;i<size1;i++){
+//				for(int j =0;j<size1;j++){
+//					if (obj1.getCamionsTrajets().get(i+1).equals(obj2.getCamionsTrajets().get(j+1))){
+//						for (int iterateur : obj1.getCamionsTrajets().get(i+1)){
+//							if(!TrajetFixe.egale(obj1.getTrajetById(iterateur),obj2.getTrajetById(iterateur))){
+//								checker = false;
+//							}
+//						}
+//					}
+//				}
+//			}
+
+			for (Map.Entry<Integer, ArrayList<Integer>> map1 : obj1.getCamionsTrajets().entrySet()) {
+				for (Map.Entry<Integer, ArrayList<Integer>> map2 : obj2.getCamionsTrajets().entrySet()) {
+					if(!map1.getValue().equals(map2.getValue())){
+						checker = false;
 					}
 				}
 			}
+
 		}else
 			checker = false;
 

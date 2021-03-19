@@ -389,8 +389,10 @@ public class Checker {
         boolean checker = true;
         for(int i = 0; i<getSolution().getTrajets().size();i++)
         {
-            if (getSolution().getTrajets().get(i).getTempsDePause().isEmpty()){
-                checker = false;
+            if(getSolution().getTrajets().get(i).getIdentifiant() < 5000){
+                if (getSolution().getTrajets().get(i).getTempsDePause().isEmpty()){
+                    checker = false;
+                }
             }
         }
         return checker;

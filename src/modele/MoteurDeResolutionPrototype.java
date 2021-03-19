@@ -835,6 +835,7 @@ public class MoteurDeResolutionPrototype {
                     trajets.add(pTrajet);
                     idTrajet.add(pTrajet.getIdentifiant());
                 }
+
                 LocalTime heureDepart = trajet.getHeureDepart();
                 heureDepart = heureDepart.plusHours((int) tempsDeConduite);
                 heureDepart = heureDepart.plusMinutes((int) (tempsDeConduite - (int) tempsDeConduite) * 100);
@@ -855,6 +856,7 @@ public class MoteurDeResolutionPrototype {
                         pTrajet.setTempsDePause(tempsDePauseList);
                         tempsDePause += 2 * 45;
                     }
+                    nbrTrajet++;
             }else{
                     TrajetFixe pTrajet = new TrajetFixe(nbrTrajet, trajet.getVilleDepart(), trajet.getVilleArrivee(), trajet.getTempsDeConduite(), null, null, trajet.getJourDepart(), trajet.getHeureDepart());
 
@@ -927,19 +929,73 @@ public class MoteurDeResolutionPrototype {
         return trajets;
     }
 
+
+    /**
+     * Ajoute des trajets en train pour les chauffeurs effectue leur repos hebdomadaire chez eux
+     * @param pSolution, un objet Solution
+     */
+    public void trainChauffeurs(Solution pSolution){
+        int identifiantTrain = 5000;
+        for (Map.Entry<Integer, ArrayList<Integer>> map : pSolution.getChauffeursTrajets().entrySet()) {
+                TrajetFixe trajet = pSolution.getTrajetById(map.getValue().get(map.getValue().size()-1));
+                Chauffeur chauffeur = pSolution.getChauffeurById(map.getKey());
+                if(trajet.getVilleArrivee().getIdentifiant() != chauffeur.getVilleRattachement().getIdentifiant()){
+
+                    Jour jour = trajet.getJourDepart();
+
+                    LocalTime heureArrivee = trajet.getHeureDepart();
+                    heureArrivee = heureArrivee.plusHours((int) trajet.getTempsDeConduite());
+                    heureArrivee = heureArrivee.plusMinutes((int) (trajet.getTempsDeConduite() - (int) trajet.getTempsDeConduite()) * 100);
+                    if(trajet.getHeureDepart().isAfter(heureArrivee)){
+                        if(jour.getIdentifiant() == 0){
+                            jour = new Jour(1,"Mardi");
+                        }else if(jour.getIdentifiant() == 1){
+                            jour = new Jour(2,"Mercredi");
+                        }else if(jour.getIdentifiant() == 2){
+                            jour = new Jour(3,"Jeudi");
+                        }else if(jour.getIdentifiant() == 3){
+                            jour = new Jour(4,"Vendredi");
+                        }else if(jour.getIdentifiant() == 4){
+                            jour = new Jour(5,"Samedi");
+                        }else if(jour.getIdentifiant() == 5){
+                            jour = new Jour(6,"Dimanche");
+                        }else if(jour.getIdentifiant() == 6){
+                            jour = new Jour(0,"Lundi");
+                        }
+                    }
+
+                    TrajetFixe trajetAdd = new TrajetFixe(identifiantTrain, trajet.getVilleArrivee(), chauffeur.getVilleRattachement(), 0,null, null, jour, heureArrivee);
+                    identifiantTrain++;
+
+                    pSolution.getTrajets().add(trajetAdd);
+                    pSolution.getChauffeursTrajets().get(map.getKey()).add(trajetAdd.getIdentifiant());
+                }
+        }
+    }
+
+    /**
+     * Fusionne les chauffeurs qui peuvent être fusionnés
+     * @param pSolution, un objet solution
+     */
+    public void optimisationChauffeurs(Solution pSolution){
+
+    }
+
     public ArrayList<Solution> chauffeurTrajets(ArrayList<Solution> pListeSolution, int nombreRepetition){
+
         ArrayList<Solution> listeSolution = new ArrayList<Solution>();
 
         int occurence = 0;
         int nombreChauffeurMin = 1000;
         int FACTEUR_ALEATOIRE = 5;
 
-
-
         for(Solution solution : pListeSolution){
+
             while(occurence<nombreRepetition){
+
                 HashMap<Integer,ArrayList<Integer>> chauffeursTrajets = new HashMap<Integer,ArrayList<Integer>>();
                 Solution solutionClone = (Solution)solution.clone();
+
                 //Etape 1 : Liste Trajet Fixe Unitaires
                 this.listeTrajetsUnitaire(solutionClone);
 
@@ -953,7 +1009,6 @@ public class MoteurDeResolutionPrototype {
                 boolean premierTrajet = true;
                 Ville villeCourante = null;
                 TrajetFixe trajetActuelle = null;
-                int identifiantTrain = 5000;
                 double tempsDeConduiteHebdomadaire = 0;
                 double[] tempsDeConduiteJournalier = {0,0,0,0,0,0,0};
 
@@ -961,9 +1016,10 @@ public class MoteurDeResolutionPrototype {
                 Chauffeur chauffeur = null;
                 int identifiantChauffeur = 1;
                 ArrayList<Integer> idTrajet = new ArrayList<Integer>();
-                boolean stop = false;
+                Jour premierJourSemaine = null;
+                int identifiantReposHebdomadaire = 5;
 
-                while (trajets.isEmpty() == false && stop == false){
+                while (trajets.isEmpty() == false){
 
                     //Etape 3 : Nouveau Chauffeur
                     //Etape 4 : On récupère les N premiers trajets, et on en retire un de la liste aléatoirement
@@ -995,63 +1051,81 @@ public class MoteurDeResolutionPrototype {
                         villeCourante = trajet.getVilleArrivee();
                         tempsDeConduiteHebdomadaire += trajet.getTempsDeConduite();
                         tempsDeConduiteJournalier[trajet.getJourDepart().getIdentifiant()] += trajet.getTempsDeConduite();
-
+                        premierJourSemaine = trajet.getJourDepart();
+                        if(premierJourSemaine.getIdentifiant() == 0){
+                            identifiantReposHebdomadaire = 4;
+                        }else if(premierJourSemaine.getIdentifiant() == 1){
+                            identifiantReposHebdomadaire = 5;
+                        }else{
+                            identifiantReposHebdomadaire = 6;
+                        }
                     }
+
                     else{
                         int nombreAjout = 0;
                         ArrayList<TrajetFixe> trajetsValide = new ArrayList<TrajetFixe>();
                         int compteur = 0;
                         //Etape 6 : TQ Trajets <> vide :
                         //Etape 6a
+
                         if(tempsDeConduiteHebdomadaire < solutionClone.getPlannification().getNbrConduiteHebdomadaireMax() - 9){
                             //Etape 6ai. Cherche dans l’ordre les N premiers trajets selon 3 critères
-                            while(compteur<trajets.size() && trajetsValide.size()<FACTEUR_ALEATOIRE){
-                                TrajetFixe trajetDebug = trajets.get(compteur);
-                                if(trajets.get(compteur).getVilleDepart().getIdentifiant() == villeCourante.getIdentifiant()){
-                                    if(trajets.get(compteur).getTempsDeConduite()+tempsDeConduiteHebdomadaire < solutionClone.getPlannification().getNbrConduiteHebdomadaireMax()){
-                                        if(trajets.get(compteur).getTempsDeConduite() < solutionClone.getPlannification().getNbrConduiteJournaliereMax() - tempsDeConduiteJournalier[trajets.get(compteur).getJourDepart().getIdentifiant()]){
-                                            tempsDeConduiteJournalier[trajets.get(compteur).getJourDepart().getIdentifiant()] += trajets.get(compteur).getTempsDeConduite();
-                                            tempsDeConduiteHebdomadaire += trajets.get(compteur).getTempsDeConduite();
-                                            nombreAjout += 1;
-                                            trajetsValide.add(trajets.get(compteur));
+                            while(compteur<trajets.size() && trajetsValide.size()<FACTEUR_ALEATOIRE) {
+                                if (trajets.get(compteur).getJourDepart().getIdentifiant() <= identifiantReposHebdomadaire) {
+                                    if (trajets.get(compteur).getVilleDepart().getIdentifiant() == villeCourante.getIdentifiant()) {
+                                        if ((trajets.get(compteur).getTempsDeConduite() + tempsDeConduiteHebdomadaire <= (solutionClone.getPlannification().getNbrConduiteHebdomadaireMax() - 9)) || (trajets.get(compteur).getVilleArrivee().getIdentifiant() == chauffeur.getVilleRattachement().getIdentifiant() && (trajets.get(compteur).getTempsDeConduite() + tempsDeConduiteHebdomadaire < (solutionClone.getPlannification().getNbrConduiteHebdomadaireMax())))) {
+                                            if (trajets.get(compteur).getTempsDeConduite() <= solutionClone.getPlannification().getNbrConduiteJournaliereMax() - tempsDeConduiteJournalier[trajets.get(compteur).getJourDepart().getIdentifiant()]) {
+                                                nombreAjout += 1;
+                                                trajetsValide.add(trajets.get(compteur));
+                                            }
                                         }
                                     }
+                                    compteur++;
                                 }
-                                compteur++;
                             }
 
                             if(nombreAjout > 0){
+
+                                /**
+                                 * On ne garde que les trajets ou le chauffeur retourne à sa ville de rattachement
+                                 * s'il y en a
+                                 */
                                 int nombreAjoutRattachement = 0;
                                 ArrayList<TrajetFixe> trajetsVilleRattachement = new ArrayList<TrajetFixe>();
-
                                 for(TrajetFixe trajetFixe : trajetsValide){
                                     if(trajetFixe.getVilleArrivee().getIdentifiant() == chauffeur.getVilleRattachement().getIdentifiant()){
                                         nombreAjoutRattachement += 1;
                                         trajetsVilleRattachement.add(trajetFixe);
                                     }
                                 }
-
                                 if(nombreAjoutRattachement != 0){
-                                    Random r = new Random();
-                                    if(nombreAjoutRattachement == 1)
-                                        nombreAleatoire = 0;
-                                    else
-                                        nombreAleatoire = r.nextInt(nombreAjoutRattachement-1);
+                                    trajetsValide = trajetsVilleRattachement;
+                                    nombreAjout = nombreAjoutRattachement;
+                                }
 
 
-                                    TrajetFixe trajetFixe = trajetsVilleRattachement.get(nombreAleatoire);
-                                    idTrajet.add(trajetFixe.getIdentifiant());
-                                    trajetActuelle = trajetFixe;
-                                    trajetsFinale.add(trajetFixe);
-                                    trajets.remove(trajetFixe);
+                                /**
+                                 * On ne garde que les trajets le même jour s'il y en a
+                                 */
 
-                                    villeCourante = trajetFixe.getVilleArrivee();
-                                    tempsDeConduiteHebdomadaire += trajetFixe.getTempsDeConduite();
-                                    tempsDeConduiteJournalier[trajetFixe.getJourDepart().getIdentifiant()] += trajetFixe.getTempsDeConduite();
+                                int nombreTrajetMemeJour = 0;
+                                ArrayList<TrajetFixe> trajetsMemeJour = new ArrayList<TrajetFixe>();
+                                for(TrajetFixe trajetFixe : trajetsValide){
+                                    if(trajetFixe.getJourDepart().getIdentifiant() == trajetActuelle.getJourDepart().getIdentifiant()){
+                                        nombreTrajetMemeJour += 1;
+                                        trajetsMemeJour.add(trajetFixe);
+                                    }
+                                }
+                                if(nombreTrajetMemeJour != 0){
+                                    trajetsValide = trajetsMemeJour;
+                                    nombreAjout = nombreTrajetMemeJour;
+                                }
 
-                                }else{
-                                    Random r = new Random();
-                                    if(nombreAjout == 1)
+                                /**
+                                 * On choisi aléatoirement un des trajets restants
+                                 */
+                                Random r = new Random();
+                                if(nombreAjout == 1)
                                         nombreAleatoire = 0;
                                     else
                                         nombreAleatoire = r.nextInt(nombreAjout-1);
@@ -1065,102 +1139,38 @@ public class MoteurDeResolutionPrototype {
                                     villeCourante = trajetFixe.getVilleArrivee();
                                     tempsDeConduiteHebdomadaire += trajetFixe.getTempsDeConduite();
                                     tempsDeConduiteJournalier[trajetFixe.getJourDepart().getIdentifiant()] += trajetFixe.getTempsDeConduite();
-                                }
-
 
                             }else{
-                                if(villeCourante.getIdentifiant() != chauffeur.getVilleRattachement().getIdentifiant()){
-                                    LocalTime heureArrivee = LocalTime.of(7,0);
-
-                                    ArrayList<Double> tempsDePause = new ArrayList<Double>();
-                                    tempsDePause.add(plannification.getNbrConduiteContinueMax());
-
-                                    int jourDepart = trajetActuelle.getJourDepart().getIdentifiant() + 1;
-                                    if( jourDepart==7){
-                                        jourDepart = 0;
-                                    }
-                                    TrajetFixe trajetAdd = new TrajetFixe(identifiantTrain, trajetActuelle.getVilleArrivee(), chauffeur.getVilleRattachement(), 8,tempsDePause, null, new Jour(jourDepart,"Trajet A Vide"), heureArrivee);
-
-                                    identifiantTrain++;
-
-                                    tempsDeConduiteHebdomadaire += trajetAdd.getTempsDeConduite();
-
-                                    tempsDeConduiteJournalier[jourDepart] += trajetAdd.getTempsDeConduite();
-
-
-                                    trajetsFinale.add(trajetAdd);
-                                    idTrajet.add(trajetAdd.getIdentifiant());
-                                    trajetActuelle = trajetAdd;
-                                    villeCourante = trajetAdd.getVilleArrivee();
-
-                                }
-
                                 chauffeursTrajets.put(chauffeur.getIdentifiant(),idTrajet);
                                 premierTrajet = true;
                             }
-
                         }
                         else{
-                            //Etape 6bc
-                            if(villeCourante.getIdentifiant() != chauffeur.getVilleRattachement().getIdentifiant()){
-                                LocalTime heureArrivee = LocalTime.of(7,0);
-
-                                ArrayList<Double> tempsDePause = new ArrayList<Double>();
-                                tempsDePause.add(plannification.getNbrConduiteContinueMax());
-
-                                int jourDepart = trajetActuelle.getJourDepart().getIdentifiant() + 1;
-                                if( jourDepart==7){
-                                    jourDepart = 0;
-                                }
-                                TrajetFixe trajetAdd = new TrajetFixe(identifiantTrain, trajetActuelle.getVilleArrivee(), chauffeur.getVilleRattachement(), 8,tempsDePause, null, new Jour(jourDepart,"Trajet A Vide"), heureArrivee);
-
-                                identifiantTrain++;
-
-                                tempsDeConduiteHebdomadaire += trajetAdd.getTempsDeConduite();
-
-                                tempsDeConduiteJournalier[jourDepart] += trajetAdd.getTempsDeConduite();
-                                trajetsFinale.add(trajetAdd);
-                                idTrajet.add(trajetAdd.getIdentifiant());
-                                trajetActuelle = trajetAdd;
-                                villeCourante = trajetAdd.getVilleArrivee();
-                            }
                             chauffeursTrajets.put(chauffeur.getIdentifiant(),idTrajet);
                             premierTrajet = true;
                         }
                     }
                 }
-
-                if(villeCourante.getIdentifiant() != chauffeur.getVilleRattachement().getIdentifiant()){
-                    LocalTime heureArrivee = LocalTime.of(7,0);
-
-                    ArrayList<Double> tempsDePause = new ArrayList<Double>();
-                    tempsDePause.add(plannification.getNbrConduiteContinueMax());
-
-                    int jourDepart = trajetActuelle.getJourDepart().getIdentifiant() + 1;
-                    if( jourDepart==7){
-                        jourDepart = 0;
-                    }
-                    TrajetFixe trajetAdd = new TrajetFixe(identifiantTrain, trajetActuelle.getVilleArrivee(), chauffeur.getVilleRattachement(), 8,tempsDePause, null, new Jour(jourDepart,"Trajet A Vide"), heureArrivee);
-
-                    tempsDeConduiteHebdomadaire += trajetAdd.getTempsDeConduite();
-
-                    tempsDeConduiteJournalier[jourDepart] += trajetAdd.getTempsDeConduite();
-
-                    trajetsFinale.add(trajetAdd);
-                    idTrajet.add(trajetAdd.getIdentifiant());
-                    trajetActuelle = trajetAdd;
-                    villeCourante = trajetAdd.getVilleArrivee();
-
+                if(premierTrajet == false){
                     chauffeursTrajets.put(chauffeur.getIdentifiant(),idTrajet);
                 }
 
-                if(stop == false){
-                    //On ajoute la solution à la liste de solutions si le nombre de camion est egale au nombre de camion minimale existant
-                    if(chauffeursTrajets.size() == nombreChauffeurMin && chauffeursTrajets.size()==chauffeurs.size()){
+                /**
+                 * RAJOUTER L'OPTIMISATION DES CHAUFFEURS AVANT D'AJOUTER DES TRAJETS EN TRAIN
+                 */
+                this.optimisationChauffeurs(solutionClone);
+
+                //On ajoute la solution à la liste de solutions si le nombre de camion est egale au nombre de camion minimale existant
+                    if(chauffeursTrajets.size() == nombreChauffeurMin){
                         solutionClone.setChauffeursTrajets(chauffeursTrajets);
                         solutionClone.setChauffeurs(chauffeurs);
                         solutionClone.setNbrChauffeurs(chauffeurs.size());
                         solutionClone.setTrajets(trajetsFinale);
+
+                        /**
+                         * RAJOUT TRAJETS TRAINS POUR LES CHAUFFEURS NECESSAIRES
+                         */
+                        this.trainChauffeurs(solutionClone);
 
                         Checker checker = new Checker(solutionClone);
                         //ASSERT
@@ -1178,12 +1188,17 @@ public class MoteurDeResolutionPrototype {
                     }
                     //On ajoute la solution après avoir supprimer les anciennces solutions
                     // si le nombre de camion est inferieur au nombre de camion minimale existant
-                    else if(chauffeursTrajets.size() < nombreChauffeurMin && chauffeursTrajets.size()==chauffeurs.size()){
+                    else if(chauffeursTrajets.size() < nombreChauffeurMin){
 
                         solutionClone.setChauffeursTrajets(chauffeursTrajets);
                         solutionClone.setChauffeurs(chauffeurs);
                         solutionClone.setNbrChauffeurs(chauffeurs.size());
                         solutionClone.setTrajets(trajetsFinale);
+
+                        /**
+                         * RAJOUT TRAJETS TRAINS POUR LES CHAUFFEURS NECESSAIRES
+                         */
+                        this.trainChauffeurs(solutionClone);
 
 
                         Checker checker = new Checker(solutionClone);
@@ -1195,7 +1210,6 @@ public class MoteurDeResolutionPrototype {
                             nombreChauffeurMin = chauffeursTrajets.size();
                         }
                     }
-                }
                 occurence++;
             }
         }

@@ -485,4 +485,73 @@ public class MoteurDeResolutionProtorypeTest {
 
     }
 
+    @Test
+    public void ChauffeursTrajets(){
+
+        //ARRANGE
+        ArrayList<Solution> solutions = new ArrayList<Solution>();
+        MoteurDeResolutionPrototype moteurDeResolutionTest;
+
+        //Ville
+        Ville paris = new Ville(1, "Paris");
+        Ville marseille = new Ville(2, "Marseille");
+        Ville lyon = new Ville(3, "Lyon");
+        Ville bordeaux = new Ville(4, "Bordeaux");
+        Ville toulouse = new Ville(5, "Toulouse");
+
+        Jour jour1 = new Jour(0,"Lundi");
+        Jour jour2 = new Jour(1,"Mardi");
+        Jour jour3 = new Jour(2,"Mercredi");
+
+
+        //Trajets
+        LocalTime heureDepart1 = LocalTime.of(8,00);
+        LocalTime heureDepart2 = LocalTime.of(8,00);
+
+        HashMap<Ville,Double> listeVilleStop = new HashMap<Ville,Double>();
+        listeVilleStop.put(lyon,5.0);
+        TrajetFixe trajet2_1 = new TrajetFixe(0, paris, marseille, 9.0,  null,listeVilleStop, jour1,heureDepart1);
+
+
+        HashMap<Ville,Double> listeVilleStop1 = new HashMap<Ville,Double>();
+//        listeVilleStop1.put(lyon,5.0);
+//        listeVilleStop1.put(bordeaux,8.0);
+        TrajetFixe trajet1_1 = new TrajetFixe(1, marseille, toulouse, 7.0, new ArrayList<Double>(), null, jour2, heureDepart1);
+
+
+
+        TrajetFixe trajet1_2 = new TrajetFixe(2, toulouse, paris, 5.0, new ArrayList<Double>(), null, jour3, heureDepart2);
+
+        ArrayList<TrajetFixe> trajetFixeTableauTest= new ArrayList<TrajetFixe>();
+        trajetFixeTableauTest.add(trajet1_1);
+        trajetFixeTableauTest.add(trajet1_2);
+        trajetFixeTableauTest.add(trajet2_1);
+
+        HashMap<Integer,ArrayList<Integer>> camionsTrajets = new HashMap<Integer,ArrayList<Integer>>();
+        ArrayList<Integer> trajetCamions = new ArrayList<Integer>();
+        trajetCamions.add(0);
+        trajetCamions.add(1);
+        trajetCamions.add(2);
+        camionsTrajets.put(1,trajetCamions);
+
+        plannification = new Plannification(2.0,45,12,14,50,4.5,9,9,54,48,null,trajetFixeTableauTest);
+        Solution solutionTest = new Solution(1,1000,plannification,null,trajetFixeTableauTest,camionsTrajets,null);
+        moteurDeResolutionTest = new MoteurDeResolutionPrototype(plannification);
+
+        ArrayList<Solution> mySolutions = new ArrayList<Solution>();
+        mySolutions.add(solutionTest);
+
+        //ACT
+        ArrayList<Solution> mySolution = moteurDeResolutionTest.chauffeurTrajets(mySolutions,10);
+
+
+        System.out.println(mySolution.size());
+        if(!mySolution.isEmpty()) {
+            for (Solution solution : mySolution) {
+                System.out.println(solution.getChauffeursTrajets());
+            }
+        }
+
+    }
+
     }

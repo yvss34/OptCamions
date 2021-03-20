@@ -191,10 +191,19 @@ public class Solution implements Cloneable{
 		int size1 = obj1.getCamionsTrajets().size();
 		int size2 = obj2.getCamionsTrajets().size();
 
+
+		int sizeChauffeur1 = 0;
+		int sizeChauffeur2 = 0;
+		if(obj1.getChauffeursTrajets() != null){
+			 sizeChauffeur1 = obj1.getChauffeursTrajets().size();
+			 sizeChauffeur2 = obj2.getChauffeursTrajets().size();
+
+		}
+
 		int sizeTrajet1 = obj1.getTrajets().size();
 		int sizeTrajet2 = obj2.getTrajets().size();
 
-		if(size1 == size2 && sizeTrajet1==sizeTrajet2){
+		if(size1 == size2 && sizeTrajet1==sizeTrajet2 && sizeChauffeur1==sizeChauffeur2){
 			int compteur = 0;
 			for(TrajetFixe trajet1: obj1.getTrajets()){
 				for(TrajetFixe trajet2: obj2.getTrajets()){
@@ -207,19 +216,32 @@ public class Solution implements Cloneable{
 				return false;
 			}
 
-			for (Map.Entry<Integer, ArrayList<Integer>> map1 : obj1.getCamionsTrajets().entrySet()) {
-				for (Map.Entry<Integer, ArrayList<Integer>> map2 : obj2.getCamionsTrajets().entrySet()) {
-					if(!map1.getValue().equals(map2.getValue())){
-						checker = false;
+			compteur = 0;
+
+			if(obj1.getCamionsTrajets() != null && obj2.getCamionsTrajets() != null) {
+				for (Map.Entry<Integer, ArrayList<Integer>> map1 : obj1.getCamionsTrajets().entrySet()) {
+					for (Map.Entry<Integer, ArrayList<Integer>> map2 : obj2.getCamionsTrajets().entrySet()) {
+						if (map1.getValue().equals(map2.getValue())) {
+							compteur++;
+						}
 					}
+				}
+				if(compteur != size1){
+					return false;
 				}
 			}
 
-			for (Map.Entry<Integer, ArrayList<Integer>> map1 : obj1.getChauffeursTrajets().entrySet()) {
-				for (Map.Entry<Integer, ArrayList<Integer>> map2 : obj2.getChauffeursTrajets().entrySet()) {
-					if(!map1.getValue().equals(map2.getValue())){
-						checker = false;
+			compteur = 0;
+			if(obj1.getChauffeursTrajets() != null && obj2.getChauffeursTrajets() != null) {
+				for (Map.Entry<Integer, ArrayList<Integer>> map1 : obj1.getChauffeursTrajets().entrySet()) {
+					for (Map.Entry<Integer, ArrayList<Integer>> map2 : obj2.getChauffeursTrajets().entrySet()) {
+						if (map1.getValue().equals(map2.getValue())) {
+							compteur++;
+						}
 					}
+				}
+				if(compteur != sizeChauffeur1){
+					return false;
 				}
 			}
 

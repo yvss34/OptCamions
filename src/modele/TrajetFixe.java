@@ -80,21 +80,29 @@ public class TrajetFixe extends Trajet implements Cloneable{
 	public static boolean egale(TrajetFixe obj1,TrajetFixe obj2) {
 		boolean checker = true;
 
-		if(obj1.getVilleArrivee().getIdentifiant() != obj2.getVilleArrivee().getIdentifiant()){
-			checker = false;
-		};
+		if(obj1.getIdentifiant() == obj2.getIdentifiant()) {
+			if (obj1.getVilleArrivee().getIdentifiant() != obj2.getVilleArrivee().getIdentifiant()) {
+				checker = false;
+			}
+			;
 
-		if(obj1.getVilleDepart().getIdentifiant() != obj2.getVilleDepart().getIdentifiant()){
-			checker = false;
-		};
+			if (obj1.getVilleDepart().getIdentifiant() != obj2.getVilleDepart().getIdentifiant()) {
+				checker = false;
+			}
+			;
 
-		if((obj1.getJourDepart().getIdentifiant()) != obj2.getJourDepart().getIdentifiant()){
-			checker = false;
-		};
+			if ((obj1.getJourDepart().getIdentifiant()) != obj2.getJourDepart().getIdentifiant()) {
+				checker = false;
+			}
+			;
 
-		if((obj1.getHeureDepart()).compareTo(obj2.getHeureDepart()) != 0){
+			if ((obj1.getHeureDepart()).compareTo(obj2.getHeureDepart()) != 0) {
+				checker = false;
+			}
+			;
+		}else{
 			checker = false;
-		};
+		}
 
 		return checker;
 	}

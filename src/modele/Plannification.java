@@ -202,9 +202,11 @@ public class Plannification {
 	 * @return un objet TrajetFixe
 	 */
 	public TrajetFixe getTrajetFixeById(int identifiant){
-		for (int i =0; i<getTrajetsFixe().size();i++){
-			if(getTrajetsFixe().get(i).getIdentifiant() == identifiant)
-				return getTrajetsFixe().get(i);
+		if(getTrajetsFixe() != null) {
+			for (int i = 0; i < getTrajetsFixe().size(); i++) {
+				if (getTrajetsFixe().get(i).getIdentifiant() == identifiant)
+					return getTrajetsFixe().get(i);
+			}
 		}
 
 		return null;
@@ -216,9 +218,12 @@ public class Plannification {
 	 * @return un objet TrajetNonFixe
 	 */
 	public TrajetNonFixe getTrajetNonFixeById(int identifiant){
-		for (int i =0; i<getTrajetsNonFixe().size();i++){
-			if(getTrajetsNonFixe().get(i).getIdentifiant() == identifiant)
-				return getTrajetsNonFixe().get(i);
+
+		if(getTrajetsNonFixe() != null) {
+			for (int i = 0; i < getTrajetsNonFixe().size(); i++) {
+				if (getTrajetsNonFixe().get(i).getIdentifiant() == identifiant)
+					return getTrajetsNonFixe().get(i);
+			}
 		}
 
 		return null;

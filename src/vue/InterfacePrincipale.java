@@ -194,12 +194,13 @@ public class InterfacePrincipale extends JFrame{
                         System.out.println(plannification);
 
                         //ACT
-                        solutions = moteurDeResolution.camionTrajetsAleatoire(10000000);
+                        solutions = moteurDeResolution.camionTrajetsAleatoire(250);
                         System.out.println(solutions.size());
                         if(!solutions.isEmpty()) {
+                            solutions = moteurDeResolution.chauffeurTrajets(solutions,250);
+                            Solution solution = moteurDeResolution.optimisationCout(solutions);
                             try {
-                                System.out.println(solutions.get(0));
-                                solutions.get(0).creationCsvCamion();
+                                solution.creationCsv();
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
                             }

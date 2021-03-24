@@ -448,6 +448,24 @@ public class MoteurDeResolutionPrototype {
 
         while (occurence < nombreRepetition) {
 
+            if(occurence == 0){
+                FACTEUR_ALEATOIRE = 1;
+            }
+            else if (occurence <= 10){
+                FACTEUR_ALEATOIRE = 2;
+            }
+            else if (occurence <= 24){
+                FACTEUR_ALEATOIRE = 3;
+            }
+            else if (occurence <= 50){
+                FACTEUR_ALEATOIRE = 4;
+            }
+            else if (occurence <= 200){
+                FACTEUR_ALEATOIRE = 5;
+            }else{
+                FACTEUR_ALEATOIRE = 6;
+            }
+
             //Etape 1 : Tri de l'ensemble des trajets par date de départ possible
             ArrayList<ArrayList<Integer>> trajetTrier = this.listeTrajetsStandard();
 
@@ -524,13 +542,14 @@ public class MoteurDeResolutionPrototype {
                 //Etape 5 : TQ List <>
                 else {
                     ArrayList<TrajetFixe> trajetAjout = new ArrayList<TrajetFixe>();
+                    ArrayList<Integer> indexTrajetAjout = new ArrayList<Integer>();
                     int nombreAjout = 0;
-
+                    compteur = 0;
                     //Etape 6 : On cherche dans l'ordre les 3 premiers trajets qui respecte les 3 critere suivants
                     // 1 - Ville de départ = ville courante de la symone
                     // 2 - Succession possible au niveau temporelle
                     // 3 - Terminer son trajet à la ville de départ || terminer avant le jour (départ+6)
-                    while (compteur < trajetTrier.size() && nombreAjout < (FACTEUR_ALEATOIRE-1)) {
+                    while (compteur < trajetTrier.size() && trajetAjout.size() < (FACTEUR_ALEATOIRE)) {
                         TrajetFixe trajetFixe = plannification.getTrajetFixeById(trajetTrier.get(compteur).get(0));
                         TrajetNonFixe trajetNonFixe = plannification.getTrajetNonFixeById(trajetTrier.get(compteur).get(0));
                         if (trajetFixe != null) {
@@ -543,6 +562,7 @@ public class MoteurDeResolutionPrototype {
                                         if (trajetFixe.getHeureDepart().isAfter(heureArrivee)) {
                                             if (trajetFixe.getVilleArrivee().getIdentifiant() == premiereVille.getIdentifiant() || trajetFixe.getJourDepart().getIdentifiant() < jourDepart.getIdentifiant() + 6) {
                                                 trajetAjout.add(trajetFixe);
+                                                indexTrajetAjout.add(compteur);
                                                 nombreAjout++;
                                             }
                                         }
@@ -550,6 +570,7 @@ public class MoteurDeResolutionPrototype {
                                 } else if (trajetFixe.getJourDepart().getIdentifiant() > trajetActuelle.getJourDepart().getIdentifiant()) {
                                     if (trajetFixe.getVilleArrivee().getIdentifiant() == premiereVille.getIdentifiant() || trajetFixe.getJourDepart().getIdentifiant() < jourDepart.getIdentifiant() + 6) {
                                         trajetAjout.add(trajetFixe);
+                                        indexTrajetAjout.add(compteur);
                                         nombreAjout++;
                                     }
                                 }
@@ -573,6 +594,7 @@ public class MoteurDeResolutionPrototype {
                                             TrajetFixe trajetAdd = new TrajetFixe(identifiantTrajetNonFixe, trajetNonFixe.getVilleDepart(), trajetNonFixe.getVilleArrivee(), trajetNonFixe.getTempsDeConduite(), trajetNonFixe.getListeVilleStop()
                                                     , Jour.getJourById(trajetTrier.get(compteur).get(2)), horaireDebut);
                                             trajetAjout.add(trajetAdd);
+                                            indexTrajetAjout.add(compteur);
                                             nombreAjout++;
                                             identifiantTrajetNonFixe++;
                                         }
@@ -581,6 +603,7 @@ public class MoteurDeResolutionPrototype {
                                             TrajetFixe trajetAdd = new TrajetFixe(identifiantTrajetNonFixe, trajetNonFixe.getVilleDepart(), trajetNonFixe.getVilleArrivee(), trajetNonFixe.getTempsDeConduite(), trajetNonFixe.getListeVilleStop()
                                                     , Jour.getJourById(trajetTrier.get(compteur).get(2)), horaireFin);
                                             trajetAjout.add(trajetAdd);
+                                            indexTrajetAjout.add(compteur);
                                             nombreAjout++;
                                             identifiantTrajetNonFixe++;
                                         }
@@ -594,6 +617,7 @@ public class MoteurDeResolutionPrototype {
                                         TrajetFixe trajetAdd = new TrajetFixe(identifiantTrajetNonFixe, trajetNonFixe.getVilleDepart(), trajetNonFixe.getVilleArrivee(), trajetNonFixe.getTempsDeConduite(), trajetNonFixe.getListeVilleStop()
                                                 , Jour.getJourById(trajetTrier.get(compteur).get(2)), horaireDebut);
                                         trajetAjout.add(trajetAdd);
+                                        indexTrajetAjout.add(compteur);
                                         nombreAjout++;
                                         identifiantTrajetNonFixe++;
                                     }
@@ -618,7 +642,7 @@ public class MoteurDeResolutionPrototype {
 
                         trajet.add(trajetAjout.get(nombreAleatoire));
                         idTrajet.add(trajetAjout.get(nombreAleatoire).getIdentifiant());
-                        index = nombreAleatoire;
+                        index = indexTrajetAjout.get(nombreAleatoire);;
                         trajetActuelle = trajetAjout.get(nombreAleatoire);
 
                         if (trajetActuelle.getVilleArrivee().getIdentifiant() == premiereVille.getIdentifiant()) {
@@ -983,6 +1007,7 @@ public class MoteurDeResolutionPrototype {
      */
     public void optimisationChauffeurs(Solution pSolution){
 
+
     }
 
     public ArrayList<Solution> chauffeurTrajets(ArrayList<Solution> pListeSolution, int nombreRepetition){
@@ -996,6 +1021,24 @@ public class MoteurDeResolutionPrototype {
         for(Solution solution : pListeSolution){
 
             while(occurence<nombreRepetition){
+
+                if(occurence == 1){
+                    FACTEUR_ALEATOIRE = 1;
+                }
+                else if (occurence <= 10){
+                    FACTEUR_ALEATOIRE = 2;
+                }
+                else if (occurence <= 24){
+                    FACTEUR_ALEATOIRE = 3;
+                }
+                else if (occurence <= 50){
+                    FACTEUR_ALEATOIRE = 4;
+                }
+                else if (occurence <= 200){
+                    FACTEUR_ALEATOIRE = 5;
+                }else{
+                    FACTEUR_ALEATOIRE = 6;
+                }
 
                 HashMap<Integer,ArrayList<Integer>> chauffeursTrajets = new HashMap<Integer,ArrayList<Integer>>();
                 Solution solutionClone = (Solution)solution.clone();
@@ -1176,17 +1219,18 @@ public class MoteurDeResolutionPrototype {
                     chauffeursTrajets.put(chauffeur.getIdentifiant(),idTrajet);
                 }
 
-                /**
-                 * RAJOUTER L'OPTIMISATION DES CHAUFFEURS AVANT D'AJOUTER DES TRAJETS EN TRAIN
-                 */
-                this.optimisationChauffeurs(solutionClone);
-
                 //On ajoute la solution à la liste de solutions si le nombre de camion est egale au nombre de camion minimale existant
                     if(chauffeursTrajets.size() == nombreChauffeurMin){
                         solutionClone.setChauffeursTrajets(chauffeursTrajets);
                         solutionClone.setChauffeurs(chauffeurs);
                         solutionClone.setNbrChauffeurs(chauffeurs.size());
                         solutionClone.setTrajets(trajetsFinale);
+
+
+                        /**
+                         * RAJOUTER L'OPTIMISATION DES CHAUFFEURS AVANT D'AJOUTER DES TRAJETS EN TRAIN
+                         */
+                        this.optimisationChauffeurs(solutionClone);
 
                         /**
                          * RAJOUT TRAJETS TRAINS POUR LES CHAUFFEURS NECESSAIRES
@@ -1215,6 +1259,11 @@ public class MoteurDeResolutionPrototype {
                         solutionClone.setChauffeurs(chauffeurs);
                         solutionClone.setNbrChauffeurs(chauffeurs.size());
                         solutionClone.setTrajets(trajetsFinale);
+
+                        /**
+                         * RAJOUTER L'OPTIMISATION DES CHAUFFEURS AVANT D'AJOUTER DES TRAJETS EN TRAIN
+                         */
+                        this.optimisationChauffeurs(solutionClone);
 
                         /**
                          * RAJOUT TRAJETS TRAINS POUR LES CHAUFFEURS NECESSAIRES
@@ -1295,6 +1344,7 @@ public class MoteurDeResolutionPrototype {
                 CT.setCoutTrajetVide(nombreTrajetAVide*pSolution.getPlannification().getCoutHotellerie());
                 pSolution.getChauffeurById(mapentry.getKey()).setContratDeTravail(CT);
             }
+
 
             double coutPSolution = 0.0;
             for(Chauffeur chauffeur : pSolution.getChauffeurs()){

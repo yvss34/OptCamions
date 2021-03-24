@@ -1,15 +1,18 @@
 Nombre camions;Nombre Chauffeurs
-2;-
+2;2
 
 Camions;Identifiant
 ;1
 ;2
 
 Chauffeurs;Identifiant;Ville;Heure de jour; Heure de nuit; Cout trajet à vide; Cout hotellerie
+;1;Toulouse;10.0;0.0;0.0;50.0
+;2;Paris;36.0;0.0;0.0;100.0
 
-Trajets;Ville depart;Ville arrivee;Jour de la semaine; Heure de depart; Identifiant camion; Identifiant chauffeur
-;Paris;Toulouse;Lundi;08:00;1
-;Toulouse;Bordeaux;Mardi;05:00;1
-;Bordeaux;Paris;Mardi;10:00;1
-;Bordeaux;Paris;Mercredi;05:00;2
-;Paris;Bordeaux;Mercredi;09:00;2
+Trajets;Ville depart;Ville arrivee;Jour de la semaine; Heure de depart; Identifiant chauffeur; Identifiant camion
+;Toulouse;Bordeaux;Lundi;08:00;1;2
+;Bordeaux;Toulouse;Mardi;08:00;1;2
+;Paris;Marseille;Lundi;08:00;2;1
+;Marseille;Paris;Mardi;08:00;2;1
+;Paris;Marseille;Mercredi;08:00;2;1
+;Marseille;Paris;Jeudi;08:00;2;1

@@ -1,45 +1,14 @@
 Nombre camions;Nombre Chauffeurs
-4;4
+1;1
 
 Camions;Identifiant
 ;1
-;2
-;3
-;4
 
 Chauffeurs;Identifiant;Ville;Heure de jour; Heure de nuit; Cout trajet à vide; Cout hotellerie
-;1;Lyon;45.0;0.0;0.0;0.0
-;2;Marseille;26.0;0.0;0.0;150.0
-;3;Paris;45.0;0.0;0.0;0.0
-;4;Toulouse;18.0;0.0;0.0;0.0
+;1;Paris;36.0;0.0;0.0;100.0
 
 Trajets;Ville depart;Ville arrivee;Jour de la semaine; Heure de depart; Identifiant chauffeur; Identifiant camion
-;Lyon;Bordeaux;Lundi;07:00;1;2
-;Bordeaux;Lyon;Lundi;14:00;1;2
-;Lyon;Bordeaux;Mardi;07:00;1;2
-;Bordeaux;Lyon;Mardi;14:00;1;2
-;Lyon;Bordeaux;Mercredi;07:00;1;2
-;Bordeaux;Lyon;Mercredi;14:00;1;2
-;Lyon;Bordeaux;Jeudi;07:00;1;2
-;Bordeaux;Lyon;Jeudi;14:00;1;2
-;Lyon;Bordeaux;Vendredi;07:00;1;2
-;Bordeaux;Lyon;Vendredi;14:00;1;2
-;Marseille;Toulouse;Lundi;08:00;2;1
-;Toulouse;Bordeaux;Mardi;08:00;2;1
-;Bordeaux;Paris;Mardi;14:00;2;1
-;Paris;Lyon;Mercredi;08:00;2;1
-;Lyon;Marseille;Mercredi;14:30;2;1
-;Paris;Lyon;Lundi;08:00;3;3
-;Lyon;Paris;Lundi;14:00;3;3
-;Paris;Lyon;Mardi;08:00;3;3
-;Lyon;Paris;Mardi;14:00;3;3
-;Paris;Lyon;Mercredi;08:00;3;3
-;Lyon;Paris;Mercredi;14:00;3;3
-;Paris;Lyon;Jeudi;08:00;3;3
-;Lyon;Paris;Jeudi;14:00;3;3
-;Paris;Lyon;Vendredi;08:00;3;3
-;Lyon;Paris;Vendredi;14:00;3;3
-;Toulouse;Bordeaux;Samedi;08:00;4;4
-;Bordeaux;Toulouse;Samedi;14:00;4;4
-;Toulouse;Bordeaux;Dimanche;08:00;4;4
-;Bordeaux;Toulouse;Dimanche;14:00;4;4
+;Paris;Marseille;Lundi;08:00;1;1
+;Marseille;Paris;Mardi;08:00;1;1
+;Paris;Marseille;Mercredi;08:00;1;1
+;Marseille;Paris;Jeudi;08:00;1;1

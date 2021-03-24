@@ -156,7 +156,9 @@
           </grid>
           <forms defaultalign-horz="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="5.00"/>
+        </properties>
       </component>
       <component id="91a55" class="javax.swing.JTextField" binding="heureDeDepartText">
         <constraints>
@@ -165,7 +167,9 @@
           </grid>
           <forms defaultalign-horz="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="8.30"/>
+        </properties>
       </component>
       <component id="8897" class="javax.swing.JTextField" binding="tempsDeConduiteText">
         <constraints>
@@ -174,7 +178,9 @@
           </grid>
           <forms defaultalign-horz="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="9.00"/>
+        </properties>
       </component>
       <component id="f6695" class="javax.swing.JLabel" binding="messageErrorLabel">
         <constraints>

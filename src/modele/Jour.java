@@ -46,9 +46,9 @@ public class Jour {
 		return nom;
 	}
 
-
 	/**
-	 * Renvoi une liste des jours de la semaine
+	 *
+	 * @return une liste des jours de la semaine
 	 */
 	public static ArrayList<Jour> jourDeLaSemaine(){
 		ArrayList<Jour> jours = new ArrayList<Jour>();

@@ -37,9 +37,10 @@ public class Checker {
 
 /*********************************************Contraintes de Reglementations***********************************************/
 
+
     /**
-     * Durée de conduite continue maximale
-     * respectée pour chaque chauffeurs
+     *
+     * @return true si durée de conduite continue respecté, false sinon
      */
     public boolean dureeConduiteContinue(){
         boolean checker = true;
@@ -71,8 +72,8 @@ public class Checker {
     }
 
     /**
-     * Durée de conduite journaliere maximale
-     * respectée pour chaque chauffeurs
+     *
+     * @return true si un durée de conduite journaliere respecté, false sinon
      */
     public boolean dureeConduiteJournaliere(){
         boolean checker = true;
@@ -95,10 +96,9 @@ public class Checker {
         return checker;
     }
 
-
     /**
-     * Durée de conduite hebdomadaire maximale
-     * respectée pour chaque chauffeurs
+     *
+     * @return true si un durée de conduite hebdomadaire respecté, false sinon
      */
     public boolean dureeConduiteHebdomadaire(){
         boolean checker = true;
@@ -117,8 +117,8 @@ public class Checker {
 
 
     /**
-     * Temps de repos journalier
-     * respectée pour chaque chauffeurs
+     *
+     * @return true si un temps de repos journalier respecté, false sinon
      */
     public boolean tempsReposJournalier() {
         boolean checker = true;
@@ -140,8 +140,8 @@ public class Checker {
     }
 
     /**
-     * Temps de repos hebdomadaire
-     * respectée pour chaque chauffeurs
+     *
+     * @return true si un temps de repos hebdomadaire respecté, false sinon
      */
     public boolean tempsReposHebdomadaire() {
 
@@ -183,10 +183,31 @@ public class Checker {
         return true;
     }
 
+    /**
+     *
+     * @return true si temps de CT minimum respecté, false sinon
+     */
+    public boolean tempsConduiteMinimum() {
+
+        boolean checker = true;
+        for (Map.Entry<Integer, ArrayList<Integer>> mapentry : getSolution().getChauffeursTrajets().entrySet()) {
+            float conduiteHebdomadaire = 0;
+            for(int i = 0; i<mapentry.getValue().size(); i++) {
+                TrajetFixe trajet = getSolution().getTrajetById(mapentry.getValue().get(i));
+                double tempsDeConduite = trajet.getTempsDeConduite();
+                conduiteHebdomadaire += tempsDeConduite;
+            }
+            if(conduiteHebdomadaire < getSolution().getPlannification().getNombreHeuresMin())
+                checker = false;
+        }
+        return checker;
+    }
+
 /*********************************************Contraintes operationnelles***********************************************/
 
     /**
-     * Un trajet à la fois par chauffeurs
+     *
+     * @return true si un trajet à la fois par chauffeur, false sinon
      */
     public boolean unTrajetALaFoisChauffeurs() {
         boolean checker = true;
@@ -226,7 +247,8 @@ public class Checker {
     }
 
     /**
-     * Un trajet à la fois par camions
+     *
+     * @return true si un trajet à la fois par camion, false sinon
      */
     public boolean unTrajetALaFoisCamions() {
         boolean checker = true;
@@ -268,7 +290,8 @@ public class Checker {
     }
 
     /**
-     * Tous les trajets ont un camion et un chauffeur
+     *
+     * @return true si tous les trajets ont un camion et un chauffeur, false sinon
      */
     public boolean trajetCamionChauffeur() {
         boolean checker = true;
@@ -296,7 +319,8 @@ public class Checker {
     }
 
     /**
-     * Tous les trajets ont un camion
+     *
+     * @return true si tous les trajets ont un camion, false sinon
      */
     public boolean trajetCamion() {
         boolean checker = true;
@@ -315,55 +339,55 @@ public class Checker {
         return checker;
     }
 
+
+
     /**
-     * Les chauffeurs passent leur repos hebdomadaire dans
-     * leurs villes de rattachements
+     *
+     * @return true si les chauffeurs passent leur repos hebdomadaire dans leurs villes de rattachements, false sinon
+     *
      */
     public boolean reposHebdomadaireVilleRattachement() {
         for (Map.Entry<Integer, ArrayList<Integer>> mapentry : getSolution().getChauffeursTrajets().entrySet()) {
 
-            ArrayList<Double> tableauDebutTrajet = new ArrayList<Double>();
-            ArrayList<Double> tableauFinTrajet = new ArrayList<Double>();
-            for (int i = 0; i < mapentry.getValue().size(); i++) {
-                TrajetFixe trajet = getSolution().getTrajetById(mapentry.getValue().get(i));
-                int jour = trajet.getJourDepart().getIdentifiant();
-                double horraireDepart = trajet.getHeureDepart().getHour() + ((double) trajet.getHeureDepart().getMinute() / 600);
-                double tempsDeConduite = trajet.getTempsDeConduite();
-                double finTrajet = horraireDepart + tempsDeConduite;
-
-                tableauDebutTrajet.add(horraireDepart + (24 * jour));
-                tableauFinTrajet.add(finTrajet + (24 * jour));
+            int i = mapentry.getValue().size() - 1;
+            TrajetFixe trajet = getSolution().getTrajetById(mapentry.getValue().get(i));
+            if(trajet.getVilleArrivee().getIdentifiant() != getSolution().getChauffeurById(mapentry.getKey()).getVilleRattachement().getIdentifiant()){
+                return false;
             }
 
-            tableauDebutTrajet.add((double) 24 * 7);
-
-            Collections.sort(tableauDebutTrajet);
-            Collections.sort(tableauFinTrajet);
-
-            for (int i = 0; i < tableauFinTrajet.size(); i++) {
-
-                if (tableauDebutTrajet.get(i + 1) - tableauFinTrajet.get(i) >= getSolution().getPlannification().getDureeReposHebdomadaire()) {
-                    for (int j = 0; j < mapentry.getValue().size(); j++) {
-                        TrajetFixe trajetRepos = getSolution().getTrajetById(mapentry.getValue().get(i));
-                        int jour = trajetRepos.getJourDepart().getIdentifiant();
-                        double horraireDepart = trajetRepos.getHeureDepart().getHour() + ((double) trajetRepos.getHeureDepart().getMinute() / 600);
-                        double tempsDeConduite = trajetRepos.getTempsDeConduite();
-                        double finTrajet = horraireDepart + tempsDeConduite;
-                        if (finTrajet + (24 * jour) == tableauFinTrajet.get(i)) {
-                            if (trajetRepos.getVilleArrivee().getIdentifiant() != getSolution().getChauffeurById(mapentry.getKey()).getVilleRattachement().getIdentifiant()) {
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
+            //1ere solution
+//            TrajetFixe trajet = null;
+//
+//            for(int i = 0; i < mapentry.getValue().size(); i++){
+//                if(trajet == null){
+//                    trajet = getSolution().getTrajetById(mapentry.getValue().get(i));
+//                }else{
+//                    TrajetFixe trajet2 = getSolution().getTrajetById(mapentry.getValue().get(i));
+//                    if(trajet2.getJourDepart().getIdentifiant()>trajet.getJourDepart().getIdentifiant()){
+//                        trajet = trajet2;
+//                    }else if(trajet2.getJourDepart().getIdentifiant() == trajet.getJourDepart().getIdentifiant()){
+//                        LocalTime heureArrivee = trajet.getHeureDepart();
+//                        double tempsDeConduite = trajet.getTempsDeConduite();
+//                        heureArrivee = heureArrivee.plusHours((int) tempsDeConduite);
+//                        heureArrivee = heureArrivee.plusMinutes((int) (tempsDeConduite - (int) tempsDeConduite) * 100);
+//                        if(trajet2.getHeureDepart().compareTo(heureArrivee)>=0){
+//                            trajet = trajet2;
+//                        }
+//                    }
+//                }
+//            }
+//
+//            if(trajet.getVilleArrivee().getIdentifiant() != getSolution().getChauffeurById(mapentry.getKey()).getVilleRattachement().getIdentifiant()){
+//                return false;
+//            }
 
         }
         return true;
     }
 
     /**
-     * Les contrats de travail repecte les durées minimales et maximales
+     *
+     * @return true si les contrats de travail repecte les durées minimales et maximales, false sinon
      */
     public boolean tempsContratTravail() {
         boolean checker = true;
@@ -381,7 +405,8 @@ public class Checker {
     }
 
     /**
-     * Tous les trajets ont des pauses
+     *
+     * @return true si tous les trajets ont des pauses, false sinon
      */
     public boolean trajetsPause() {
         boolean checker = true;
@@ -397,7 +422,8 @@ public class Checker {
     }
 
     /**
-     * Aucun trajet ne dépasse 9h00 et 8h00 de nuit
+     *
+     * @return true si aucun trajet ne dépasse 9h00 et 8h00 de nuit, false sinon
      */
     public boolean tempsTrajets() {
         boolean checker = true;
@@ -421,10 +447,10 @@ public class Checker {
         return checker;
     }
 
-
     /**
      * Tri un HashMap<Integer,ArrayList<Integer>> en fonction de l'ArrayList<Integer>
-     *  utilisé dans les fonctions chauffeurBonneVille() et camionBonneVille()
+     * @param map
+     * @return un HashMap<Integer,ArrayList<Integer> trié
      */
     private static HashMap sort(HashMap map) {
         List linkedlist = new LinkedList(map.entrySet());
@@ -443,7 +469,8 @@ public class Checker {
     }
 
     /**
-     * Un chauffeur doit être dans la bonne ville pour faire le trajet
+     *
+     * @return true si chaque chauffeur est dans la bonne ville pour faire le trajet, false sinon
      */
     public boolean chauffeurBonneVille() {
 
@@ -469,9 +496,6 @@ public class Checker {
             for (Map.Entry<TrajetFixe, Double> map : tableauTrajetTrier.entrySet()) {
 
                 if(compteur == 0){
-                    if(map.getKey().getVilleDepart().getIdentifiant() != getSolution().getChauffeurById(mapentry.getKey()).getVilleRattachement().getIdentifiant()){
-                        checker = false;
-                    }
                     ville = map.getKey().getVilleArrivee();
                 }
                 else{
@@ -489,7 +513,8 @@ public class Checker {
     }
 
     /**
-     * Un camion doit être dans la bonne ville pour faire le trajet
+     *
+     * @return true si chaque camion est dans la bonne ville pour faire le trajet, false sinon
      */
     public boolean camionBonneVille() {
         boolean checker = true;
@@ -529,9 +554,10 @@ public class Checker {
 
 /*********************************************Respects des coûts***********************************************/
 
+
     /**
-     * Verifie les coûts d'hottelerie
-     * de chaque chauffeurs
+     *
+     * @return true si les coûts d'hotellerie sont corrects, false sinon
      */
     public boolean coutHottelerie() {
         boolean checker = true;
@@ -565,9 +591,10 @@ public class Checker {
         return checker;
     }
 
+
     /**
-     * Verifie les coûts du contrat de travail
-     * de chaque chauffeurs
+     *
+     * @return true si les coûts du contrat de travail sont corrects, false sinon
      */
     public boolean coutContratTravail() {
         boolean checker = true;
@@ -739,6 +766,9 @@ public class Checker {
 ////        else
 //            System.out.println("tempsReposHebdomadaire == true");
 
+        checker1 = tempsConduiteMinimum();
+        if(tempsConduiteMinimum() == false)
+            System.out.println("tempsConduiteMinimum == false");
 
 
         boolean checker2 = true;
@@ -803,14 +833,14 @@ public class Checker {
         boolean checker = true;
 
         checker = unTrajetALaFoisCamions();
-//        if(unTrajetALaFoisCamions() == false)
-//            System.out.println("unTrajetALaFoisCamions == false");
+        if(unTrajetALaFoisCamions() == false)
+            System.out.println("unTrajetALaFoisCamions == false");
 //        else
 //            System.out.println("unTrajetALaFoisCamions == true");
 
         checker = camionBonneVille();
-//        if(camionBonneVille() == false)
-//            System.out.println("camionBonneVille == false");
+        if(camionBonneVille() == false)
+            System.out.println("camionBonneVille == false");
 //        else
 //            System.out.println("camionBonneVille == true");
 

@@ -431,6 +431,7 @@ public class MoteurDeResolutionPrototype {
         }else
             return null;
     }
+
     /**
      * Affectation des camions aux trajets avec de l'aleatoire
      * @param nombreRepetition nombre de repetition de l'algorithme
@@ -793,9 +794,10 @@ public class MoteurDeResolutionPrototype {
         return listeSolution;
     }
 
-
     /**
-     * Tri un HashMap<Ville,Double> en fonction du Double
+     *
+     * @param map HashMap<Ville,Double>
+     * @return HashMap<Ville,Double> trié en fonction du Double
      */
     private static HashMap sort(HashMap map) {
         List linkedlist = new LinkedList(map.entrySet());
@@ -913,6 +915,11 @@ public class MoteurDeResolutionPrototype {
         pSolution.setTrajets(trajets);
     }
 
+    /**
+     *
+     * @param pTrajets ArrayList<TrajetFixe>
+     * @return retourne une ArrayList<TrajetFixe> trié en fonction des heures de départ des trajets
+     */
     public ArrayList<TrajetFixe> triListeTrajetFixe(ArrayList<TrajetFixe> pTrajets){
         ArrayList<TrajetFixe> trajets = pTrajets;
 
@@ -1001,15 +1008,13 @@ public class MoteurDeResolutionPrototype {
         }
     }
 
+
     /**
-     * Fusionne les chauffeurs qui peuvent être fusionnés
-     * @param pSolution, un objet solution
+     *
+     * @param pListeSolution ArrayList<Solution> obtenu par l'algorithme camionTrajetsAleatoire
+     * @param nombreRepetition nombre de repretition de l'algorithme
+     * @return une liste de solution réalisable
      */
-    public void optimisationChauffeurs(Solution pSolution){
-
-
-    }
-
     public ArrayList<Solution> chauffeurTrajets(ArrayList<Solution> pListeSolution, int nombreRepetition){
 
         ArrayList<Solution> listeSolution = new ArrayList<Solution>();
@@ -1226,12 +1231,6 @@ public class MoteurDeResolutionPrototype {
                         solutionClone.setNbrChauffeurs(chauffeurs.size());
                         solutionClone.setTrajets(trajetsFinale);
 
-
-                        /**
-                         * RAJOUTER L'OPTIMISATION DES CHAUFFEURS AVANT D'AJOUTER DES TRAJETS EN TRAIN
-                         */
-                        this.optimisationChauffeurs(solutionClone);
-
                         /**
                          * RAJOUT TRAJETS TRAINS POUR LES CHAUFFEURS NECESSAIRES
                          */
@@ -1261,11 +1260,6 @@ public class MoteurDeResolutionPrototype {
                         solutionClone.setTrajets(trajetsFinale);
 
                         /**
-                         * RAJOUTER L'OPTIMISATION DES CHAUFFEURS AVANT D'AJOUTER DES TRAJETS EN TRAIN
-                         */
-                        this.optimisationChauffeurs(solutionClone);
-
-                        /**
                          * RAJOUT TRAJETS TRAINS POUR LES CHAUFFEURS NECESSAIRES
                          */
                         this.trainChauffeurs(solutionClone);
@@ -1286,6 +1280,11 @@ public class MoteurDeResolutionPrototype {
         return listeSolution;
     }
 
+    /**
+     * Calcul le coût de chaque solution
+     * @param pListeSolution une liste de solution réalisable
+     * @return la solution avec le coût minimale
+     */
     public Solution optimisationCout(ArrayList<Solution> pListeSolution){
         double sommeCout = 100000000.0;
         Solution solution = new Solution();
@@ -1309,7 +1308,7 @@ public class MoteurDeResolutionPrototype {
                         }
                     }
                     if(dernierTrajet != null) {
-                        if(dernierTrajet.getVilleArrivee() != pSolution.getChauffeurById(mapentry.getKey()).getVilleRattachement() )
+                        if(dernierTrajet.getVilleArrivee().getIdentifiant() != pSolution.getChauffeurById(mapentry.getKey()).getVilleRattachement().getIdentifiant() )
                             nombreRepos += 1;
                     }
                     compteur += 1;

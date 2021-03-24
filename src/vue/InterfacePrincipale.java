@@ -36,6 +36,7 @@ public class InterfacePrincipale extends JFrame{
     private JTextField dureeReposHebdomadaireText;
     private JButton nouveauTrajetNonFixeButton;
     private JButton nouveauTrajetFixeButton;
+    private int nbrTrajet;
 
     private JList trajetNonFixeList;
     private JList trajetFixeList;
@@ -62,6 +63,8 @@ public class InterfacePrincipale extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
         this.pack();
+
+        nbrTrajet = 0;
 
         nouveauTrajetNonFixeButton.addActionListener(new ActionListener() {
             @Override
@@ -187,8 +190,8 @@ public class InterfacePrincipale extends JFrame{
                         plannification = new Plannification(nombreHeureMin,nombreHeureMax,coutHoraireJour,coutHoraireNuit,coutHotellerie,nombreHeureConduiteMaximum,tempsReposJournalier,nombreHeuresConduiteJournaliere,nombreHeuresHebdomadaire,dureeReposHebdomadaire,trajetNonFixe,trajetFixe);
                         // Moteur de resolution
 
-                        MoteurDeResolutionPrototype moteurDeResolution;
-                        moteurDeResolution = new MoteurDeResolutionPrototype(plannification);
+                        MoteurDeResolution moteurDeResolution;
+                        moteurDeResolution = new MoteurDeResolution(plannification);
                         ArrayList<Solution> solutions = new ArrayList<Solution>();
 
                         System.out.println(plannification);
@@ -200,29 +203,20 @@ public class InterfacePrincipale extends JFrame{
                             solutions = moteurDeResolution.chauffeurTrajets(solutions,250);
                             Solution solution = moteurDeResolution.optimisationCout(solutions);
                             try {
-                                solution.creationCsv();
+                                if(solution.getChauffeurs() != null){
+                                    solution.creationCsv();
+                                    JFrame frame = new SolutionSucces("Planification réussie");
+                                    frame.setVisible(true);
+                                }else{
+                                    JFrame frame = new SolutionEchec("Aucune solution");
+                                    frame.setVisible(true);
+                                }
+
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
+
                             }
                         }
-
-                        // Moteur de resolution prototype
-            //        MoteurDeResolutionPrototype moteurDeResolutionPrototype;
-            //        moteurDeResolutionPrototype = new MoteurDeResolutionPrototype(plannification);
-            //        ArrayList<Solution> solutionsPrototype = new ArrayList<Solution>();
-            //        int compteur = 0;
-            //        solutions = moteurDeResolutionPrototype.camionTrajetsAleatoire(1000);
-            //        if(!solutions.isEmpty()) {
-            //            do {
-            //                solutions = moteurDeResolutionPrototype.chauffeurTrajets(solutions, 1000);
-            //                compteur++;
-            //            }while(solutions.isEmpty() && compteur < 5);
-            //
-            //            if(!solutions.isEmpty()) {
-            //                Solution solution = moteurDeResolutionPrototype.optimisationCout(solutions);
-            //                solution.creationCsv();
-            //            }
-            //        }
                     }
 
                 }
@@ -399,5 +393,13 @@ public class InterfacePrincipale extends JFrame{
 
     public void setPlannification(Plannification plannification) {
         this.plannification = plannification;
+    }
+
+    public int getNbrTrajet() {
+        return nbrTrajet;
+    }
+
+    public void setNbrTrajet(int nbrTrajet) {
+        this.nbrTrajet = nbrTrajet;
     }
 }

@@ -121,11 +121,12 @@ public class NouveauTrajetFixe extends JFrame{
                     double heureDepart = Double.parseDouble(heureDeDepartText.getText());
 
                     if(hashMapVilleStops.isEmpty() || hashMapVilleStops==null)
-                        trajet = new TrajetFixe(Trajet.getNbrTrajet(),(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,null,(Jour)jourDeDepartComboBox.getSelectedItem(), LocalTime.of((int)heureDepart, (int) ((heureDepart-(int)heureDepart)*100)));
+                        trajet = new TrajetFixe(interfacePrincipale.getNbrTrajet(),(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,null,(Jour)jourDeDepartComboBox.getSelectedItem(), LocalTime.of((int)heureDepart, (int) ((heureDepart-(int)heureDepart)*100)));
                     else
-                        trajet = new TrajetFixe(Trajet.getNbrTrajet(),(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,hashMapVilleStops,(Jour)jourDeDepartComboBox.getSelectedItem(),LocalTime.of((int)heureDepart,(int) ((heureDepart-(int)heureDepart)*100)));
+                        trajet = new TrajetFixe(interfacePrincipale.getNbrTrajet(),(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,hashMapVilleStops,(Jour)jourDeDepartComboBox.getSelectedItem(),LocalTime.of((int)heureDepart,(int) ((heureDepart-(int)heureDepart)*100)));
 
                     System.out.println(trajet.toString());
+                    interfacePrincipale.setNbrTrajet(interfacePrincipale.getNbrTrajet()+1);
                     interfacePrincipale.getTrajetFixe().add(trajet);
                     interfacePrincipale.getModelTrajetFixe().addElement(trajet);
                     interfacePrincipale.setTrajetFixeList(new JList(interfacePrincipale.getModelTrajetFixe()));

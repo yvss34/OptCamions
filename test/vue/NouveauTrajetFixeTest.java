@@ -34,7 +34,7 @@ public class NouveauTrajetFixeTest {
     public void creationTrajetFixe() {
 
         //ARRANGE
-        TrajetFixe trajet1_1 = new TrajetFixe(1, nouveauTrajetFixe.villes.get(2), nouveauTrajetFixe.villes.get(3), 4.0, new ArrayList<Double>(), null, jour, heureDepart);
+        TrajetFixe trajet1_1 = new TrajetFixe(0, nouveauTrajetFixe.villes.get(2), nouveauTrajetFixe.villes.get(3), 4.0, new ArrayList<Double>(), null, jour, heureDepart);
 
         // ACT
         nouveauTrajetFixe.getValiderButton().doClick();

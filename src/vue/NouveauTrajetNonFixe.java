@@ -220,11 +220,12 @@ public class NouveauTrajetNonFixe extends JFrame{
                         String[] fenetreTempsDepart = fenetreTempsDepartText.getText().split(";");
 
                         if(hashMapVilleStops.isEmpty() || hashMapVilleStops == null)
-                            trajet = new TrajetNonFixe(Trajet.getNbrTrajet(),(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,null,frequenceParSemaine,fenetreTempsDepart,nombreTrajetMin,nombreJoursMin);
+                            trajet = new TrajetNonFixe(interfacePrincipale.getNbrTrajet(),(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,null,frequenceParSemaine,fenetreTempsDepart,nombreTrajetMin,nombreJoursMin);
                         else
-                            trajet = new TrajetNonFixe(Trajet.getNbrTrajet(),(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,hashMapVilleStops,frequenceParSemaine,fenetreTempsDepart,nombreTrajetMin,nombreJoursMin);
+                            trajet = new TrajetNonFixe(interfacePrincipale.getNbrTrajet(),(Ville)villeDepartComboBox.getSelectedItem(),(Ville)villeArriveeComboBox.getSelectedItem(),tempsDeConduite,hashMapVilleStops,frequenceParSemaine,fenetreTempsDepart,nombreTrajetMin,nombreJoursMin);
 
                         System.out.println(trajet.toString());
+                        interfacePrincipale.setNbrTrajet(interfacePrincipale.getNbrTrajet()+1);
                         interfacePrincipale.getTrajetNonFixe().add(trajet);
                         interfacePrincipale.getModelTrajetNonFixe().addElement(trajet);
                         interfacePrincipale.setTrajetNonFixeList(new JList(interfacePrincipale.getModelTrajetNonFixe()));

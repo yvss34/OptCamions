@@ -171,7 +171,9 @@
           </grid>
           <forms defaultalign-horz="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="8.00-10.00"/>
+        </properties>
       </component>
       <component id="1a53a" class="javax.swing.JTextField" binding="tempsSousTrajetText">
         <constraints>
@@ -180,7 +182,9 @@
           </grid>
           <forms defaultalign-horz="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="5.00"/>
+        </properties>
       </component>
       <component id="e9092" class="javax.swing.JTextField" binding="tempsDeConduiteText">
         <constraints>
@@ -189,7 +193,9 @@
           </grid>
           <forms defaultalign-horz="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="9.00"/>
+        </properties>
       </component>
       <component id="a68dd" class="javax.swing.JTextField" binding="frequenceParSemaineText">
         <constraints>
@@ -198,7 +204,9 @@
           </grid>
           <forms defaultalign-horz="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="1"/>
+        </properties>
       </component>
       <component id="bb75a" class="javax.swing.JTextField" binding="nombreTrajetMinText">
         <constraints>
@@ -207,7 +215,9 @@
           </grid>
           <forms defaultalign-horz="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <text value="0"/>
+        </properties>
       </component>
       <component id="1caa1" class="javax.swing.JTextField" binding="nombreJoursMinText">
         <constraints>

@@ -11,12 +11,12 @@
     <rowspec value="top:4dlu:noGrow"/>
     <rowspec value="center:max(d;4px):noGrow"/>
     <colspec value="fill:341px:noGrow"/>
-    <colspec value="left:7dlu:noGrow"/>
-    <colspec value="fill:44px:noGrow"/>
+    <colspec value="left:6dlu:noGrow"/>
+    <colspec value="fill:33px:noGrow"/>
     <colspec value="left:142dlu:noGrow"/>
     <colspec value="fill:252px:noGrow"/>
     <constraints>
-      <xy x="20" y="28" width="921" height="700"/>
+      <xy x="20" y="28" width="935" height="700"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -31,9 +31,9 @@
         <rowspec value="center:30px:noGrow"/>
         <colspec value="fill:d:noGrow"/>
         <colspec value="left:4dlu:noGrow"/>
-        <colspec value="fill:d:grow"/>
+        <colspec value="fill:204px:grow"/>
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
           <forms/>
         </constraints>
         <properties/>
@@ -82,7 +82,9 @@
               </grid>
               <forms defaultalign-horz="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <text value="24"/>
+            </properties>
           </component>
           <component id="57729" class="javax.swing.JTextField" binding="nombreHeureMaxText">
             <constraints>
@@ -91,7 +93,9 @@
               </grid>
               <forms defaultalign-horz="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <text value="54"/>
+            </properties>
           </component>
           <component id="1855a" class="javax.swing.JTextField" binding="coutHoraireJourText">
             <constraints>
@@ -100,7 +104,9 @@
               </grid>
               <forms defaultalign-horz="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <text value="10.25"/>
+            </properties>
           </component>
           <component id="63de5" class="javax.swing.JTextField" binding="coutHoraireNuitText">
             <constraints>
@@ -109,7 +115,9 @@
               </grid>
               <forms defaultalign-horz="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <text value="12.30"/>
+            </properties>
           </component>
         </children>
       </grid>
@@ -185,7 +193,9 @@
               </grid>
               <forms defaultalign-horz="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <text value="4.5"/>
+            </properties>
           </component>
           <component id="cea7f" class="javax.swing.JTextField" binding="tempsReposJournalierText">
             <constraints>
@@ -194,7 +204,9 @@
               </grid>
               <forms defaultalign-horz="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <text value="11"/>
+            </properties>
           </component>
           <component id="b0eb" class="javax.swing.JTextField" binding="nombreHeuresConduiteJournaliereText">
             <constraints>
@@ -203,7 +215,9 @@
               </grid>
               <forms defaultalign-horz="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <text value="9"/>
+            </properties>
           </component>
           <component id="6c3f9" class="javax.swing.JTextField" binding="nombreHeuresHebdomadaireText">
             <constraints>
@@ -212,7 +226,9 @@
               </grid>
               <forms defaultalign-horz="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <text value="56"/>
+            </properties>
           </component>
           <component id="12496" class="javax.swing.JTextField" binding="dureeReposHebdomadaireText">
             <constraints>
@@ -221,40 +237,8 @@
               </grid>
               <forms defaultalign-horz="false"/>
             </constraints>
-            <properties/>
-          </component>
-        </children>
-      </grid>
-      <grid id="ecc3a" binding="coutHotteleriePanel" layout-manager="FormLayout">
-        <rowspec value="center:d:grow"/>
-        <colspec value="fill:102px:noGrow"/>
-        <colspec value="left:4dlu:noGrow"/>
-        <colspec value="fill:136px:grow"/>
-        <constraints>
-          <grid row="0" column="2" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <forms/>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <component id="46567" class="javax.swing.JLabel" binding="coutHottelerieLabel">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-              <forms/>
-            </constraints>
             <properties>
-              <text value="Cout d'hôttelerie"/>
-            </properties>
-          </component>
-          <component id="f2a8" class="javax.swing.JTextField" binding="coutHottelerieText">
-            <constraints>
-              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-              <forms defaultalign-horz="false"/>
-            </constraints>
-            <properties>
-              <text value=""/>
+              <text value="45"/>
             </properties>
           </component>
         </children>
@@ -339,6 +323,40 @@
           <text value=""/>
         </properties>
       </component>
+      <grid id="ecc3a" binding="coutHotteleriePanel" layout-manager="FormLayout">
+        <rowspec value="center:d:grow"/>
+        <colspec value="fill:105px:noGrow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:118px:grow"/>
+        <constraints>
+          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="f2a8" class="javax.swing.JTextField" binding="coutHottelerieText">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+              <forms defaultalign-horz="false"/>
+            </constraints>
+            <properties>
+              <text value="50"/>
+            </properties>
+          </component>
+          <component id="46567" class="javax.swing.JLabel" binding="coutHottelerieLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <text value="Cout d'hôtellerie"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>

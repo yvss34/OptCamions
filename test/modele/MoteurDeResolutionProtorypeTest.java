@@ -255,7 +255,7 @@ public class MoteurDeResolutionProtorypeTest {
         trajetNonFixeTableau.add(trajet6_4);
         trajetNonFixeTableau.add(trajet6_5);
 
-        plannification = new Plannification(10.0,40.0,12,14,50,4.5,11,9,54,24,trajetNonFixeTableau,trajetFixeTableau);
+        plannification = new Plannification(0.0,40.0,12,14,50,4.5,11,9,54,24,trajetNonFixeTableau,trajetFixeTableau);
         moteurDeResolution = new MoteurDeResolutionPrototype(plannification);
 
         ArrayList<Solution> solutions = new ArrayList<Solution>();
@@ -678,22 +678,20 @@ public class MoteurDeResolutionProtorypeTest {
         trajetNonFixeTableau.add(trajet6_4);
         trajetNonFixeTableau.add(trajet6_5);
 
-        plannification = new Plannification(10.0,40.0,12,14,50,4.5,11,9,54,48,trajetNonFixeTableau,trajetFixeTableau);
+        plannification = new Plannification(3.0,40.0,12,14,50,4.5,11,9,54,48,trajetNonFixeTableau,trajetFixeTableau);
         moteurDeResolution = new MoteurDeResolutionPrototype(plannification);
 
         ArrayList<Solution> solutions = new ArrayList<Solution>();
 
         //ACT
-        solutions = moteurDeResolution.camionTrajetsAleatoire(100);
+        solutions = moteurDeResolution.camionTrajetsAleatoire(250);
 
 
         if(!solutions.isEmpty()) {
-            System.out.println(solutions.size());
-            System.out.println(solutions.get(0).getNbrCamions());
 
-            solutions = moteurDeResolution.chauffeurTrajets(solutions,100);
-            System.out.println(solutions.size());
-            System.out.println(solutions.get(0).getNbrChauffeurs());
+
+            solutions = moteurDeResolution.chauffeurTrajets(solutions,250);
+
         }
 
     }
@@ -724,22 +722,20 @@ public class MoteurDeResolutionProtorypeTest {
         trajetNonFixeTableau.add(trajet6_2);
 
 
-        plannification = new Plannification(10.0,40.0,12,14,50,4.5,11,9,54,48,trajetNonFixeTableau,trajetFixeTableau);
+        plannification = new Plannification(0,40.0,12,14,50,4.5,11,9,54,48,trajetNonFixeTableau,trajetFixeTableau);
         moteurDeResolution = new MoteurDeResolutionPrototype(plannification);
 
         ArrayList<Solution> solutions = new ArrayList<Solution>();
 
         //ACT
-        solutions = moteurDeResolution.camionTrajetsAleatoire(100);
+        solutions = moteurDeResolution.camionTrajetsAleatoire(250);
 
 
         if(!solutions.isEmpty()) {
-            System.out.println(solutions.size());
-            System.out.println(solutions.get(0).getNbrCamions());
+
 
             solutions = moteurDeResolution.chauffeurTrajets(solutions,250);
-            System.out.println(solutions.size());
-            System.out.println(solutions.get(0).getNbrChauffeurs());
+
         }
 
     }
